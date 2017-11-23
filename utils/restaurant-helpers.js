@@ -71,21 +71,32 @@ module.exports = function(db){
   };
 
   // Inserts the order items into the orders_dishes table
-  //
   const make_order = (order) => {
     return new Promise((resolve, reject) => {
-      const order_id = Math.ceil(Math.random()*100);
-      for(let item of order){
-        db('orders_dishes').insert(
-          { order_id: order_id, dish_id: item })
-          .then( ids => {
-            resolve(ids);
-          })
-          .catch( error => {
-            reject(error);
-          });
-      }
-      resolve(order_id);
+      const order_id = Math.ceil(Math.random()*1000);
+      const {phone_number, cost} = order;
+      db('orders').insert(
+        {
+          id: order_id,
+          phone_number: phone_number,
+          cost: cost,
+          order_time: null
+        })
+        .then(() => {
+          for(let item of order.dishes){
+            db('orders_dishes').insert(
+              { order_id: order_id, dish_id: item })
+              .then( ids => {
+                resolve(ids);
+              })
+              .catch( error => {
+                reject(error);
+              });
+          }
+        })
+        .catch( error => {
+          reject(error);
+        });
     });
   };
 
