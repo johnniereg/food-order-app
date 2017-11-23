@@ -1,8 +1,3 @@
-function clearCart() {
-
-}
-
-
 let shoppingCart = {
   1: {id: 1, name: 'Dim Sum', price: 1200, quantity: 1},
   2: {id: 2, name: 'Hot and Sour Soup', price: 1500, quantity: 2},
@@ -22,7 +17,6 @@ function submitCart(shoppingCart, phoneNumber) {
 
     // Add up all the cost of items in the cart
     let dishSubTotal = dishPrice * quantity;
-    console.log(dishSubTotal);
     totalPrice += dishSubTotal;
 
     // Collect total appearances of dish IDs
@@ -41,10 +35,10 @@ function submitCart(shoppingCart, phoneNumber) {
   $.ajax({
     type: "POST",
     url: "/checkout",
-    data: JSON.string(order),
+    data: order,
     dataType: "json", // converts result to JSON
     success: function (data) {
-      console.log(data);
+      console.log("success:", data);
     },
     failure: function (errMsg) {
       console.log(errMsg);
