@@ -5,24 +5,42 @@
 //object and converting them into html elements.
 function createDishes(dishes){
 
-let header = $('<header>')
-  .append(`<h2>${dishes.dish_name}</h2>`)
-  .append(`<img src='${dishes.photo_url}'`);
+  let header = $('<header>')
+    .append(`<h2>${dishes.dish_name}</h2>`)
+    .append(`<img src=${dishes.photo_url}>`);
 
-let description = $(`<p>${dishes.description}</p>`);
-let price = $(`<div> ${dishes.cost}</div>`);
+  let description = $(`<p>${dishes.description}</p>`);
+  let price = $(`<div>${dishes.cost}</div>`);
 
-let footer = $(`<footer>`)
-  .append(`<input id='button' type='submit' value='addToCart' </input>`)
-  .append('<div> Total </div>');
+  let footer = $(`<footer>`)
+    .append(`<input id='button' type='submit' value='addToCart' </input>`)
+    .append('<div> Total </div>');
 
-let totalDish = $('<section>')
-  .append(header)
-  .append(description)
-  .append(price)
-  .append(footer);
+  let totalDish = $('<article>')
+    .append(header)
+    .append(description)
+    .append(price)
+    .append(footer);
 
- return totalDish;
-
+  return totalDish;
 }
 
+// Render dishes and append to HTML
+function renderDishes(dishes){
+  console.log(dishes);
+  dishes.forEach(function(dish) {
+    let createdDish = createDishes(dish);
+    $('.menu').append(createdDish);
+  });
+}
+
+function loadDishes() {
+  $.ajax({
+    type: "GET",
+    url: "/api/restaurants/1",
+    dataType: "json", // converts result to JSON
+    success: function (result) {
+      renderTweets(result);
+    }
+  });
+}
