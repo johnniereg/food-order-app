@@ -2,8 +2,7 @@
 
 $(document).ready(function() {
 
-
-
   // Load dishes on page load
   loadDishes();
+
 });

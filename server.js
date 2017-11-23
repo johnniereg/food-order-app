@@ -74,8 +74,7 @@ app.get('/', (req, res) => {
 
 app.post('/checkout', (req, res) => {
   console.log(req.body);
-  //const { order } = req.body;
-  let order = { phone_number: '12315515', cost: 4200,  dishes: [1, 5, 7, 9]  }
+  let order = req.body;
   order.id = Math.ceil(Math.random()*1000);
   if(usesms){
         twilio.messages.create({
@@ -91,10 +90,10 @@ app.post('/checkout', (req, res) => {
       }
   console.log("ordertime ="+order.order_time)
   restaurantHelpers.make_order(order).then(() => {
-      console.log();
+      console.log("Order sent to DB.");
     });
     res.send('complete');
-      
+
 });
 
 //sms rout
