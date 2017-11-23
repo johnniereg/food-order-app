@@ -9,7 +9,12 @@ const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const myphone = process.env.MYPHONE;
+const twiphone = process.env.TWILIOPHONE;
 
+const twilio = require('twilio')(accountSid, authToken);
 const app = express();
 app.set('view engine', 'ejs');
 
@@ -41,8 +46,9 @@ app.get('/', (req, res) => {
   res.render('orders');
 });
 app.get('/orders', (req, res) => {
-  knex.select().from('orders').then( function (result) {         console.log(result) 
-       });
+  knex.select().from('orders').then( function (result) {
+    console.log(result) 
+  });
   res.render('orders');
 });
 app.post('/orders', (req, res) => {
@@ -58,4 +64,8 @@ app.post('/orders', (req, res) => {
 });
 app.listen(port, () => {
   console.log('Example app listening on port ' + port);
+  console.log(myphone);
+  console.log(twiphone);
+  console.log(authToken);
+  console.log(accountSid);
 });
