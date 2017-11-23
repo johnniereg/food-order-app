@@ -16,7 +16,7 @@ const myphone = process.env.MYPHONE;
 const twiphone = process.env.TWILIOPHONE;
 
 const restaurantRoutes = require('./routes/restaurant-routes')(knex);
-
+const usesms = false; //SET TO TRUE TO RECIEVE SMS
 const twilio = require('twilio')(accountSid, authToken);
 const app = express();
 app.set('view engine', 'ejs');
@@ -74,8 +74,14 @@ app.post('/orders', (req, res) => {
       order_time: req.body['order_time']
     }).then( function (result) {
     console.log(result);
+    if(usesms){
+    twilio.messages.create({
+      to: myphone,
+      from: twiphone,
+      body: "ORDER MADE for "+req.body['phone_number']+" Number of items:"+req.body['cost']
+    }).then((message) => console.log(message.sid));
+    }
   });
-  
     res.send('POST SUCESSFUL');
   }else{
     res.send('POST UNSUCESSFUL');
@@ -84,8 +90,8 @@ app.post('/orders', (req, res) => {
 
 app.listen(port, () => {
   console.log('Example app listening on port ' + port);
-  console.log(myphone);
-  console.log(twiphone);
-  console.log(authToken);
-  console.log(accountSid);
+  //console.log(myphone);
+  //console.log(twiphone);
+  //console.log(authToken);
+  //console.log(accountSid);
 });
