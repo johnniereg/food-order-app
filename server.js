@@ -32,6 +32,7 @@ app.use(knexLogger(knex));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+restaurantHelpers.make_order({ phone_number: '12315515', cost: 4200,  dishes: [1, 5, 7, 9] });
 // Node sass middleware
 app.use('/styles', sass({
   src: __dirname + '/styles',
@@ -72,6 +73,13 @@ app.get('/', (req, res) => {
       res.render('index', restaurantInfo);
     });
 });
+
+app.post('/checkout', (req, res) => {
+  const { order } = req.body;
+  restaurantHelpers.make_order(order);
+  res.send('Your order is confirmed!'); //or whatever we send them
+});
+
 
 app.get('/orders', (req, res) => {
   knex.select().from('orders').then( function (result) {
