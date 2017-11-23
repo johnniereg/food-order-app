@@ -73,6 +73,17 @@ app.get('/', (req, res) => {
     });
 });
 
+app.post('/checkout', (req, res) => {
+  const orderObj = req.params//.order_variable_name;
+  const orderArray = [];
+  for(let item in orderObj){
+    orderArray.push(orderObj[item]);
+  }
+  restaurantHelpers.make_order(orderArray);
+  res.send('Your order is confirmed!'); //or whatever we send them
+});
+
+
 app.get('/orders', (req, res) => {
   knex.select().from('orders').then( function (result) {
     console.log(result);

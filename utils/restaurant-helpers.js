@@ -1,3 +1,5 @@
+const databaseHelpers = require('./database-helpers');
+
 // Given an array of orders, this function makes a new array of objects.
 // These objects will collect the dishes into one handy array
 const collectDishes = (orders) => {
@@ -67,9 +69,30 @@ module.exports = function(db){
         });
     });
   };
+
+  // Inserts the order items into the orders_dishes table
+  //
+  const make_order = (order) => {
+    return new Promise((resolve, reject) => {
+      const order_id = Math.ceil(Math.random()*100);
+      for(let item of order){
+        db('orders_dishes').insert(
+          { order_id: order_id, dish_id: item })
+          .then( ids => {
+            resolve(ids);
+          })
+          .catch( error => {
+            reject(error);
+          });
+      }
+      resolve(order_id);
+    });
+  };
+
   return {
     get_dishes,
     get_restaurant,
-    get_orders
+    get_orders,
+    make_order
   };
 };
