@@ -75,9 +75,21 @@ app.get('/', (req, res) => {
 });
 
 app.post('/checkout', (req, res) => {
+  console.log(req.body);
   const { order } = req.body;
-  restaurantHelpers.make_order(order);
-  res.send('Your order is confirmed!'); //or whatever we send them
+  restaurantHelpers.make_order(order)
+    .then(() => {
+      if(usesms){
+        twilio.messages.create({
+          to: myphone,
+          from: twiphone,
+          body: `ORDER MADE for ${req.body.order.phone_number} Number of items: ${req.body.order.cost}`
+        }).then((message) => console.log(message.sid))
+          .then(() => {
+            res.send('Order SUCESSFUL');
+          });
+      }
+    });
 });
 
 
@@ -89,27 +101,7 @@ app.get('/orders', (req, res) => {
 });
 //expects
 app.post('/orders', (req, res) => {
-  console.log(req.body);
-  if(req.body['phone_number']!==''&&req.body['cost']!==''&&req.body['restaurant_id']!==''&&req.body['order_time']!==''){
-  knex('orders').insert(
-    { phone_number: req.body['phone_number'],
-      cost:req.body['cost'],
-      restaurant_id:req.body['restaurant_id'],
-      order_time: req.body['order_time']
-    }).then( function (result) {
-    console.log(result);
-    if(usesms){
-    twilio.messages.create({
-      to: myphone,
-      from: twiphone,
-      body: "ORDER MADE for "+req.body['phone_number']+" Number of items:"+req.body['cost']
-    }).then((message) => console.log(message.sid));
-    }
-  });
-    res.send('POST SUCESSFUL');
-  }else{
-    res.send('POST UNSUCESSFUL');
-  }
+
 });
 
 app.listen(port, () => {
