@@ -43,3 +43,5 @@ function loadDishes() {
     }
   });
 }
+
+function addToCart(){}
