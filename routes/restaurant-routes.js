@@ -1,10 +1,10 @@
 module.exports = function(db){
   return function(req, res){
     const id = req.params.id;
-    console.log(id);
-    db('dishes').select().then(data => {
-      console.log(data);
+    db('dishes').select()
+    .where('restaurant_id', id)
+    .then( dishes => {
+      res.json(dishes)
     })
-    // res.json(dishes)
   }
 }

@@ -34,7 +34,7 @@ app.use('/styles', sass({
 
 app.use(express.static('public'));
 
-// Mount all resource routes
+// Route for requests for all dishes
 app.use('/api/restaurants/:id', restaurantsRoutes(knex));
 
 // Home page
