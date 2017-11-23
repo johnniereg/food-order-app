@@ -69,7 +69,6 @@ module.exports = function(db){
         });
     });
   };
-}
 
   // Inserts the order items into the orders_dishes table
   const make_order = (order) => {

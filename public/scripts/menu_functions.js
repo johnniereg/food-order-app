@@ -2,30 +2,29 @@
 //Function which constructs the new dish HTML nodes by deconstructing the database
 //object and converting them into html elements.
 function createDishes(dishes){
+  let attributes = {
+    src : dishes.photo_url,
+    alt : dishes.dish_name
+  };
 
-  let header = $('<header>')
-    .append(`<h2>${dishes.dish_name}</h2>`)
-    .append(`<img src=${dishes.photo_url}>`);
 
-  let description = $(`<p>${dishes.description}</p>`);
-  let price = $(`<div>${dishes.cost}</div>`);
+  let cardBody = $('<main>').addClass('card-body')
+    .append($('<h4>').text(`${dishes.dish_name}`).addClass('card-title'))
+    .append($('<p>').text(`${dishes.description}`).addClass('card-text'))
+    .append($('<input>').addClass('btn btn-primary add-to-cart').attr({type: 'submit', value: 'Add to cart'}))
+    .append($('<p>').text(`Price: $${Number(dishes.cost)/100}`).addClass('price'))
 
-  let footer = $(`<footer>`)
-    .append(`<input id='button' type='submit' value='addToCart' </input>`)
-    .append('<div> Total </div>');
-
+  // value='addToCart' </input>`)
   let totalDish = $('<article>')
-    .append(header)
-    .append(description)
-    .append(price)
-    .append(footer);
+    .append($('<img>').attr(attributes).addClass('card-img-top'))
+    .append(cardBody)
+    .addClass('card')
 
   return totalDish;
 }
 
 // Render dishes and append to HTML
 function renderDishes(dishes){
-  console.log(dishes);
   dishes.forEach(function(dish) {
     let createdDish = createDishes(dish);
     $('.menu').append(createdDish);
