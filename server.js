@@ -76,10 +76,10 @@ app.get('/', (req, res) => {
 
 app.post('/checkout', (req, res) => {
   console.log(req.body);
-  const { order } = req.body;
-  restaurantHelpers.make_order(order)
-    .then(() => {
-      if(usesms){
+  //const { order } = req.body;
+  let order = { phone_number: '12315515', cost: 4200,  dishes: [1, 5, 7, 9]  }
+  order.id = Math.ceil(Math.random()*1000);
+  if(usesms){
         twilio.messages.create({
           to: myphone,
           from: twiphone,
@@ -88,14 +88,21 @@ app.post('/checkout', (req, res) => {
           .then(() => {
             res.send('Order SUCESSFUL');
           });
+      }else{
+        order.order_time=order.dishes.length*10;
       }
+  console.log("ordertime ="+order.order_time)
+  restaurantHelpers.make_order(order).then(() => {
+      console.log();
     });
+    res.send('complete');
+      
 });
 
-app.get('/orders', (req, res) => {
-  knex.select().from('orders').then( function (result) {
+app.get('/checkout', (req, res) => {
+  /*knex.select().from('orders').then( function (result) {
     console.log(result);
-  });
+  });*/
   res.render("orders");
 });
 
