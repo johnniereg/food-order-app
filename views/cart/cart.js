@@ -40,10 +40,14 @@ function submitCart(shoppingCart, phoneNumber) {
 
   $.ajax({
     type: "POST",
-    url: "/api/restaurants/1",
+    url: "/checkout",
+    data: JSON.string(order),
     dataType: "json", // converts result to JSON
-    success: function (result) {
-      renderDishes(result);
+    success: function (data) {
+      console.log(data);
+    },
+    failure: function (errMsg) {
+      console.log(errMsg);
     }
   });
 
