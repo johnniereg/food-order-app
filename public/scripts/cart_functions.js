@@ -1,20 +1,4 @@
-let shoppingCart = {
-  1: {id: 1, name: 'Dim Sum', price: 1200, quantity: 1},
-  2: {id: 2, name: 'Hot and Sour Soup', price: 1500, quantity: 2},
-  5: {id: 5, name: 'Spring Rolls', price: 1000, quantity: 1}
-};
 
-// Convert cents to dollars as string.
-function displayDollars(number) {
-  let centsToDollars = number / 100;
-  let numberString = centsToDollars.toString(),
-  dollars = numberString.split('.')[0],
-  cents = (numberString.split('.')[1] || '') +'00';
-  dollars = dollars.split('').reverse().join('')
-      .replace(/(\d{3}(?!$))/g, '$1,')
-      .split('').reverse().join('');
-  return '$' + dollars + '.' + cents.slice(0, 2);
-}
 
 // Remove symbols from phone number input, output just numbers
 function formatPhoneNumber(string) {
@@ -75,10 +59,10 @@ function submitCart(shoppingCart, phoneNumber) {
   });
 };
 
-// $('.cart-submit').on('submit', function(event) {
-//   event.preventDefault();
-//   let phoneNum = $(this).value();
-//   submitCart(shoppingCart, phoneNum);
-// });
+$('.cart-submit').on('submit', function(event) {
+  event.preventDefault();
+  let phoneNum = $(this).value();
+  submitCart(shoppingCart, phoneNum);
+});
 
 
