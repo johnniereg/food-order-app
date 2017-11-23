@@ -1,7 +1,0 @@
-function clearCart() {
-
-}
-
-function submitCart() {
-
-}
