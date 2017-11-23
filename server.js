@@ -9,6 +9,7 @@ const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
+const restaurantsRoutes = require('./routes/restaurant-routes')
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -34,7 +35,7 @@ app.use('/styles', sass({
 app.use(express.static('public'));
 
 // Mount all resource routes
-// app.use('/api/restaurants/:id', restaurantsRoutes(knex));
+app.use('/api/restaurants/:id', restaurantsRoutes(knex));
 
 // Home page
 app.get('/', (req, res) => {
