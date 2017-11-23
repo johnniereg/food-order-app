@@ -92,16 +92,11 @@ app.post('/checkout', (req, res) => {
     });
 });
 
-
 app.get('/orders', (req, res) => {
   knex.select().from('orders').then( function (result) {
     console.log(result);
   });
   res.render("orders");
-});
-//expects
-app.post('/orders', (req, res) => {
-
 });
 
 app.listen(port, () => {
