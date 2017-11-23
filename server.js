@@ -9,13 +9,14 @@ const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
+const restaurantHelpers = require('./utils/restaurant-helpers')(knex);
+
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const myphone = process.env.MYPHONE;
 const twiphone = process.env.TWILIOPHONE;
 
-const restaurantRoutes = require('./routes/restaurant-routes')(knex);
 const usesms = false; //SET TO TRUE TO RECIEVE SMS
 const twilio = require('twilio')(accountSid, authToken);
 const app = express();
@@ -41,12 +42,21 @@ app.use('/styles', sass({
 
 app.use(express.static('public'));
 
-// Mount all resource routes
-app.use('/api/restaurants/:id', restaurantRoutes.get_dishes);
+/* Gets the dishes for a given restaurant
+ */
+app.get('/api/restaurants/:id', restaurantHelpers.get_dishes);
+
+app.get('/api/restaurants/:id/orders', (req, res) => {
+  const { id } = req.params;
+  restaurantHelpers.get_orders(id)
+    .then((orders) => {
+      res.json(orders);
+    });
+});
 
 // Home page
 app.get('/', (req, res) => {
-  restaurantRoutes.get_restaurant({id: 1})
+  restaurantHelpers.get_restaurant({id: 1})
     .then( restaurant => {
       const restaurantInfo = {
         name: restaurant.restaurant_name,
@@ -63,7 +73,7 @@ app.get('/orders', (req, res) => {
   });
   res.render("orders");
 });
-//expects 
+//expects
 app.post('/orders', (req, res) => {
   console.log(req.body);
   if(req.body['phone_number']!==''&&req.body['cost']!==''&&req.body['restaurant_id']!==''&&req.body['order_time']!==''){
