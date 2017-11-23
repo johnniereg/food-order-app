@@ -40,7 +40,12 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
   res.render('index');
 });
-
+app.get('/orders', (req, res) => {
+  res.send('welcome to ORDERS');
+});
+app.post('/orders', (req, res) => {
+  res.send('welcome to ORDERS POST');
+});
 app.listen(port, () => {
   console.log('Example app listening on port ' + port);
 });
