@@ -9,6 +9,7 @@ const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
+const restaurantRoutes = require('./routes/restaurant-routes')(knex);
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -34,16 +35,24 @@ app.use('/styles', sass({
 app.use(express.static('public'));
 
 // Mount all resource routes
-// app.use('/api/restaurants/:id', restaurantsRoutes(knex));
+app.use('/api/restaurants/:id', restaurantRoutes.get_dishes);
 
 // Home page
 app.get('/', (req, res) => {
-  res.render('orders');
+  restaurantRoutes.get_restaurant({id: 1})
+    .then( restaurant => {
+      const restaurantInfo = {
+        name: restaurant.restaurant_name,
+        address: restaurant.address,
+        phone_number: restaurant.phone_number
+      };
+      res.render('index', restaurantInfo);
+    });
 });
 
 app.get('/orders', (req, res) => {
   knex.select().from('orders').then( function (result) {
-    console.log(result)
+    console.log(result);
   });
   res.render('orders');
 });
@@ -55,7 +64,7 @@ app.post('/orders', (req, res) => {
       restaurant_id:1,
       order_time: '45'
     }).then( function (result) {
-    console.log(result)
+    console.log(result);
   });
   res.send('POST SUCESSFUL');
 });

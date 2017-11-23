@@ -8,7 +8,23 @@ module.exports = function(db){
         res.json(dishes);
       });
   };
+  /* Returns a new promise that, if resolved returns the restaurant.
+   * Condition is an object as per knex.
+   */
+  const get_restaurant = (condition) => {
+    return new Promise(function(resolve, reject){
+      db('restaurants').select()
+        .where(condition)
+        .then( restaurant => {
+          resolve(restaurant[0]);
+        })
+        .catch( err => {
+          reject(err);
+        });
+    });
+  };
   return {
-    get_dishes
+    get_dishes,
+    get_restaurant
   };
 };
