@@ -9,7 +9,6 @@ const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
-const restaurantsRoutes = require('./routes/restaurant-routes')(knex);
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -34,18 +33,28 @@ app.use('/styles', sass({
 
 app.use(express.static('public'));
 
-// Route for requests for all dishes
-app.use('/api/restaurants/:id', restaurantsRoutes.get_dishes);
+// Mount all resource routes
+// app.use('/api/restaurants/:id', restaurantsRoutes(knex));
 
 // Home page
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('orders');
 });
 app.get('/orders', (req, res) => {
-  res.send('welcome to ORDERS');
+  knex.select().from('orders').then( function (result) {         console.log(result) 
+       });
+  res.render('orders');
 });
 app.post('/orders', (req, res) => {
-  res.send('welcome to ORDERS POST');
+ knex('orders').insert(
+        { phone_number: '1-555-555-0002',
+        cost:10,
+        restaurant_id:1,
+        order_time:"45"
+        }).then( function (result) {
+          console.log(result) 
+       });
+  res.send("POST SUCESSFUL");
 });
 app.listen(port, () => {
   console.log('Example app listening on port ' + port);
