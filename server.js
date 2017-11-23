@@ -40,22 +40,26 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
   res.render('orders');
 });
+
 app.get('/orders', (req, res) => {
-  knex.select().from('orders').then( function (result) {         console.log(result) 
-       });
+  knex.select().from('orders').then( function (result) {
+    console.log(result)
+  });
   res.render('orders');
 });
+
 app.post('/orders', (req, res) => {
- knex('orders').insert(
-        { phone_number: '1-555-555-0002',
-        cost:10,
-        restaurant_id:1,
-        order_time:"45"
-        }).then( function (result) {
-          console.log(result) 
-       });
-  res.send("POST SUCESSFUL");
+  knex('orders').insert(
+    { phone_number: '1-555-555-0002',
+      cost:10,
+      restaurant_id:1,
+      order_time: '45'
+    }).then( function (result) {
+    console.log(result)
+  });
+  res.send('POST SUCESSFUL');
 });
+
 app.listen(port, () => {
   console.log('Example app listening on port ' + port);
 });
