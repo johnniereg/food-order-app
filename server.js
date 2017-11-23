@@ -61,19 +61,25 @@ app.get('/orders', (req, res) => {
   knex.select().from('orders').then( function (result) {
     console.log(result);
   });
-  res.send("Success");
+  res.render("orders");
 });
-
+//expects 
 app.post('/orders', (req, res) => {
+  console.log(req.body);
+  if(req.body['phone_number']!==''&&req.body['cost']!==''&&req.body['restaurant_id']!==''&&req.body['order_time']!==''){
   knex('orders').insert(
-    { phone_number: '1-555-555-0002',
-      cost:10,
-      restaurant_id:1,
-      order_time: '45'
+    { phone_number: req.body['phone_number'],
+      cost:req.body['cost'],
+      restaurant_id:req.body['restaurant_id'],
+      order_time: req.body['order_time']
     }).then( function (result) {
     console.log(result);
   });
-  res.send('POST SUCESSFUL');
+  
+    res.send('POST SUCESSFUL');
+  }else{
+    res.send('POST UNSUCESSFUL');
+  }
 });
 
 app.listen(port, () => {
