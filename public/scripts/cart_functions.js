@@ -61,10 +61,12 @@ function submitCart(shoppingCart, phoneNumber) {
 
 $('.cart-submit').on('submit', function(event) {
   event.preventDefault();
-  console.log(shoppingCart);
-  console.log("Clicked.");
-  console.log("The cart contains: ", shoppingCart);
   submitCart(shoppingCart, '1-250-885-7405');
+});
+
+$('.cart-clear').on('click', function(event) {
+  event.preventDefault();
+  clearCart();
 });
 
 
