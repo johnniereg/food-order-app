@@ -72,7 +72,7 @@ module.exports = function(db){
   };
 
   // Inserts the order items into the orders_dishes table
-  const make_order = (order) => {
+  const make_order = (order, restaurant_id) => {
     return new Promise((resolve, reject) => {
       const {phone_number, cost} = order;
       db('orders').insert(
@@ -80,8 +80,8 @@ module.exports = function(db){
           id: order.id,
           phone_number: phone_number,
           cost: cost,
-          order_time: order.order_time
-          
+          order_time: order.order_time,
+          restaurant_id: restaurant_id
         })
         .then(() => {
           for(let item of order.dishes){

@@ -91,11 +91,10 @@ app.post('/checkout', (req, res) => {
         order.order_time=order.dishes.length*10;
       }
   console.log("ordertime ="+order.order_time)
-  restaurantHelpers.make_order(order).then(() => {
+  restaurantHelpers.make_order(order, 1).then(() => {
       console.log("Order sent to DB.");
     });
     res.send('complete');
-
 });
 
 app.get('/checkout', (req, res) => {
