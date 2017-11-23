@@ -3,9 +3,7 @@
 $(document).ready(function() {
 
 
-  let shoppingCart = {}
 
   // Load dishes on page load
   loadDishes();
-
 });
