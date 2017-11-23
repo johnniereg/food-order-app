@@ -42,7 +42,7 @@ app.get('/api/restaurants/:id/orders', (req, res) => {
   const { id } = req.params;
   restaurantHelpers.get_orders(id)
     .then((orders) => {
-      console.log(orders);
+      res.json(orders);
     });
 });
 

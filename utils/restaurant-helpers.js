@@ -1,3 +1,26 @@
+// Given an array of orders, this function makes a new array of objects.
+// These objects will collect the dishes into one handy array
+const collectDishes = (orders) => {
+  const ordersObjects = {};
+  const ordersArray = [];
+  orders.forEach((order) => {
+    if(ordersObjects[order.order_id]){
+      ordersObjects[order.order_id].dishes.push(order.dish_name);
+      return;
+    }
+    ordersObjects[order.order_id] = {
+      order_id: order.order_id,
+      phone_number: order.phone_number,
+      cost: order.cost,
+      dishes: [order.dish_name]
+    };
+  });
+  for(let order in ordersObjects){
+    ordersArray.push(ordersObjects[order]);
+  }
+  return ordersArray;
+};
+
 module.exports = function(db){
   // Gets the dishes of a specific restaurant based on their id
   const get_dishes = (id) => {
@@ -36,7 +59,7 @@ module.exports = function(db){
         .leftJoin('restaurants', 'restaurants.id', 'orders.restaurant_id')
         .where('restaurants.id', 1)
         .then( orders => {
-          resolve(orders);
+          resolve(collectDishes(orders));
         })
         .catch( err => {
           reject(err);
