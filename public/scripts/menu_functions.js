@@ -34,13 +34,14 @@ function renderDishes(dishes){
   });
 }
 
+// Request all dishes from DB and load them on page
 function loadDishes() {
   $.ajax({
     type: "GET",
     url: "/api/restaurants/1",
     dataType: "json", // converts result to JSON
     success: function (result) {
-      renderTweets(result);
+      renderDishes(result);
     }
   });
 }
