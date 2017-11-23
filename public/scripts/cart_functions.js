@@ -61,8 +61,10 @@ function submitCart(shoppingCart, phoneNumber) {
 
 $('.cart-submit').on('submit', function(event) {
   event.preventDefault();
-  let phoneNum = $(this).value();
-  submitCart(shoppingCart, phoneNum);
+  console.log(shoppingCart);
+  console.log("Clicked.");
+  console.log("The cart contains: ", shoppingCart);
+  submitCart(shoppingCart, '1-250-885-7405');
 });
 
 

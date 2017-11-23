@@ -73,19 +73,19 @@ module.exports = function(db){
   // Inserts the order items into the orders_dishes table
   const make_order = (order) => {
     return new Promise((resolve, reject) => {
-      const order_id = Math.ceil(Math.random()*1000);
       const {phone_number, cost} = order;
       db('orders').insert(
         {
-          id: order_id,
+          id: order.id,
           phone_number: phone_number,
           cost: cost,
-          order_time: null
+          order_time: order.order_time
+          
         })
         .then(() => {
           for(let item of order.dishes){
             db('orders_dishes').insert(
-              { order_id: order_id, dish_id: item })
+              { order_id: order.id, dish_id: item })
               .then( ids => {
                 resolve(ids);
               })
