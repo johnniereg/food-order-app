@@ -23,11 +23,13 @@ function createDishes(dishes){
   return totalDish;
 }
 
-//Adds listener as menu items are rendered
+//Adds listener as menu items are rendered - continue to work on function call - to build object
 function addButtonListener(){
     $('.add-to-cart').on('click', function(event){
     event.preventDefault();
-    console.log('click worked!');
+    shoppingCart[dishes.id] = {dishes.id}
+
+    //
 
   });
 }
