@@ -14,7 +14,7 @@ function createDishes(dishes){
     .append(`<input id='button' type='submit' value='addToCart' </input>`)
     .append('<div> Total </div>');
 
-  let totalDish = $('<article>')
+  let totalDish = $(`<article class="menu-item" data-dishid='${dishes.id}'>`)
     .append(header)
     .append(description)
     .append(price)
