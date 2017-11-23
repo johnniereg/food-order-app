@@ -44,7 +44,13 @@ app.use(express.static('public'));
 
 /* Gets the dishes for a given restaurant
  */
-app.get('/api/restaurants/:id', restaurantHelpers.get_dishes);
+app.get('/api/restaurants/:id', (req, res) => {
+  const { id } = req.params;
+  restaurantHelpers.get_dishes(id)
+    .then( dishes => {
+      res.json(dishes);
+    });
+});
 
 app.get('/api/restaurants/:id/orders', (req, res) => {
   const { id } = req.params;
