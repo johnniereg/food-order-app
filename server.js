@@ -10,13 +10,11 @@ const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 const restaurantHelpers = require('./utils/restaurant-helpers')(knex);
-
-
+const restaurantnumber ='+17786796398';
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const myphone = process.env.MYPHONE;
 const twiphone = process.env.TWILIOPHONE;
-
 const usesms = false; //SET TO TRUE TO RECIEVE SMS
 const twilio = require('twilio')(accountSid, authToken);
 const app = express();
@@ -81,7 +79,7 @@ app.post('/checkout', (req, res) => {
   order.id = Math.ceil(Math.random()*1000);
   if(usesms){
         twilio.messages.create({
-          to: myphone,
+          to: restaurantnumber,
           from: twiphone,
           body: `ORDER MADE for ${req.body.order.phone_number} Number of items: ${req.body.order.cost}`
         }).then((message) => console.log(message.sid))
@@ -99,27 +97,26 @@ app.post('/checkout', (req, res) => {
       
 });
 
+//sms rout
+app.post('/sms'){
+  if(usesms){
+  const twiml = new MessagingResponse();
+  console.log(req.body.Body);
+  let textBody=req.body.Body;
+  //result = req.body.Body;
+  twiml.message('Restaurant 10:4'+result);
+  res.writeHead(200, {'Content-Type': 'text/xml'});
+  res.end(twiml.toString());
+  }else{
+    res.send("NOT USING SMS RIGHT NOW");
+  }
+  
+}
 app.get('/checkout', (req, res) => {
   /*knex.select().from('orders').then( function (result) {
     console.log(result);
   });*/
   res.render("orders");
-});
-
-app.get('/orders/status/:id', (req, res) => {
-  restaurantHelpers.get_orders(1)
-    .then( orders => {
-      let orderInfo = null;
-      for(let order of orders){
-        if(order.order_id == req.params.id){
-          orderInfo = {
-            dishes: order.dishes,
-            time: order.order_time
-          };
-        }
-      }
-      res.render('status', orderInfo);
-    });
 });
 
 app.listen(port, () => {
