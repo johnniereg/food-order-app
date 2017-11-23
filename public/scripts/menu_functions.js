@@ -1,6 +1,4 @@
 
-
-
 //Function which constructs the new dish HTML nodes by deconstructing the database
 //object and converting them into html elements.
 function createDishes(dishes){
