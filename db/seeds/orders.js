@@ -5,7 +5,7 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       // Inserts seed entries
       return knex('orders').insert(
-        { phone_number: '1-555-555-0001',cost:10,restaurant_id:1,order_time:"30"}
+        {id: 1, phone_number: '1-555-555-0001',cost:10,restaurant_id:1,order_time:"30"}
       );
     });
 };
