@@ -11,7 +11,7 @@ function createDishes(dishes){
   let price = $(`<div>${dishes.cost}</div>`);
 
   let footer = $(`<footer>`)
-    .append(`<input id='button' type='submit' value='addToCart' </input>`)
+    .append(`<button class='add-to-cart'>Add to Cart</button>`)
     .append('<div> Total </div>');
 
   let totalDish = $(`<article class="menu-item" data-dishid='${dishes.id}'>`)
@@ -23,6 +23,15 @@ function createDishes(dishes){
   return totalDish;
 }
 
+//Adds listener as menu items are rendered
+function addButtonListener(){
+    $('.add-to-cart').on('click', function(event){
+    event.preventDefault();
+    console.log('click worked!');
+
+  });
+}
+
 // Render dishes and append to HTML
 function renderDishes(dishes){
   console.log(dishes);
@@ -30,6 +39,7 @@ function renderDishes(dishes){
     let createdDish = createDishes(dish);
     $('.menu').append(createdDish);
   });
+  addButtonListener();
 }
 
 // Request all dishes from DB and load them on page
@@ -41,7 +51,12 @@ function loadDishes() {
     success: function (result) {
       renderDishes(result);
     }
+
   });
+
 }
 
+
+
 function addToCart(){}
+
