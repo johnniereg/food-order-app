@@ -59,8 +59,9 @@ app.get('/', (req, res) => {
 
 app.get('/orders', (req, res) => {
   knex.select().from('orders').then( function (result) {
-    res.send(results);
+    console.log(result);
   });
+  res.send("Success");
 });
 
 app.post('/orders', (req, res) => {
