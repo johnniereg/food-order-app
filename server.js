@@ -106,6 +106,22 @@ app.get('/checkout', (req, res) => {
   res.render("orders");
 });
 
+app.get('/orders/status/:id', (req, res) => {
+  restaurantHelpers.get_orders(1)
+    .then( orders => {
+      let orderInfo = null;
+      for(let order of orders){
+        if(order.order_id == req.params.id){
+          orderInfo = {
+            dishes: order.dishes,
+            time: order.order_time
+          };
+        }
+      }
+      res.render('status', orderInfo);
+    });
+});
+
 app.listen(port, () => {
   console.log('Example app listening on port ' + port);
   //console.log(myphone);
