@@ -74,10 +74,10 @@ app.get('/', (req, res) => {
 });
 
 app.post('/checkout', (req, res) => {
-  const orderObj = req.params//.order_variable_name;
+  const { order } = req.body;
   const orderArray = [];
-  for(let item in orderObj){
-    orderArray.push(orderObj[item]);
+  for(let item in order){
+    orderArray.push(order[item]);
   }
   restaurantHelpers.make_order(orderArray);
   res.send('Your order is confirmed!'); //or whatever we send them
