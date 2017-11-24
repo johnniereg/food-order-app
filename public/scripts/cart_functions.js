@@ -39,12 +39,14 @@ function collectCartDishes(shoppingCart) {
 // Builds the order and submits to server
 function submitCart(shoppingCart, phoneNumber) {
 
+  // Formats shopping cart and phone number for server.
   let order = {
     phone_number: formatPhoneNumber(phoneNumber),
     cost: addUpCartCost(shoppingCart),
     dishes: collectCartDishes(shoppingCart)
   };
 
+  // Sends order to the server.
   $.ajax({
     type: "POST",
     url: "/checkout",
@@ -59,16 +61,27 @@ function submitCart(shoppingCart, phoneNumber) {
   });
 };
 
+// Listener event for shopping cart submit. Handles some errors.
 $('.cart-submit').on('submit', function(event) {
   event.preventDefault();
   let phoneNumber = $(this).closest('.cart-submit').find('input').val();
   let preparedNumber = formatPhoneNumber(phoneNumber);
   let cart = collectCartDishes(shoppingCart);
+  // Displays message if cart empty
+  if (cart.length < 1) {
+    $('.flash-message.empty-cart').show();
+  }
+  // Displays message if phone number length is too short when submitting.
+  if (preparedNumber.length < 10) {
+    $('.flash-message.no-phone').show();
+  }
+  // Full cart and valid phone will send to server.
   if (cart.length >= 1 && phoneNumber) {
     submitCart(shoppingCart, preparedNumber);
   }
 });
 
+// Clears and reloads shopping cart on click of empty button.
 $('.cart-clear').on('click', function(event) {
   event.preventDefault();
   clearCart();
