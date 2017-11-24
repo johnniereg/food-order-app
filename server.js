@@ -113,22 +113,22 @@ app.post('/sms', (req, res) => {
             body: "Order " + bod[1] + " received, ETA" + bod[3] + " minutes."
           }).then((message) =>{
           //log sid for future reference
-          console.log(message.sid) });
+            console.log(message.sid);
+          });
         }else{
-        //value if order is not found. 
-        console.log("ORDER NOT FOUND");
-      }
-    });
-  //add 
-  knex('orders').where('id', '=', bod[1]).update({'order_time':bod[3]}).then(function (status) {
-  
-       console.log(count);
-  });
-  //redirect to no response url
-  res.redirect("http://twimlets.com/echo?Twiml=%3CResponse%3E%3C%2FResponse%3E");
-  }else{
-    res.redirect("http://twimlets.com/echo?Twiml=%3CResponse%3E%3C%2FResponse%3E");
-  }
+        //value if order is not found.
+          console.log("ORDER NOT FOUND");
+        }
+      });
+      //update order order_time=eta
+      knex('orders').where('id', '=', bod[1]).update({ 'order_time': bod[3]}).then(function (status) {
+        console.log(count);
+      });
+      //redirect to no response url
+      res.redirect("http://twimlets.com/echo?Twiml=%3CResponse%3E%3C%2FResponse%3E");
+    }else{
+      res.redirect("http://twimlets.com/echo?Twiml=%3CResponse%3E%3C%2FResponse%3E");
+    }
   }else{
     res.send("NOT USING SMS");
   }
