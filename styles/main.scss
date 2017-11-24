@@ -1,5 +1,7 @@
 $brand-color: #337ab7;
+$brand-color-light: lighten($brand-color, 10%);
 $nav-bar-height: 90px;
 
 @import 'layout';
 @import 'shopping-cart';
+@import 'order-status';
