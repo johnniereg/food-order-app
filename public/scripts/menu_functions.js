@@ -61,6 +61,11 @@ function renderShoppingCart() {
     let $cartElement = buildCartElement(dish);
     $('.cart-list').append($cartElement);
   }
+  let cartTotalCents = addUpCartCost(shoppingCart);
+  let cartPrice = toDollars(cartTotalCents);
+  console.log(cartPrice);
+  $('.cart-price').html(cartPrice);
+
 }
 
 function addDishToCart(dish){
