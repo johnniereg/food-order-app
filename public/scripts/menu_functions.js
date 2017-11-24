@@ -27,7 +27,7 @@ function createDishes(dishes){
     .append($('<h4>').text(`${dishes.dish_name}`).addClass('card-title'))
     .append($('<p>').text(`${dishes.description}`).addClass('card-text'))
     .append($('<input>').addClass('btn btn-primary add-to-cart').attr({type: 'submit', value: 'Add to cart'}))
-    .append($('<p>').text(`Price: $${Number(dishes.cost)/100}`).addClass('price'))
+    .append($('<p>').text(`Price: $${toDollars(dishes.cost)}`).addClass('price'))
 
   let totalDish = $('<article>').data(dishData)
     .append($('<img>').attr(attributes).addClass('card-img-top'))
