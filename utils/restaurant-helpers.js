@@ -12,7 +12,8 @@ const collectDishes = (orders) => {
       order_id: order.order_id,
       phone_number: order.phone_number,
       cost: order.cost,
-      dishes: [order.dish_name]
+      dishes: [order.dish_name],
+      order_time: order.order_time
     };
   });
   for(let order in ordersObjects){
@@ -71,6 +72,27 @@ module.exports = function(db){
     });
   };
 
+  // @TODO make this function take an dynamic clause
+  const get_order = (id) => {
+    return new Promise((resolve, reject) => {
+      db('orders_dishes').select('order_id', 'dishes.dish_name', 'orders.cost', 'orders.phone_number', 'orders.order_time')
+        .leftJoin('dishes', 'dishes.id', 'dish_id')
+        .leftJoin('orders', 'orders.id', 'order_id')
+        .where('orders.id', id)
+        .then( orders => {
+          return resolve(collectDishes(orders)[0]);
+        })
+        .catch( err => {
+          return reject(err);
+        });
+    });
+  };
+
+  const update_order = (order_id, eta) => {
+    return db('orders').where('id', order_id)
+      .update({ 'order_time': eta}, 'id');
+  };
+
   /**
    * Inserts the order items into the orders table and orders_dishes table
    *
@@ -113,6 +135,8 @@ module.exports = function(db){
     get_dishes,
     get_restaurant,
     get_orders,
+    get_order,
+    update_order,
     make_order
   };
 };

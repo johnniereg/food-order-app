@@ -10,13 +10,11 @@ const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 const restaurantHelpers = require('./utils/restaurant-helpers')(knex);
-const restaurantnumber = process.env.MYPHONE;
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const twiphone = process.env.TWILIOPHONE;
+const twilioHelpers = require('./utils/twilio-helpers');
+const restaurantNumber = process.env.MYPHONE;
+
 //SET usesms TO TRUE TO RECIEVE SMS, USE WITH CARE
-const usesms = false;
-const twilio = require('twilio')(accountSid, authToken);
+const usesms = true;
 const app = express();
 app.set('view engine', 'ejs');
 
@@ -81,76 +79,36 @@ app.get('/', (req, res) => {
 app.post('/checkout', (req, res) => {
   const order = req.body;
   restaurantHelpers.make_order(order, 1).then((order_id) => {
-    if(usesms){
-      twilio.messages.create({
-        to: restaurantnumber,
-        from: twiphone,
-        body: `Order made for ${order.phone_number}, Id: ${order_id}`
-      }).then((message) => console.log(message.sid))
-        .then(() => {
-          res.send('Order SUCESSFUL');
-        });
-      return;
-    }
-    console.log('Sucess! Order sent to DB.');
-    console.log('Text would read:', `Order made for ${order.phone_number}, Id: ${order_id}`);
+    res.redirect(`/orders/${order_id}`);
+    return restaurantHelpers.get_order(order_id);
   })
-  // error handling
+    .then((order) => {
+      if(usesms){
+        twilioHelpers.send_order(order, restaurantNumber);
+      }
+    })
+    // error handling
     .catch(err => {
       console.log('Post to checkout error', err);
     });
 });
 //sms rout
 app.post('/sms', (req, res) => {
+  const textInformation = req.body.Body.split(' ');
+  const order_id = Number(textInformation[0]);
+  const order_eta = Number(textInformation[1]);
   if(usesms){
-    let bod = req.body.Body;
-    //Expecting format of incoming text to be Id,###,eta,### for example: Id,676,eta,40
-    //meaning order id 767 will be done in 40 minutes
-    //split along commas
-    bod = bod.split(",");
-    //check to ensure format is correct
-    if(bod[0] === 'Id' && bod[2] === 'eta'){
-    //Select(*) from orders where id = bod[1]
-      knex('orders').where('id', '=', bod[1]).select().then( (result) => {
-        //if the result is not empty
-        if(result !== []){
-          twilio.messages.create({
-            to: result[0]['phone_number'],
-            from: twiphone,
-            body: "Order " + bod[1] + " received, ETA " + bod[3] + " minutes."
-          }).then((message) =>{
-          //log sid for future reference
-            console.log(message.sid);
-          });
-        }else{
-        //value if order is not found.
-          console.log("ORDER NOT FOUND");
-        }
-      });
-      //update order order_time=eta
-      knex('orders').where('id', '=', bod[1]).update({ 'order_time': bod[3]}).then(function (status) {
-        //console.log(count);
-      });
-      //redirect to no response url
-      res.redirect("http://twimlets.com/echo?Twiml=%3CResponse%3E%3C%2FResponse%3E");
-    }else{
-      res.redirect("http://twimlets.com/echo?Twiml=%3CResponse%3E%3C%2FResponse%3E");
+    //Expecting format of incoming text to be ### for example: 40
+    if(order_eta && order_id){
+      restaurantHelpers.update_order(order_id, order_eta)
+        .then(order_id => restaurantHelpers.get_order(order_id[0]))
+        .then(twilioHelpers.send_confirmation);
     }
-  }else{
-    res.send("NOT USING SMS");
+    return;
   }
-});
-app.get('/checkout', (req, res) => {
-  /*knex.select().from('orders').then( function (result) {
-    console.log(result);
-  });*/
-  res.render("orders");
+  res.redirect('http://twimlets.com/echo?Twiml=%3CResponse%3E%3C%2FResponse%3E');
 });
 
 app.listen(port, () => {
   console.log('Example app listening on port ' + port);
-  //console.log(myphone);
-  //console.log(twiphone);
-  //console.log(authToken);
-  //console.log(accountSid);
 });
