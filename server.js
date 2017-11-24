@@ -73,28 +73,27 @@ app.get('/', (req, res) => {
 });
 
 app.post('/checkout', (req, res) => {
-  console.log(req.body);
-  const order = req.body;
-  //let order = { phone_number: '+17786796398', cost: 4200,restaurant_id:1,  dishes: [1, 5, 7, 9]  }
-  order.id = Math.ceil(Math.random()*1000);
-  if(usesms){
-        twilio.messages.create({
-          to: restaurantnumber,
-          from: twiphone,
-          body: `ORDER MADE for ${order.phone_number}Id: ${order.id}`
-        }).then((message) => console.log(message.sid))
-          .then(() => {
-            res.send('Order SUCESSFUL');
-          });
-      }else{
-        order.order_time=order.dishes.length*10;
-      }
-  console.log("ordertime ="+order.order_time)
-
-  restaurantHelpers.make_order(order, 1).then(() => {
-      console.log("Order sent to DB.");
+  const order = req.body
+  restaurantHelpers.make_order(order, 1).then((order_id) => {
+    console.log(order_id);
+    if(usesms){
+      twilio.messages.create({
+        to: restaurantnumber,
+        from: twiphone,
+        body: `ORDER MADE for ${order.phone_number}, Id: ${order_id}`
+      }).then((message) => console.log(message.sid))
+        .then(() => {
+          res.send('Order SUCESSFUL');
+        });
+      return;
+    }
+    console.log('Sucess! Order sent to DB.');
+    console.log('Text would read:', `ORDER MADE for ${order.phone_number}, Id: ${order_id}`);
+  })
+  // error handling
+    .catch(err => {
+      console.log('Post to checkout error', err);
     });
-    res.send('order id = '+order.id);
 });
 
 //sms rout
