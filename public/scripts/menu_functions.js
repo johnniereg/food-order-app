@@ -44,7 +44,7 @@ function buildCartElement(dish) {
 
   let $cartItem = $('<div>').addClass('cart-item')
     .append($('<span>').text(`${dish.name}`).addClass('dish-name'))
-    .append($('<span>').text(`${dish.price}`).addClass('dish-price'))
+    .append($('<span>').text(`${toDollars(dish.price)}`).addClass('dish-price'))
     .append($(`<button>-</button><span class="dish-quantity">${dish.quantity}</span><button>+</button>)`))
     .append($('<button class="remove-item">Remove</button>'))
 
