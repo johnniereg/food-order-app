@@ -10,13 +10,12 @@ const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 const restaurantHelpers = require('./utils/restaurant-helpers')(knex);
-const restaurantnumber = '+17786796398';
+const restaurantnumber = process.env.MYPHONE;
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-const myphone = process.env.MYPHONE;
 const twiphone = process.env.TWILIOPHONE;
-const usesms = false;
 //SET usesms TO TRUE TO RECIEVE SMS, USE WITH CARE
+const usesms = false;
 const twilio = require('twilio')(accountSid, authToken);
 const app = express();
 app.set('view engine', 'ejs');
@@ -29,7 +28,6 @@ app.use(morgan('dev'));
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
 app.use(bodyParser.urlencoded({ extended: true }));
-restaurantHelpers.make_order({ phone_number: '12315515', cost: 4200,  dishes: [1, 5, 7, 9] });
 // Node sass middleware
 app.use('/styles', sass({
   src: __dirname + '/styles',
