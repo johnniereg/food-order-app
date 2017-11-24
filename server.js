@@ -75,7 +75,6 @@ app.get('/', (req, res) => {
 app.post('/checkout', (req, res) => {
   const order = req.body
   restaurantHelpers.make_order(order, 1).then((order_id) => {
-    console.log(order_id);
     if(usesms){
       twilio.messages.create({
         to: restaurantnumber,
