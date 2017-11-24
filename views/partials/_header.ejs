@@ -12,13 +12,15 @@
     <div class='cart-item' data-dish='id'>
     </div>
   </main>
-  <footer>
+  <footer class='cart-interactions hide'>
     <h4>Total Price:</h4>
     <p><strong><span class='cart-price'>$0.00</span></strong></p>
     <form class='cart-submit'>
       <label>Phone number:</label><br/>
-      <input type='text' class='form-control' name='phone' placeholder='1-250-XXX-XXXX'>
+      <input type='tel' class='form-control' name='phone' placeholder='1-250-XXX-XXXX'>
+      <p class='hide no-phone'>Valid phone number required.</p>
       <button class='btn btn-success' type='submit'>Submit Order</button>
+      <p class='hide empty-cart'>Cannot submit empty cart.</p>
     </form>
     <button class='cart-clear btn btn-danger'>Empty Cart</button>
   </footer>

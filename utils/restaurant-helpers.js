@@ -1,5 +1,3 @@
-const databaseHelpers = require('./database-helpers');
-
 // Given an array of orders, this function makes a new array of objects.
 // These objects will collect the dishes into one handy array
 const collectDishes = (orders) => {
@@ -24,6 +22,7 @@ const collectDishes = (orders) => {
 };
 
 module.exports = function(db){
+
   // Gets the dishes of a specific restaurant based on their id
   const get_dishes = (id) => {
     return new Promise((resolve, reject) => {
@@ -37,6 +36,7 @@ module.exports = function(db){
         });
     });
   };
+
   /* Returns a new promise that, if resolved returns the restaurant.
    * Condition is an object as per knex.
    */
@@ -45,13 +45,14 @@ module.exports = function(db){
       db('restaurants').select()
         .where(condition)
         .then( restaurant => {
-          resolve(restaurant[0]);
+          return resolve(restaurant[0]);
         })
         .catch( err => {
-          reject(err);
+          return reject(err);
         });
     });
   };
+
 
   // Returns an array of order objects.
   const get_orders = (id) => {
@@ -62,41 +63,48 @@ module.exports = function(db){
         .leftJoin('restaurants', 'restaurants.id', 'orders.restaurant_id')
         .where('restaurants.id', id)
         .then( orders => {
-          resolve(collectDishes(orders));
+          return resolve(collectDishes(orders));
         })
         .catch( err => {
-          reject(err);
+          return reject(err);
         });
     });
   };
 
-  // Inserts the order items into the orders_dishes table
+  /**
+   * Inserts the order items into the orders table and orders_dishes table
+   *
+   * @param {object} An object containing a phone_number {string}, a cost {number} and a dishes {array}.
+   * @param {number} The ID {number} of the restaurant to whom the order belongs.
+   * @return {object} Returns are promise object which resolves with an {array} containing the id {number} of the order as per our database structure.
+   */
   const make_order = (order, restaurant_id) => {
     return new Promise((resolve, reject) => {
-      const {phone_number, cost} = order;
+      const {phone_number, cost, dishes} = order;
+      let order_time = null;
+      // enable this if you want to test with order_time auto-populated
+      // order_time = order.dishes.length * 10;
       db('orders').insert(
         {
-          id: order.id,
           phone_number: phone_number,
           cost: cost,
-          order_time: order.order_time,
+          order_time: order_time,
           restaurant_id:restaurant_id,
           time_accepted: null
-        })
-        .then(() => {
-          for(let item of order.dishes){
-            db('orders_dishes').insert(
-              { order_id: order.id, dish_id: item })
-              .then( ids => {
-                resolve(ids);
-              })
-              .catch( error => {
-                reject(error);
-              });
+        }, 'id')
+        .then((order_id) => {
+          const orders_dishes = [];
+          for(let item of dishes){
+            orders_dishes.push(
+              db('orders_dishes').insert(
+                { order_id: order_id[0], dish_id: item }));
           }
+          Promise.all(orders_dishes).then(() => {
+            return resolve(order_id[0]);
+          });
         })
         .catch( error => {
-          reject(error);
+          return reject(error);
         });
     });
   };

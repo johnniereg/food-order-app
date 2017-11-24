@@ -8,7 +8,8 @@ function formatPhoneNumber(string) {
 // Sets shopping cart object to empty.
 function clearCart() {
   shoppingCart = {};
-    $("#cart-button").html("CART");
+  $("#cart-button").html("Cart");
+
 }
 
 // Add up all the cost of items in the cart
@@ -24,8 +25,6 @@ function addUpCartCost(shoppingCart) {
   return totalPrice;
 }
 
-
-
 // Collect total appearances of dish IDs
 function collectCartDishes(shoppingCart) {
   let cartItems = [];
@@ -34,24 +33,31 @@ function collectCartDishes(shoppingCart) {
 
     for (let i = quantity; i > 0; i--) {
       cartItems.push(dish);
-console.log("shoppingCart", shoppingCart)
     }
   }
-  console.log("cartItems", cartItems);
-  return cartItems;
+  //Updates number of items in Cart by rewriting DOM at #cart-button
+  if (cartItems.length == 0) {
+    $("#cart-button").html("Cart");
+  } else {
+    $("#cart-button").html("Cart " + "(" + cartItems.length + ")");
 
+  }
+  return cartItems;
 }
 
-let holder = collectCartDishes(shoppingCart);
 
 // Builds the order and submits to server
 function submitCart(shoppingCart, phoneNumber) {
+
+  // Formats shopping cart and phone number for server.
+
   let order = {
     phone_number: formatPhoneNumber(phoneNumber),
     cost: addUpCartCost(shoppingCart),
     dishes: collectCartDishes(shoppingCart)
   };
 
+  // Sends order to the server.
   $.ajax({
     type: "POST",
     url: "/checkout",
@@ -66,18 +72,35 @@ function submitCart(shoppingCart, phoneNumber) {
   });
 };
 
+// Listener event for shopping cart submit. Handles some errors.
 $('.cart-submit').on('submit', function(event) {
   event.preventDefault();
-  submitCart(shoppingCart, '1-250-885-7405');
+  let phoneNumber = $(this).closest('.cart-submit').find('input').val();
+  let preparedNumber = formatPhoneNumber(phoneNumber);
+  let cart = collectCartDishes(shoppingCart);
+  // Displays message if cart empty
+  if (cart.length < 1) {
+    $('.empty-cart').removeClass('hide');
+    return;
+  }
+  // Displays message if phone number length is too short when submitting.
+  if (preparedNumber.length < 10) {
+    $('.hide.no-phone').removeClass('hide');
+    return;
+  }
+  // Full cart and valid phone will send to server.
+  if (cart.length >= 1 && preparedNumber > 9) {
+    submitCart(shoppingCart, preparedNumber);
+  }
 });
 
+// Clears and reloads shopping cart on click of empty button.
 $('.cart-clear').on('click', function(event) {
   event.preventDefault();
   clearCart();
   renderShoppingCart();
 
 });
-
 
 
 
