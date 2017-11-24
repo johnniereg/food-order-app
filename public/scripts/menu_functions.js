@@ -102,7 +102,29 @@ function renderShoppingCart() {
   // Hide flash messages on cart load.
   $('.empty-cart').addClass('hide');
   $('.no-phone').addClass('hide');
+
+  let cartCount = collectCartDishes(shoppingCart);
+  if (cartCount.length > 0) {
+    $('.cart-interactions').removeClass('hide');
+  } else {
+    $('.cart-interactions').addClass('hide');
+  }
+
 }
+
+// function showAndHideCartButtons() {
+//   let cartCount = collectCartDishes(shoppingCart);
+//   console.log("Cart count", cartCount);
+//   if (cartCount.length > 0) {
+//     $('.cart-interactions').removeClass('hide');
+//   } else {
+//     $('.cart-interactions').addClass('hide');
+//   }
+//   renderShoppingCart();
+// }
+
+// // showAndHideCartButtons();
+
 
 // Adds items from menu page to in-memory shopping cart object.
 function addDishToCart(dish){
