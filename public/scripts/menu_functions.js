@@ -1,5 +1,16 @@
 let shoppingCart ={};
 
+function toDollars(number) {
+  let asDollars = number / 100;
+  let amount = asDollars.toString(),
+  dollars = amount.split('.')[0],
+  cents = (amount.split('.')[1] || '') +'00';
+  dollars = dollars.split('').reverse().join('')
+      .replace(/(\d{3}(?!$))/g, '$1,')
+      .split('').reverse().join('');
+  return '$' + dollars + '.' + cents.slice(0, 2);
+}
+
 function createDishes(dishes){
   let attributes = {
     src : dishes.photo_url,
@@ -26,8 +37,71 @@ function createDishes(dishes){
   return totalDish;
 }
 
+// Create HTML elements for shopping cart.
+function buildCartElement(dish) {
+
+  let dishInfo = {
+    dishid: dish.id
+  };
+
+  let $cartItem = $('<div>').addClass('cart-item').data(dishInfo)
+    .append($('<span>').text(`${dish.name}`).addClass('dish-name'))
+    .append($('<span>').text(`${toDollars(dish.price)}`).addClass('dish-price'))
+    .append($(`<button class='quantity-down'>-</button><span class='dish-quantity'>${dish.quantity}</span><button class='quantity-up'>+</button>)`))
+    .append($('<button class="remove-item">Remove</button>'))
+
+
+  let $cartEntry = $('<li>')
+    .append($cartItem);
+
+  return $cartEntry;
+}
+
+function renderShoppingCart() {
+  $('.cart-list').empty();
+  for (let item in shoppingCart) {
+    let dish = shoppingCart[item];
+    let $cartElement = buildCartElement(dish);
+    $('.cart-list').append($cartElement);
+  }
+  let cartTotalCents = addUpCartCost(shoppingCart);
+  let cartPrice = toDollars(cartTotalCents);
+  console.log(cartPrice);
+  $('.cart-price').html(cartPrice);
+
+  $('.quantity-down').on('click', function(event) {
+    event.preventDefault();
+    console.log("We clicked down.");
+    let clickedid = $(this).closest('.cart-item').data('dishid');
+
+    if (shoppingCart[clickedid].quantity > 1) {
+      shoppingCart[clickedid].quantity -= 1;
+    }
+
+    renderShoppingCart();
+  });
+
+  $('.quantity-up').on('click', function(event) {
+    event.preventDefault();
+    console.log("We clicked up.");
+    let clickedid = $(this).closest('.cart-item').data('dishid');
+
+    shoppingCart[clickedid].quantity += 1;
+
+    renderShoppingCart();
+  });
+
+  $('.remove-item').on('click', function(event) {
+    event.preventDefault();
+    console.log("We ditched a dish.");
+    let clickedid = $(this).closest('.cart-item').data('dishid');
+    delete shoppingCart[clickedid];
+    renderShoppingCart();
+  });
+
+}
+
 function addDishToCart(dish){
-  console.log("dish in addcart", dish);
 
   if (shoppingCart[dish.id]) {
       shoppingCart[dish.id].quantity += 1;
@@ -51,21 +125,26 @@ function loadDishes() {
 
     //Adds listener as menu items are rendered - continue to work on function call - to build object
     function addButtonListener(){
-        $('.add-to-cart').on('click', function(event){
-          event.preventDefault();
+      $('.add-to-cart').on('click', function(event){
+        event.preventDefault();
 
-          let card = $(this).closest('article');
-          // console.log('$', $(this).data('dishid'));
-          // console.log('No $', this.data('dishid'));
-          console.log('dish id', 'dishid');
-          // console.log(this);
-          const dish = {
-            id: card.data('dishid'),
-            name: card.data('dishname'),
-            price: card.data('dishcost')
-          };
-          console.log("button listen", dish);
-          addDishToCart(dish)
+        let card = $(this).closest('article');
+        // console.log('$', $(this).data('dishid'));
+        // console.log('No $', this.data('dishid'));
+        console.log('dish id', 'dishid');
+        // console.log(this);
+        const dish = {
+          id: card.data('dishid'),
+          name: card.data('dishname'),
+          price: card.data('dishcost')
+        };
+        console.log("button listen", dish);
+        addDishToCart(dish);
+        renderShoppingCart();
+
+
+
+
       });
     }
 
@@ -75,12 +154,8 @@ function loadDishes() {
         let createdDish = createDishes(dish);
         $('.menu').append(createdDish);
       });
-
       addButtonListener();
-
-
     }
-
   });
 }
 
