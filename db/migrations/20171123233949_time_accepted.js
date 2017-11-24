@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
   return knex.schema.table('orders', (table) => {
-    table.integer('time_accepted');
+    table.timestamp('time_accepted');
   });
 };
 

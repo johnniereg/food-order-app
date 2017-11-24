@@ -1,5 +1,4 @@
 require('dotenv').config();
-
 const port = process.env.PORT || 8080;
 const env = process.env.ENV || 'development';
 const express = require('express');
@@ -10,6 +9,7 @@ const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 const restaurantHelpers = require('./utils/restaurant-helpers')(knex);
+const timeCalculator = require('./utils/timeCalculator')(knex);
 const restaurantnumber = process.env.MYPHONE;
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -100,6 +100,11 @@ app.post('/checkout', (req, res) => {
       console.log('Post to checkout error', err);
     });
 });
+app.get('/orders/:id', (req, res) => {
+  timeCalculator.timeCalculator(req.params.id);
+  res.send("Recived");
+});
+
 //sms rout
 app.post('/sms', (req, res) => {
   if(usesms){
@@ -128,8 +133,8 @@ app.post('/sms', (req, res) => {
         }
       });
       //update order order_time=eta
-      knex('orders').where('id', '=', bod[1]).update({ 'order_time': bod[3]}).then(function (status) {
-        //console.log(count);
+      knex('orders').where('id', '=', bod[1]).update({ 'order_time': bod[3],time_accepted:knex.fn.now()}).then(function (status) {
+        console.log("update order status = "+status);
       });
       //redirect to no response url
       res.redirect("http://twimlets.com/echo?Twiml=%3CResponse%3E%3C%2FResponse%3E");
