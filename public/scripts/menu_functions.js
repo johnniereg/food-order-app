@@ -128,14 +128,11 @@ function renderShoppingCart() {
 
 // Adds items from menu page to in-memory shopping cart object.
 function addDishToCart(dish){
-
   if (shoppingCart[dish.id]) {
       shoppingCart[dish.id].quantity += 1;
   } else {
     shoppingCart[dish.id] = {id: dish.id, name: dish.name, price: dish.price, quantity:1};
   }
-  // return shoppingCart; <--- Do we need this? JR
-
 }
 
 // Front page initializiation and add event listeners.

@@ -8,6 +8,8 @@ function formatPhoneNumber(string) {
 // Sets shopping cart object to empty.
 function clearCart() {
   shoppingCart = {};
+  $("#cart-button").html("Cart");
+
 }
 
 // Add up all the cost of items in the cart
@@ -33,13 +35,22 @@ function collectCartDishes(shoppingCart) {
       cartItems.push(dish);
     }
   }
+  //Updates number of items in Cart by rewriting DOM at #cart-button
+  if (cartItems.length == 0) {
+    $("#cart-button").html("Cart");
+  } else {
+    $("#cart-button").html("Cart " + "(" + cartItems.length + ")");
+
+  }
   return cartItems;
 }
+
 
 // Builds the order and submits to server
 function submitCart(shoppingCart, phoneNumber) {
 
   // Formats shopping cart and phone number for server.
+
   let order = {
     phone_number: formatPhoneNumber(phoneNumber),
     cost: addUpCartCost(shoppingCart),
@@ -88,6 +99,7 @@ $('.cart-clear').on('click', function(event) {
   event.preventDefault();
   clearCart();
   renderShoppingCart();
+
 });
 
 
