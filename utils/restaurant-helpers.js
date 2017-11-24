@@ -81,7 +81,6 @@ module.exports = function(db){
           phone_number: phone_number,
           cost: cost,
           order_time: order.order_time
-          
         })
         .then(() => {
           for(let item of order.dishes){

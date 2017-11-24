@@ -1,43 +1,44 @@
-<h1><%= name %></h1>
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand">
+    <img class="logo" src="/images/house-of-noodles.svg" />
+    <%=name%>
+  </a>
+  <button id='cart-button' class='navbar-right btn btn-lg btn-primary'>Cart</button>
+</nav>
+
 <div class='shopping-cart'>
-  <header>
-    <h1>Your Cart</h1>
-  </header>
+  <h2>Your Cart</h2>
   <main class='cart-body'>
-    <ul class='cart-list'>
-      <li>
-        <div class='cart-item' data-dish='id'>
-          <span class='dish-name'>Dim Sum</span>
-          <span class='dish-price'>$10.00</span>
-          <button>-</button><span class='dish-quantity'>1</span><button>+</button>
-          <button>Remove</button>
-        </div>
-      </li>
-      <li>
-        <div class='cart-item' data-dish='id'>
-          <span class='dish-name'>Noodles</span>
-          <span class='dish-price'>$8.00</span>
-          <button>-</button><span class='dish-quantity'>1</span><button>+</button>
-          <button>Remove</button>
-        </div>
-      </li>
-      <li>
-        <div class='cart-item' data-dish='id'>
-          <span class='dish-name'>Rice</span>
-          <span class='dish-price'>$12.00</span>
-          <button>-</button><span class='dish-quantity'>1</span><button>+</button>
-          <button>Remove</button>
-        </div>
-      </li>
-    </ul>
+    <div class='cart-item' data-dish='id'>
+      <p>
+        <span class='dish-name'>Dim Sum</span> <span class='dish-price'>$10.00</span>
+        <button class='btn'>-</button><span class='dish-quantity'> 1 </span><button class='btn'>+</button>
+        <button class='btn remove'>Remove</button>
+      </p>
+    </div>
+    <div class='cart-item' data-dish='id'>
+      <p>
+        <span class='dish-name'>Dim Sum</span> <span class='dish-price'>$10.00</span>
+        <button class='btn'>-</button><span class='dish-quantity'> 1 </span><button class='btn'>+</button>
+        <button class='btn remove'>Remove</button>
+      </p>
+    </div>
+    <div class='cart-item' data-dish='id'>
+      <p>
+        <span class='dish-name'>Dim Sum</span> <span class='dish-price'>$10.00</span>
+        <button class='btn'>-</button><span class='dish-quantity'> 1 </span><button class='btn'>+</button>
+        <button class='btn remove'>Remove</button>
+      </p>
+    </div>
   </main>
   <footer>
-    <h5>Total Price:</h5>
-    <span class='cart-price'>$30.00</span>
+    <h4>Total Price:</h4>
+    <p><strong><span class='cart-price'>$30.00</span></strong></p>
     <form class='cart-submit'>
-      Phone number: <input type='text' name='phone' placeholder='1-250-XXX-XXXX'>
-      <br><input type='submit' value='Submit Order'>
+      <label>Phone number:</label><br/>
+      <input type='text' class='form-control' name='phone' placeholder='1-250-XXX-XXXX'>
+      <button class='btn btn-success' type='submit'>Submit Order</button>
     </form>
-    <button class='cart-clear'>Empty Cart</button>
+    <button class='cart-clear btn btn-danger'>Empty Cart</button>
   </footer>
 </div>
