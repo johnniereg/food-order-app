@@ -13,7 +13,7 @@ const restaurantRoutes = require('./routes/restaurants');
 const timeCalculator = require('./utils/timeCalculator')(knex);
 const twilioHelpers = require('./utils/twilio-helpers');
 const restaurantNumber = process.env.MYPHONE;
-const usesms = true;
+const usesms = false; // set true when you want texts active
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -59,8 +59,10 @@ app.get('/', (req, res) => {
 
 app.post('/checkout', (req, res) => {
   const order = req.body;
+  console.log("What is post checkout order: ", order);
   restaurantHelpers.make_order(order, 1).then((order_id) => {
-    res.redirect(`/orders/${order_id}`);
+    // Sends a response to the AJAX request with redirect route.
+    res.status(200).send({result: 'redirect', url:`/orders/${order_id}`});
     return restaurantHelpers.get_order(order_id);
   })
     .then((order) => {
@@ -75,6 +77,8 @@ app.post('/checkout', (req, res) => {
 });
 
 app.get('/orders/:id', (req, res) => {
+  console.log("We're trying.");
+  console.log(req.params.id);
   timeCalculator.timeCalculator(req.params.id)
     .then((timeRemaining) => {
       let orderStatusTime = '';
