@@ -61,7 +61,10 @@ function submitCart(shoppingCart, phoneNumber) {
 
 $('.cart-submit').on('submit', function(event) {
   event.preventDefault();
-  submitCart(shoppingCart, '1-250-885-7405');
+  let phoneNumber = $(this).closest('.cart-submit').find('input').val();
+  let preparedNumber = formatPhoneNumber(phoneNumber);
+  console.log(preparedNumber);
+  submitCart(shoppingCart, preparedNumber);
 });
 
 $('.cart-clear').on('click', function(event) {
