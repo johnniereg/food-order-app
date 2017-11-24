@@ -88,9 +88,9 @@ module.exports = function(db){
     });
   };
 
-  const update_order = (order_id, eta) => {
+  const update_order_time = (order_id, eta) => {
     return db('orders').where('id', order_id)
-      .update({ 'order_time': eta}, 'id');
+      .update({ 'order_time': eta, time_accepted:db.fn.now()}, 'id');
   };
 
   /**
@@ -136,7 +136,7 @@ module.exports = function(db){
     get_restaurant,
     get_orders,
     get_order,
-    update_order,
+    update_order_time,
     make_order
   };
 };

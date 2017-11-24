@@ -1,5 +1,4 @@
 require('dotenv').config();
-
 const port = process.env.PORT || 8080;
 const env = process.env.ENV || 'development';
 const express = require('express');
@@ -10,12 +9,13 @@ const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 const restaurantHelpers = require('./utils/restaurant-helpers')(knex);
+const restaurantRoutes = require('./routes/restaurants');
+const timeCalculator = require('./utils/timeCalculator')(knex);
 const twilioHelpers = require('./utils/twilio-helpers');
 const restaurantNumber = process.env.MYPHONE;
-
-//SET usesms TO TRUE TO RECIEVE SMS, USE WITH CARE
 const usesms = true;
 const app = express();
+
 app.set('view engine', 'ejs');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -36,28 +36,9 @@ app.use('/styles', sass({
 
 app.use(express.static('public'));
 
-/**
- * Gets the dishes for id {number} restaurant
- */
-app.get('/api/restaurants/:id', (req, res) => {
-  const { id } = req.params;
-  restaurantHelpers.get_dishes(id)
-    .then( dishes => {
-      res.json(dishes);
-    });
-});
+// Restaurant API routes
+app.use('/api/restaurants', restaurantRoutes(restaurantHelpers));
 
-
-/**
- * Get the orders for id {number} restaurant.
- */
-app.get('/api/restaurants/:id/orders', (req, res) => {
-  const { id } = req.params;
-  restaurantHelpers.get_orders(id)
-    .then((orders) => {
-      res.json(orders);
-    });
-});
 
 /**
  * UI for ordering from a specific restaurant.
@@ -92,21 +73,27 @@ app.post('/checkout', (req, res) => {
       console.log('Post to checkout error', err);
     });
 });
+
+app.get('/orders/:id', (req, res) => {
+  timeCalculator.timeCalculator(req.params.id)
+    .then((timeRemaining) => {
+      res.render('status', {timeRemaining});
+    });
+});
+
 //sms rout
-app.post('/sms', (req, res) => {
+app.post('/sms', (req) => {
   const textInformation = req.body.Body.split(' ');
   const order_id = Number(textInformation[0]);
   const order_eta = Number(textInformation[1]);
   if(usesms){
     //Expecting format of incoming text to be ### for example: 40
     if(order_eta && order_id){
-      restaurantHelpers.update_order(order_id, order_eta)
+      restaurantHelpers.update_order_time(order_id, order_eta)
         .then(order_id => restaurantHelpers.get_order(order_id[0]))
         .then(twilioHelpers.send_confirmation);
     }
-    return;
   }
-  res.redirect('http://twimlets.com/echo?Twiml=%3CResponse%3E%3C%2FResponse%3E');
 });
 
 app.listen(port, () => {
