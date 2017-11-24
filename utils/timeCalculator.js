@@ -8,7 +8,7 @@ module.exports = function(db){
           if(!ordertime){
             return resolve(null);
           }
-          let diff = order[0].order_time-Math.floor((Date.now()-ordertime.getTime() )/1000/60);
+          let diff = order[0].order_time-Math.floor((Date.now()-ordertime.getTime())/1000/60);
           return resolve(diff);
         })
         .catch( err => {
