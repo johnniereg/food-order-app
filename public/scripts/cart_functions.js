@@ -67,6 +67,7 @@ $('.cart-submit').on('submit', function(event) {
 $('.cart-clear').on('click', function(event) {
   event.preventDefault();
   clearCart();
+  renderShoppingCart();
 });
 
 
