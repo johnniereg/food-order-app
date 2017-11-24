@@ -15,7 +15,7 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const myphone = process.env.MYPHONE;
 const twiphone = process.env.TWILIOPHONE;
-const usesms = true; //SET TO TRUE TO RECIEVE SMS
+const usesms = false; //SET TO TRUE TO RECIEVE SMS
 const twilio = require('twilio')(accountSid, authToken);
 const app = express();
 app.set('view engine', 'ejs');
@@ -74,8 +74,8 @@ app.get('/', (req, res) => {
 
 app.post('/checkout', (req, res) => {
   console.log(req.body);
-  //const { order } = req.body;
-  let order = { phone_number: '+17786796398', cost: 4200,restaurant_id:1,  dishes: [1, 5, 7, 9]  }
+  const { order } = req.body;
+  //let order = { phone_number: '+17786796398', cost: 4200,restaurant_id:1,  dishes: [1, 5, 7, 9]  }
   order.id = Math.ceil(Math.random()*1000);
   if(usesms){
         twilio.messages.create({
@@ -94,7 +94,7 @@ app.post('/checkout', (req, res) => {
   restaurantHelpers.make_order(order, 1).then(() => {
       console.log("Order sent to DB.");
     });
-    res.send('complete');
+    res.send('order id = '+order.id);
 });
 
 //sms rout
@@ -107,24 +107,24 @@ app.post('/sms',(req, res) => {
   if(bod[0]==='Id' && bod[2] === 'eta'){
     //res.sendStatus(200);
     console.log(bod[1]);
-    knex('orders').where('id','=',bod[1]).select().then( result => {
+    knex('orders').where('id','=',bod[1]).select().then( (result) => {
       console.log(result[0]['phone_number']);
-      knex('orders').where('ir', '=', bod[1]).update({'order_time':bod[3]});
       if(result!=[]){
         twilio.messages.create({
             to: result[0]['phone_number'],
             from: twiphone,
             body: "Order "+bod[1]+" received, ETA" + bod[3]+" minutes."
-        }).then((message) => console.log(message.sid));
+        }).then((message) =>{ 
+        
+        
+        console.log(message.sid)});
       }else{
         console.log("ORDER NOT FOUND");
       }
     });
-    /*twilio.messages.create({
-            to: myphone,
-            from: twiphone,
-            body: "ORDER INCOMING"
-  }).then((message) => console.log(message.sid));*/
+  knex('orders').where('id', '=', bod[1]).update({'order_time':bod[3]}).then(function (count) {
+       console.log(count);
+  });
   res.redirect("http://twimlets.com/echo?Twiml=%3CResponse%3E%3C%2FResponse%3E");
   }else{
     res.redirect("http://twimlets.com/echo?Twiml=%3CResponse%3E%3C%2FResponse%3E");
