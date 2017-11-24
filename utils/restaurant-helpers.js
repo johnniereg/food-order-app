@@ -52,7 +52,12 @@ module.exports = function(db){
         });
     });
   };
-
+  
+  
+  const get_order_by_id=(id)=>{
+    
+    
+  };
   // Returns an array of order objects.
   const get_orders = (id) => {
     return new Promise((resolve, reject) => {
