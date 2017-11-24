@@ -63,8 +63,10 @@ $('.cart-submit').on('submit', function(event) {
   event.preventDefault();
   let phoneNumber = $(this).closest('.cart-submit').find('input').val();
   let preparedNumber = formatPhoneNumber(phoneNumber);
-  console.log(preparedNumber);
-  submitCart(shoppingCart, preparedNumber);
+  let cart = collectCartDishes(shoppingCart);
+  if (cart.length >= 1 && phoneNumber) {
+    submitCart(shoppingCart, preparedNumber);
+  }
 });
 
 $('.cart-clear').on('click', function(event) {
