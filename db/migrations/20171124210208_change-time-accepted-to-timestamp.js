@@ -1,12 +1,12 @@
 
 exports.up = function(knex, Promise) {
   return knex.schema.table('orders', (table) => {
-    table.integer('time_accepted');
+    table.timestamp('time_accepted');
   });
 };
 
 exports.down = function(knex, Promise) {
   return knex.schema.table('orders', (table) => {
-        table.dropColumn('time_accepted');
-      });
+    table.dropColumn('time_accepted');
+  });
 };

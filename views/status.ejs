@@ -5,7 +5,7 @@
 
     <link rel='stylesheet' href='/vendor/normalize-4.1.1.css' type='text/css' />
     <link rel='stylesheet' href='/vendor/border-box.css' type='text/css' />
-    <link rel='stylesheet' href='/styles/bootstrap.min.css' type='text/css' />
+    <link rel='stylesheet' href='/vendor/bootstrap.min.css' type='text/css' />
     <link rel='stylesheet' href='/styles/main.css' type='text/css' />
 
     <script type='text/javascript' src='/vendor/jquery-3.0.0.js'></script>
@@ -16,12 +16,9 @@
       <h1>Your Order Status</h1>
       <h2>Order</h2>
       <ul>
-        <% for(let orderItem of dishes){ %>
-          <li><%= orderItem %></li>
-        <% } %>
       </ul>
       <h2>Time Until Complete</h2>
-      <p> <%= time %> Minutes</p>
+      <p> <%= timeRemaining %> Minutes</p>
     </main>
   </body>
 </html>
