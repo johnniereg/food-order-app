@@ -70,13 +70,15 @@ $('.cart-submit').on('submit', function(event) {
   // Displays message if cart empty
   if (cart.length < 1) {
     $('.empty-cart').removeClass('hide');
+    return;
   }
   // Displays message if phone number length is too short when submitting.
   if (preparedNumber.length < 10) {
     $('.hide.no-phone').removeClass('hide');
+    return;
   }
   // Full cart and valid phone will send to server.
-  if (cart.length >= 1 && phoneNumber) {
+  if (cart.length >= 1 && preparedNumber > 9) {
     submitCart(shoppingCart, preparedNumber);
   }
 });
