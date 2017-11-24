@@ -14,6 +14,7 @@ const timeCalculator = require('./utils/timeCalculator')(knex);
 const twilioHelpers = require('./utils/twilio-helpers');
 const restaurantNumber = process.env.MYPHONE;
 const usesms = false; // set true when using SMS
+const babel = require("babel-core").transform("code", options);
 const app = express();
 
 app.set('view engine', 'ejs');
