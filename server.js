@@ -74,7 +74,7 @@ app.get('/', (req, res) => {
 
 app.post('/checkout', (req, res) => {
   console.log(req.body);
-  const { order } = req.body;
+  const order = req.body;
   //let order = { phone_number: '+17786796398', cost: 4200,restaurant_id:1,  dishes: [1, 5, 7, 9]  }
   order.id = Math.ceil(Math.random()*1000);
   if(usesms){
@@ -99,11 +99,11 @@ app.post('/checkout', (req, res) => {
 
 //sms rout
 app.post('/sms',(req, res) => {
-  
+
   if(usesms){
   let bod = req.body.Body;
   bod = bod.split(",");
-  
+
   if(bod[0]==='Id' && bod[2] === 'eta'){
     //res.sendStatus(200);
     console.log(bod[1]);
@@ -114,9 +114,9 @@ app.post('/sms',(req, res) => {
             to: result[0]['phone_number'],
             from: twiphone,
             body: "Order "+bod[1]+" received, ETA" + bod[3]+" minutes."
-        }).then((message) =>{ 
-        
-        
+        }).then((message) =>{
+
+
         console.log(message.sid)});
       }else{
         console.log("ORDER NOT FOUND");
