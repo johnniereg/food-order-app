@@ -14,7 +14,6 @@ const collectDishes = (orders) => {
       order_id: order.order_id,
       phone_number: order.phone_number,
       cost: order.cost,
-      order_time: order.order_time,
       dishes: [order.dish_name]
     };
   });
@@ -57,7 +56,7 @@ module.exports = function(db){
   // Returns an array of order objects.
   const get_orders = (id) => {
     return new Promise((resolve, reject) => {
-      db('orders_dishes').select('order_id', 'dishes.dish_name', 'orders.cost', 'orders.phone_number', 'orders.order_time')
+      db('orders_dishes').select('order_id', 'dishes.dish_name', 'orders.cost', 'orders.phone_number')
         .leftJoin('dishes', 'dishes.id', 'dish_id')
         .leftJoin('orders', 'orders.id', 'order_id')
         .leftJoin('restaurants', 'restaurants.id', 'orders.restaurant_id')
@@ -81,6 +80,7 @@ module.exports = function(db){
           phone_number: phone_number,
           cost: cost,
           order_time: order.order_time
+         // restaurant_id:order.restaurant_id
           
         })
         .then(() => {

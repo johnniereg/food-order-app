@@ -15,7 +15,7 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const myphone = process.env.MYPHONE;
 const twiphone = process.env.TWILIOPHONE;
-const usesms = false; //SET TO TRUE TO RECIEVE SMS
+const usesms = true; //SET TO TRUE TO RECIEVE SMS
 const twilio = require('twilio')(accountSid, authToken);
 const app = express();
 app.set('view engine', 'ejs');
@@ -74,13 +74,14 @@ app.get('/', (req, res) => {
 
 app.post('/checkout', (req, res) => {
   console.log(req.body);
-  let order = req.body;
+  //const { order } = req.body;
+  let order = { phone_number: '+17786796398', cost: 4200,restaurant_id:1,  dishes: [1, 5, 7, 9]  }
   order.id = Math.ceil(Math.random()*1000);
   if(usesms){
         twilio.messages.create({
           to: restaurantnumber,
           from: twiphone,
-          body: `ORDER MADE for ${req.body.order.phone_number} Number of items: ${req.body.order.cost}`
+          body: `ORDER MADE for ${order.phone_number}Id: ${order.id}`
         }).then((message) => console.log(message.sid))
           .then(() => {
             res.send('Order SUCESSFUL');
@@ -90,27 +91,48 @@ app.post('/checkout', (req, res) => {
       }
   console.log("ordertime ="+order.order_time)
   restaurantHelpers.make_order(order).then(() => {
-      console.log("Order sent to DB.");
+      console.log();
     });
-    res.send('complete');
-
+    res.send('Order'+order.id+' submitted');
+      
 });
 
 //sms rout
-app.post('/sms'){
-  if(usesms){
-  const twiml = new MessagingResponse();
-  console.log(req.body.Body);
-  let textBody=req.body.Body;
-  //result = req.body.Body;
-  twiml.message('Restaurant 10:4'+result);
-  res.writeHead(200, {'Content-Type': 'text/xml'});
-  res.end(twiml.toString());
-  }else{
-    res.send("NOT USING SMS RIGHT NOW");
-  }
+app.post('/sms',(req, res) => {
   
-}
+  if(usesms){
+  let bod = req.body.Body;
+  bod = bod.split(",");
+  
+  if(bod[0]==='Id' && bod[2] === 'eta'){
+    //res.sendStatus(200);
+    console.log(bod[1]);
+    knex('orders').where('id','=',bod[1]).select().then( result => {
+      console.log(result[0]['phone_number']);
+      knex('orders').where('ir', '=', bod[1]).update({'order_time':bod[3]});
+      if(result!=[]){
+        twilio.messages.create({
+            to: result[0]['phone_number'],
+            from: twiphone,
+            body: "Order "+bod[1]+" received, ETA" + bod[3]+" minutes."
+        }).then((message) => console.log(message.sid));
+      }else{
+        console.log("ORDER NOT FOUND");
+      }
+    });
+    /*twilio.messages.create({
+            to: myphone,
+            from: twiphone,
+            body: "ORDER INCOMING"
+  }).then((message) => console.log(message.sid));*/
+  res.redirect("http://twimlets.com/echo?Twiml=%3CResponse%3E%3C%2FResponse%3E");
+  }else{
+    res.redirect("http://twimlets.com/echo?Twiml=%3CResponse%3E%3C%2FResponse%3E");
+  }
+  }else{
+    res.send("NOT USING SMS");
+  }
+});
 app.get('/checkout', (req, res) => {
   /*knex.select().from('orders').then( function (result) {
     console.log(result);
