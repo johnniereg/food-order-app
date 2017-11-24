@@ -1,0 +1,45 @@
+.shopping-cart{
+  display: none;
+  background-color: #CCC;
+  padding:1em 1em 2em 1em;
+  width:30%;
+  position: absolute;
+  top:$nav-bar-height;
+  z-index: 1;
+  right:0;
+
+  h2 {
+    border-bottom: 2px solid $brand-color;
+  }
+
+  div.cart-item{
+    p{
+      margin: 2em auto;
+    }
+    span.dish-price{
+      margin-right: 12px;
+    }
+    span.dish-name {
+      font-weight: bold;
+      @extend span.dish-price;
+    }
+    span.dish-quantity{
+      margin: auto 1em;
+    }
+    button.remove-item{
+      margin-left: 12px;
+    }
+  }
+  footer{
+    .cart-price{
+      font-size: 2em;
+    }
+    form{
+      margin:1em auto;
+      input {
+        width:150px;
+        margin-bottom: 1em;
+      }
+    }
+  }
+}

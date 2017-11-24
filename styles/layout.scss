@@ -1,16 +1,35 @@
 body {
   background-color: #EEE;
 
-  h1 {
-    color: #244751;
+  h1, h2, h3, h4 {
+    color: #337ab7;
   }
-  
+  nav{
+    background-color: #FFF;
+    height:$nav-bar-height;
+
+    #cart-button{
+      margin-right: 50px;
+      margin-top: 20px;
+    }
+
+    img.logo{
+      display: inline;
+      width:60px;
+      height:60px;
+    }
+  }
+
   .menu {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
 
+    h1 {
+      width:85%;
+      align-self: center;
+    }
     article.card {
       background-color: #FFF;
       border:1px solid grey;
@@ -45,4 +64,8 @@ body {
       }
     }
   }
+}
+
+.hide{
+  display: none;
 }
