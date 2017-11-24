@@ -40,13 +40,16 @@ function createDishes(dishes){
 // Create HTML elements for shopping cart.
 function buildCartElement(dish) {
 
-  console.log(dish);
+  let dishInfo = {
+    dishid: dish.id
+  };
 
-  let $cartItem = $('<div>').addClass('cart-item')
+  let $cartItem = $('<div>').addClass('cart-item').data(dishInfo)
     .append($('<span>').text(`${dish.name}`).addClass('dish-name'))
     .append($('<span>').text(`${toDollars(dish.price)}`).addClass('dish-price'))
-    .append($(`<button>-</button><span class="dish-quantity">${dish.quantity}</span><button>+</button>)`))
+    .append($(`<button class='quantity-down'>-</button><span class='dish-quantity'>${dish.quantity}</span><button class='quantity-up'>+</button>)`))
     .append($('<button class="remove-item">Remove</button>'))
+
 
   let $cartEntry = $('<li>')
     .append($cartItem);
@@ -65,6 +68,28 @@ function renderShoppingCart() {
   let cartPrice = toDollars(cartTotalCents);
   console.log(cartPrice);
   $('.cart-price').html(cartPrice);
+
+  $('.quantity-down').on('click', function(event) {
+    event.preventDefault();
+    console.log("We clicked down.");
+    let clickedid = $(this).closest('.cart-item').data('dishid');
+
+    if (shoppingCart[clickedid].quantity > 1) {
+      shoppingCart[clickedid].quantity -= 1;
+    }
+
+    renderShoppingCart();
+  });
+
+  $('.quantity-up').on('click', function(event) {
+    event.preventDefault();
+    console.log("We clicked up.");
+    let clickedid = $(this).closest('.cart-item').data('dishid');
+
+    shoppingCart[clickedid].quantity += 1;
+
+    renderShoppingCart();
+  });
 
 }
 
