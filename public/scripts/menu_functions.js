@@ -107,6 +107,9 @@ function addDishToCart(dish){
   } else {
     shoppingCart[dish.id] = {id: dish.id, name: dish.name, price: dish.price, quantity:1}
   }
+  var itemCount = Object.keys(shoppingCart).length;
+  $("#cart-button").html("CART " + "(" + itemCount + ")");
+
   console.log('shoppingCart:', shoppingCart);
   return shoppingCart;
 
