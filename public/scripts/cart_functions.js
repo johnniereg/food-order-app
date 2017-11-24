@@ -63,11 +63,13 @@ function submitCart(shoppingCart, phoneNumber) {
     url: "/checkout",
     data: order,
     dataType: "json", // converts result to JSON
-    success: function (data) {
-      console.log("success:", data);
+    success: function (response) {
+      if (response.result == 'redirect') {
+        window.location.replace(response.url);
+      }
     },
     failure: function (errMsg) {
-      console.log(errMsg);
+      console.log("The servers error: ", errMsg);
     }
   });
 };

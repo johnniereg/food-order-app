@@ -13,7 +13,7 @@ const restaurantRoutes = require('./routes/restaurants');
 const timeCalculator = require('./utils/timeCalculator')(knex);
 const twilioHelpers = require('./utils/twilio-helpers');
 const restaurantNumber = process.env.MYPHONE;
-const usesms = true;
+const usesms = false; // set true when using SMS
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -60,8 +60,9 @@ app.get('/', (req, res) => {
 app.post('/checkout', (req, res) => {
   const order = req.body;
   restaurantHelpers.make_order(order, 1).then((order_id) => {
-    res.redirect(`/orders/${order_id}`);
-    return restaurantHelpers.get_order(order_id);
+    // res.redirect(`/orders/${order_id}`);
+    res.status(200).send({result: 'redirect', url:`/orders/${order_id}`});
+    // return restaurantHelpers.get_order(order_id);
   })
     .then((order) => {
       if(usesms){
