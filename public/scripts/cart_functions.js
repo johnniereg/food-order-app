@@ -69,11 +69,11 @@ $('.cart-submit').on('submit', function(event) {
   let cart = collectCartDishes(shoppingCart);
   // Displays message if cart empty
   if (cart.length < 1) {
-    $('.flash-message.empty-cart').show();
+    $('.empty-cart').removeClass('hide');
   }
   // Displays message if phone number length is too short when submitting.
   if (preparedNumber.length < 10) {
-    $('.flash-message.no-phone').show();
+    $('.hide.no-phone').removeClass('hide');
   }
   // Full cart and valid phone will send to server.
   if (cart.length >= 1 && phoneNumber) {
