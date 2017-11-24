@@ -73,9 +73,9 @@ module.exports = function(db){
   /**
    * Inserts the order items into the orders table and orders_dishes table
    *
-   * @param {object} An object containing a phone_number, a cost and an array of dishes.
-   * @param {number} The ID of the restaurant to whom the order belongs.
-   * @return {object} Returns are promise object which resolves with the id of the order as per our database structure.
+   * @param {object} An object containing a phone_number {string}, a cost {number} and a dishes {array}.
+   * @param {number} The ID {number} of the restaurant to whom the order belongs.
+   * @return {object} Returns are promise object which resolves with an {array} containing the id {number} of the order as per our database structure.
    */
   const make_order = (order, restaurant_id) => {
     return new Promise((resolve, reject) => {

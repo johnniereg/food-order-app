@@ -41,7 +41,8 @@ app.use('/styles', sass({
 
 app.use(express.static('public'));
 
-/* Gets the dishes for a given restaurant
+/**
+ * Gets the dishes for id {number} restaurant
  */
 app.get('/api/restaurants/:id', (req, res) => {
   const { id } = req.params;
@@ -51,6 +52,10 @@ app.get('/api/restaurants/:id', (req, res) => {
     });
 });
 
+
+/**
+ * Get the orders for id {number} restaurant.
+ */
 app.get('/api/restaurants/:id/orders', (req, res) => {
   const { id } = req.params;
   restaurantHelpers.get_orders(id)
@@ -59,8 +64,12 @@ app.get('/api/restaurants/:id/orders', (req, res) => {
     });
 });
 
-// Home page
+/**
+ * UI for ordering from a specific restaurant.
+ * How this restaurant is chosen can be varied.
+ */
 app.get('/', (req, res) => {
+  // Restaurant does not need to be chosen by ID.
   restaurantHelpers.get_restaurant({id: 1})
     .then( restaurant => {
       const restaurantInfo = {
@@ -73,7 +82,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/checkout', (req, res) => {
-  const order = req.body
+  const order = req.body;
   restaurantHelpers.make_order(order, 1).then((order_id) => {
     if(usesms){
       twilio.messages.create({
