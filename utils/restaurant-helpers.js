@@ -80,7 +80,8 @@ module.exports = function(db){
           phone_number: phone_number,
           cost: cost,
           order_time: order.order_time,
-          restaurant_id:restaurant_id
+          restaurant_id:restaurant_id,
+          time_accepted: null
         })
         .then(() => {
           for(let item of order.dishes){
