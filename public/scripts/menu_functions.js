@@ -6,13 +6,11 @@ function createDishes(dishes){
     alt : dishes.dish_name
   };
 
-
   let dishData = {
     dishid: dishes.id,
     dishname: dishes.dish_name,
     dishcost: dishes.cost
   };
-
 
   let cardBody = $('<main>').addClass('card-body')
     .append($('<h4>').text(`${dishes.dish_name}`).addClass('card-title'))
@@ -20,9 +18,7 @@ function createDishes(dishes){
     .append($('<input>').addClass('btn btn-primary add-to-cart').attr({type: 'submit', value: 'Add to cart'}))
     .append($('<p>').text(`Price: $${Number(dishes.cost)/100}`).addClass('price'))
 
-
   let totalDish = $('<article>').data(dishData)
-
     .append($('<img>').attr(attributes).addClass('card-img-top'))
     .append(cardBody)
     .addClass('card')
@@ -50,40 +46,40 @@ function loadDishes() {
     url: "/api/restaurants/1",
     dataType: "json", // converts result to JSON
   }).done(function(dishes) {
-  renderDishes(dishes);
-  let shoppingCart = {};
+    renderDishes(dishes);
+    let shoppingCart = {};
 
-//Adds listener as menu items are rendered - continue to work on function call - to build object
-function addButtonListener(){
-    $('.add-to-cart').on('click', function(event){
-      event.preventDefault();
+    //Adds listener as menu items are rendered - continue to work on function call - to build object
+    function addButtonListener(){
+        $('.add-to-cart').on('click', function(event){
+          event.preventDefault();
 
-      let card = $(this).closest('article');
-      // console.log('$', $(this).data('dishid'));
-      // console.log('No $', this.data('dishid'));
-      console.log('dish id', 'dishid');
-      // console.log(this);
-      const dish = {
-        id: card.data('dishid'),
-        name: card.data('dishname'),
-        price: card.data('dishcost')
-      };
-      console.log("button listen", dish);
-      addDishToCart(dish)
-  });
-}
+          let card = $(this).closest('article');
+          // console.log('$', $(this).data('dishid'));
+          // console.log('No $', this.data('dishid'));
+          console.log('dish id', 'dishid');
+          // console.log(this);
+          const dish = {
+            id: card.data('dishid'),
+            name: card.data('dishname'),
+            price: card.data('dishcost')
+          };
+          console.log("button listen", dish);
+          addDishToCart(dish)
+      });
+    }
 
-// Render dishes and append to HTML
-function renderDishes(dishes){
-  dishes.forEach(function(dish) {
-    let createdDish = createDishes(dish);
-    $('.menu').append(createdDish);
-  });
+    // Render dishes and append to HTML
+    function renderDishes(dishes){
+      dishes.forEach(function(dish) {
+        let createdDish = createDishes(dish);
+        $('.menu').append(createdDish);
+      });
 
-  addButtonListener();
+      addButtonListener();
 
 
-}
+    }
 
   });
 }
