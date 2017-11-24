@@ -77,7 +77,16 @@ app.post('/checkout', (req, res) => {
 app.get('/orders/:id', (req, res) => {
   timeCalculator.timeCalculator(req.params.id)
     .then((timeRemaining) => {
-      res.render('status', {timeRemaining});
+      let orderStatusTime = '';
+      if(timeRemaining){
+        orderStatusTime = `${timeRemaining} minutes until ready!`;
+        if (timeRemaining < 0){
+          orderStatusTime = 'Your order is ready!';
+        }
+      } else {
+        orderStatusTime = 'Your order is pending acceptance.';
+      }
+      res.render('status', {orderStatusTime});
     });
 });
 
