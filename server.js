@@ -59,10 +59,11 @@ app.get('/', (req, res) => {
 
 app.post('/checkout', (req, res) => {
   const order = req.body;
+  console.log("What is post checkout order: ", order);
   restaurantHelpers.make_order(order, 1).then((order_id) => {
-    // res.redirect(`/orders/${order_id}`);
+    // Sends a response to the AJAX request with redirect route.
     res.status(200).send({result: 'redirect', url:`/orders/${order_id}`});
-    // return restaurantHelpers.get_order(order_id);
+    return restaurantHelpers.get_order(order_id);
   })
     .then((order) => {
       if(usesms){
@@ -76,9 +77,20 @@ app.post('/checkout', (req, res) => {
 });
 
 app.get('/orders/:id', (req, res) => {
+  console.log("We're trying.");
+  console.log(req.params.id);
   timeCalculator.timeCalculator(req.params.id)
     .then((timeRemaining) => {
-      res.render('status', {timeRemaining});
+      let orderStatusTime = '';
+      if(timeRemaining){
+        orderStatusTime = `${timeRemaining} minutes until ready!`;
+        if (timeRemaining < 0){
+          orderStatusTime = 'Your order is ready!';
+        }
+      } else {
+        orderStatusTime = 'Your order is pending acceptance.';
+      }
+      res.render('status', {orderStatusTime});
     });
 });
 

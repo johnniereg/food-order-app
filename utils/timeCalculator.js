@@ -5,8 +5,12 @@ module.exports = function(db){
         .where('id', id)
         .then( order => {
           let ordertime = order[0].time_accepted;
-          let diff = order[0].order_time-Math.floor((Date.now()-ordertime.getTime() )/1000/60);
-          resolve(diff);
+          console.log("ordertime: ", ordertime);
+          if(!ordertime){
+            return resolve(null);
+          }
+          let diff = order[0].order_time-Math.floor((Date.now()-ordertime.getTime())/1000/60);
+          return resolve(diff);
         })
         .catch( err => {
           reject(err);
