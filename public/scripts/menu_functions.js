@@ -91,6 +91,14 @@ function renderShoppingCart() {
     renderShoppingCart();
   });
 
+  $('.remove-item').on('click', function(event) {
+    event.preventDefault();
+    console.log("We ditched a dish.");
+    let clickedid = $(this).closest('.cart-item').data('dishid');
+    delete shoppingCart[clickedid];
+    renderShoppingCart();
+  });
+
 }
 
 function addDishToCart(dish){
