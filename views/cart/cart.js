@@ -49,6 +49,7 @@ function collectCartDishes(shoppingCart) {
       cartItems.push(dish);
     }
   }
+
   return cartItems;
 }
 

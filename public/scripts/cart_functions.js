@@ -23,6 +23,8 @@ function addUpCartCost(shoppingCart) {
   return totalPrice;
 }
 
+
+
 // Collect total appearances of dish IDs
 function collectCartDishes(shoppingCart) {
   let cartItems = [];
@@ -31,14 +33,21 @@ function collectCartDishes(shoppingCart) {
 
     for (let i = quantity; i > 0; i--) {
       cartItems.push(dish);
+
     }
   }
+  console.log("cartItems", cartItems);
   return cartItems;
+
 }
+
+let holder = collectCartDishes(shoppingCart);
+console.log("TEST", holder);
 
 // Builds the order and submits to server
 function submitCart(shoppingCart, phoneNumber) {
-
+  let count = collectCartDishes(shoppingCart).length;
+  $("#cart-button").html("CART" + count);
   let order = {
     phone_number: formatPhoneNumber(phoneNumber),
     cost: addUpCartCost(shoppingCart),
