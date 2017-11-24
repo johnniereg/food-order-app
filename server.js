@@ -17,7 +17,10 @@ const twiphone = process.env.TWILIOPHONE;
 //SET usesms TO TRUE TO RECIEVE SMS, USE WITH CARE
 const usesms = false;
 const twilio = require('twilio')(accountSid, authToken);
+const restaurantRoutes = require('./routes/restaurants');
+
 const app = express();
+
 app.set('view engine', 'ejs');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -38,28 +41,9 @@ app.use('/styles', sass({
 
 app.use(express.static('public'));
 
-/**
- * Gets the dishes for id {number} restaurant
- */
-app.get('/api/restaurants/:id', (req, res) => {
-  const { id } = req.params;
-  restaurantHelpers.get_dishes(id)
-    .then( dishes => {
-      res.json(dishes);
-    });
-});
+// Restaurant API routes
+app.use('/api/restaurants', restaurantRoutes(restaurantHelpers));
 
-
-/**
- * Get the orders for id {number} restaurant.
- */
-app.get('/api/restaurants/:id/orders', (req, res) => {
-  const { id } = req.params;
-  restaurantHelpers.get_orders(id)
-    .then((orders) => {
-      res.json(orders);
-    });
-});
 
 /**
  * UI for ordering from a specific restaurant.
