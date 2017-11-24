@@ -15,7 +15,7 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twiphone = process.env.TWILIOPHONE;
 //SET usesms TO TRUE TO RECIEVE SMS, USE WITH CARE
-const usesms = false;
+const usesms = true;
 const twilio = require('twilio')(accountSid, authToken);
 const restaurantRoutes = require('./routes/restaurants');
 
