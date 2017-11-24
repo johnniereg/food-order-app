@@ -14,7 +14,6 @@ const restaurantnumber = process.env.MYPHONE;
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twiphone = process.env.TWILIOPHONE;
-const usesms = true;
 //SET usesms TO TRUE TO RECIEVE SMS, USE WITH CARE
 const usesms = false;
 const twilio = require('twilio')(accountSid, authToken);
