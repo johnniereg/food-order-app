@@ -101,18 +101,17 @@ function renderShoppingCart() {
 }
 
 function addDishToCart(dish){
-
   if (shoppingCart[dish.id]) {
       shoppingCart[dish.id].quantity += 1;
   } else {
     shoppingCart[dish.id] = {id: dish.id, name: dish.name, price: dish.price, quantity:1}
   }
-  var itemCount = Object.keys(shoppingCart).length;
+  itemCount = 0;
+  for (key in shoppingCart){
+    itemCount += shoppingCart[key].quantity;
+    console.log('ItemCount', itemCount);
+  }
   $("#cart-button").html("CART " + "(" + itemCount + ")");
-
-  console.log('shoppingCart:', shoppingCart);
-  return shoppingCart;
-
 }
 
 // initialization

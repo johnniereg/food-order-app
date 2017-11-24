@@ -8,6 +8,7 @@ function formatPhoneNumber(string) {
 // Sets shopping cart object to empty.
 function clearCart() {
   shoppingCart = {};
+    $("#cart-button").html("CART");
 }
 
 // Add up all the cost of items in the cart
@@ -33,7 +34,7 @@ function collectCartDishes(shoppingCart) {
 
     for (let i = quantity; i > 0; i--) {
       cartItems.push(dish);
-
+console.log("shoppingCart", shoppingCart)
     }
   }
   console.log("cartItems", cartItems);
@@ -42,12 +43,9 @@ function collectCartDishes(shoppingCart) {
 }
 
 let holder = collectCartDishes(shoppingCart);
-console.log("TEST", holder);
 
 // Builds the order and submits to server
 function submitCart(shoppingCart, phoneNumber) {
-  let count = collectCartDishes(shoppingCart).length;
-  $("#cart-button").html("CART" + count);
   let order = {
     phone_number: formatPhoneNumber(phoneNumber),
     cost: addUpCartCost(shoppingCart),
@@ -77,6 +75,7 @@ $('.cart-clear').on('click', function(event) {
   event.preventDefault();
   clearCart();
   renderShoppingCart();
+
 });
 
 
