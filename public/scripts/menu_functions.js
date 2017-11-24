@@ -100,8 +100,8 @@ function renderShoppingCart() {
   });
 
   // Hide flash messages on cart load.
-  $('.flash-message.empty-cart').hide();
-  $('.flash-message.no-phone').hide();
+  $('.empty-cart').addClass('hide');
+  $('.no-phone').addClass('hide');
 }
 
 // Adds items from menu page to in-memory shopping cart object.
