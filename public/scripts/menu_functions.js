@@ -45,24 +45,23 @@ function buildCartElement(dish) {
   };
 
   let $cartItem = $('<div>').addClass('cart-item').data(dishInfo)
-    .append($('<span>').text(`${dish.name}`).addClass('dish-name'))
-    .append($('<span>').text(`${toDollars(dish.price)}`).addClass('dish-price'))
-    .append($(`<button class='quantity-down'>-</button><span class='dish-quantity'>${dish.quantity}</span><button class='quantity-up'>+</button>)`))
-    .append($('<button class="remove-item">Remove</button>'))
+    .append($('<p>')
+      .append($('<span>').text(`${dish.name}`).addClass('dish-name'))
+      .append($('<span>').text(`${toDollars(dish.price)}`).addClass('dish-price'))
+      .append($('<button>').addClass('quantity-down btn').text('-'))
+      .append($('<span>').addClass('dish-quantity').text(dish.quantity))
+      .append($('<button>').addClass('quantity-up btn').text('+'))
+      .append($('<button>').addClass('remove-item btn').text('Remove')));
 
-
-  let $cartEntry = $('<li>')
-    .append($cartItem);
-
-  return $cartEntry;
+  return $cartItem;
 }
 
 function renderShoppingCart() {
-  $('.cart-list').empty();
+  $('.cart-body').empty();
   for (let item in shoppingCart) {
     let dish = shoppingCart[item];
     let $cartElement = buildCartElement(dish);
-    $('.cart-list').append($cartElement);
+    $('.cart-body').append($cartElement);
   }
   let cartTotalCents = addUpCartCost(shoppingCart);
   let cartPrice = toDollars(cartTotalCents);
@@ -158,5 +157,3 @@ function loadDishes() {
     }
   });
 }
-
-

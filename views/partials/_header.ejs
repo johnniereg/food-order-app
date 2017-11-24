@@ -1,2 +1,33 @@
-<h1><%= name %></h1>
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand">
+    <img class="logo" src="/images/house-of-noodles.svg" />
+    <%=name%>
+  </a>
+  <button id='cart-button' class='navbar-right btn btn-lg btn-primary'>Cart</button>
+</nav>
 
+<div class='shopping-cart'>
+  <h2>Your Cart</h2>
+  <main class='cart-body'>
+    <div class='cart-item' data-dish='id'>
+      <p>
+        <span class='dish-name'>Dim Sum</span>
+        <span class='dish-price'>$10.00</span>
+        <button class='btn'>-</button>
+        <span class='dish-quantity'> 1 </span>
+        <button class='btn'>+</button>
+        <button class='btn remove'>Remove</button>
+      </p>
+    </div>>
+  </main>
+  <footer>
+    <h4>Total Price:</h4>
+    <p><strong><span class='cart-price'>$30.00</span></strong></p>
+    <form class='cart-submit'>
+      <label>Phone number:</label><br/>
+      <input type='text' class='form-control' name='phone' placeholder='1-250-XXX-XXXX'>
+      <button class='btn btn-success' type='submit'>Submit Order</button>
+    </form>
+    <button class='cart-clear btn btn-danger'>Empty Cart</button>
+  </footer>
+</div>
