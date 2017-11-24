@@ -45,15 +45,15 @@ module.exports = function(db){
       db('restaurants').select()
         .where(condition)
         .then( restaurant => {
-          resolve(restaurant[0]);
+          return resolve(restaurant[0]);
         })
         .catch( err => {
-          reject(err);
+          return reject(err);
         });
     });
   };
-  
-  
+
+
   // Returns an array of order objects.
   const get_orders = (id) => {
     return new Promise((resolve, reject) => {
@@ -63,10 +63,10 @@ module.exports = function(db){
         .leftJoin('restaurants', 'restaurants.id', 'orders.restaurant_id')
         .where('restaurants.id', id)
         .then( orders => {
-          resolve(collectDishes(orders));
+          return resolve(collectDishes(orders));
         })
         .catch( err => {
-          reject(err);
+          return reject(err);
         });
     });
   };
@@ -83,7 +83,7 @@ module.exports = function(db){
       const {phone_number, cost, dishes} = order;
       let order_time = null;
       // enable this if you want to test with order_time auto-populated
-      order_time = order.dishes.length * 10;
+      // order_time = order.dishes.length * 10;
       db('orders').insert(
         {
           phone_number: phone_number,
@@ -100,12 +100,11 @@ module.exports = function(db){
                 { order_id: order_id[0], dish_id: item }));
           }
           Promise.all(orders_dishes).then(() => {
-            // resolve the promise with the order id that was just created
-            resolve(order_id[0]);
+            return resolve(order_id[0]);
           });
         })
         .catch( error => {
-          reject(error);
+          return reject(error);
         });
     });
   };
