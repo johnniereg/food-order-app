@@ -15,7 +15,6 @@ module.exports = function(restaurantHelpers) {
       });
   });
 
-
   /**
    * Get the orders for id {number} restaurant.
    */
