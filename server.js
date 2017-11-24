@@ -90,11 +90,11 @@ app.post('/checkout', (req, res) => {
         order.order_time=order.dishes.length*10;
       }
   console.log("ordertime ="+order.order_time)
-  restaurantHelpers.make_order(order).then(() => {
-      console.log();
+
+  restaurantHelpers.make_order(order, 1).then(() => {
+      console.log("Order sent to DB.");
     });
-    res.send('Order'+order.id+' submitted');
-      
+    res.send('complete');
 });
 
 //sms rout
