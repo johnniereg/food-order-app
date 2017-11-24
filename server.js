@@ -73,7 +73,7 @@ app.get('/', (req, res) => {
 
 app.post('/checkout', (req, res) => {
   console.log(req.body);
-  const { order } = req.body;
+  const order = req.body;
   //let order = { phone_number: '+17786796398', cost: 4200,restaurant_id:1,  dishes: [1, 5, 7, 9]  }
   order.id = Math.ceil(Math.random() * 1000);
   if( usesms ){
