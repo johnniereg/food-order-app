@@ -2,7 +2,7 @@
 <html lang='en'>
   <head>
     <title>House of Noodles</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' href='/vendor/normalize-4.1.1.css' type='text/css' />
     <link rel='stylesheet' href='/vendor/border-box.css' type='text/css' />
     <link rel='stylesheet' href='/vendor/bootstrap.min.css' type='text/css' />
@@ -18,9 +18,9 @@
       <h1>Thank you for your order!</h1>
       <section class='order-time-info'>
         <h2>Time Until Complete</h2>
-        <div class="progress progress-striped active">
-          <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentFinished %>" aria-valuemin="0" aria-valuemax="100">
-            <span class="sr-only"><%= percentFinished %> Complete</span>
+        <div class='progress progress-striped active'>
+          <div class='progress-bar' role='progressbar' aria-valuenow='<%= percentFinished %>' aria-valuemin='0' aria-valuemax='100' style='width: <%= percentFinished %>%'>
+            <span class='sr-only'><%= percentFinished %> Complete</span>
           </div>
         </div>
         <label><%= orderStatusTime %></label>

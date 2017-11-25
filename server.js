@@ -92,7 +92,7 @@ app.get('/orders/:id', (req, res) => {
 
     const orderPrice = dataHelpers.to_dollars(order.cost);
     const dishList = {};
-    let percentFinished = Math.round(timeRemaining/order.order_time);
+    let percentFinished = (timeRemaining/order.order_time * 100) + 10;
     // Formatting the dish list
     order.dishes.forEach((item) => (item in dishList) ? dishList[item]++ : dishList[item] = 1);
 
