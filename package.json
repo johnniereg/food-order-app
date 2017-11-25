@@ -1,14 +1,14 @@
 {
-  "name": "node-skeleton",
+  "name": "food-order-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "LHL Midterm Project",
   "main": "server.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/johnniereg/food-order-app.git"
   },
   "engines": {
-      "node": "6.9.5"
+      "node": "6.x"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
