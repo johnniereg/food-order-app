@@ -13,7 +13,7 @@ const restaurantHelpers = require('./utils/restaurant-helpers')(knex);
 const restaurantRoutes = require('./routes/restaurants');
 const timeCalculator = require('./utils/timeCalculator')(knex);
 const twilioHelpers = require('./utils/twilio-helpers');
-const restaurantNumber = process.env.MYPHONE;
+const restaurantNumber = '+12508857405';
 // use texts?
 const usesms = false;
 const app = express();
