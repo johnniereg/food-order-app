@@ -20,8 +20,23 @@ module.exports = function(dbHelpers) {
 
   router.put('/dishes/:id', (req, res) => {
     let dish_id = req.params.id;
-    const { description, price } = req.body;
-    dbHelpers.update_item('dishes',{id: dish_id}, {description, cost: price})
+    let changes = {};
+    let description = req.body.description;
+    let cost = req.body.price;
+    console.log(req.body);
+    if(cost){
+      // if there is a dollar sign
+      cost.indexOf('$') ? cost = Number(cost.slice(cost.indexOf('$'))) * 100 : Number(cost) * 100;
+      if(isNaN(cost)){
+        res.json({message: 'Please input a valid number into the price field.'});
+        return;
+      }
+      changes['cost'] = cost;
+    }
+    if(description){
+      changes['description'] = description;
+    }
+    dbHelpers.update_item('dishes',{id: dish_id}, changes)
       .then(() => {
         res.send('/backend/menu');
       }).

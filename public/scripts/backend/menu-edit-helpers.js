@@ -12,7 +12,10 @@ function submitChanges(event){
     method:'PUT',
     data:inputs
   }).done(function (data) {
-    console.log(data);
+    if(typeof JSON.parse(data) === 'Object'){
+      console.log(this);
+      $(this).append($('<label>').text(data.message))
+    }
     window.location.replace(data);
   });
 }
