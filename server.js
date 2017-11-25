@@ -15,7 +15,7 @@ const timeCalculator = require('./utils/timeCalculator')(knex);
 const twilioHelpers = require('./utils/twilio-helpers');
 const restaurantNumber = '+12508857405';
 // use texts?
-const usesms = false;
+const usesms = true;
 const app = express();
 
 app.set('view engine', 'ejs');
