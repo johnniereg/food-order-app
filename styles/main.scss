@@ -3,7 +3,7 @@ $brand-color-light: lighten($brand-color, 10%);
 $nav-bar-height: 90px;
 
 
+@import 'footer';
 @import 'layout';
 @import 'shopping-cart';
 @import 'order-status';
-@import 'footer'

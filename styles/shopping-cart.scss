@@ -30,7 +30,11 @@
       margin-left: 12px;
     }
   }
-  footer{
+  footer.cart-interactions {
+    p{
+      text-align: left;
+      color:inherit;
+    }
     .cart-price{
       font-size: 2em;
     }
