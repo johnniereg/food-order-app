@@ -2,7 +2,7 @@
   display: none;
   background-color: #CCC;
   padding:1em 1em 2em 1em;
-  width:30%;
+  width:40%;
   position: absolute;
   top:$nav-bar-height;
   z-index: 1;
@@ -41,5 +41,22 @@
         margin-bottom: 1em;
       }
     }
+  }
+}
+
+@media(max-width: 1180px){
+  .shopping-cart{
+    width:60%;
+  }
+}
+
+@media(max-width: 792px){
+  .shopping-cart{
+    width:100%;
+  }
+}
+@media(max-width: 375px){
+  #restaurant-name{
+    display: none;
   }
 }

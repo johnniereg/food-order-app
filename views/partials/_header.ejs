@@ -1,16 +1,15 @@
 <nav class="navbar navbar-light bg-light">
-  <a class="navbar-brand">
+  <a href="/" class="navbar-brand">
     <img class="logo" src="/images/house-of-noodles.svg" />
-    <%=name%>
+    <span id="restaurant-name"><%=name%></span>
   </a>
-  <button id='cart-button' class='navbar-right btn btn-lg btn-primary'>Cart</button>
+  <button id='cart-button' class='pull-right btn btn-lg btn-primary'>Cart</button>
 </nav>
 
 <div class='shopping-cart'>
   <h2>Your Cart</h2>
   <main class='cart-body'>
-    <div class='cart-item' data-dish='id'>
-    </div>
+    <p>Your cart is empty! <a href='/'>Browse dishes.</a></p>
   </main>
   <footer class='cart-interactions hide'>
     <h4>Total Price:</h4>

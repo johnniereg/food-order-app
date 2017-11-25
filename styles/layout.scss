@@ -1,25 +1,128 @@
 body {
   background-color: #EEE;
+  font-size: 16px;
+  position: relative;
 
   h1, h2{
     color: $brand-color;
   }
-  nav{
-    background-color: #FFF;
-    height:$nav-bar-height;
+}
 
-    #cart-button{
-      margin-right: 50px;
-      margin-top: 20px;
-    }
+nav{
+  background-color: #FFF;
+  height:$nav-bar-height;
 
-    img.logo{
-      display: inline;
-      width:60px;
-      height:60px;
-    }
+  #cart-button{
+    margin-right: 50px;
+    margin-top: 20px;
   }
 
+  img.logo{
+    display: inline;
+    width:60px;
+    height:60px;
+  }
+}
+.container{
+  width: 70%;
+}
+
+.menu {
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  h1 {
+    width:100%;
+    margin:auto .5em;
+  }
+  article.card {
+    background-color: #FFF;
+    border:1px solid grey;
+    border-radius: 5px;
+    filter: drop-shadow(0px 4px 3px grey);
+    width: 30%;
+    overflow: hidden;
+    margin: 1em auto;
+
+    .card-text {
+      height: 70px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-body {
+      margin-top:1.5em;
+    }
+
+    h4 {
+      margin: .7em;
+      font-weight: bold;
+    }
+
+    img {
+      width:100%;
+      border-radius: 3px;
+    }
+
+    p, input {
+      margin:1em;
+    }
+  }
+}
+
+.hide{
+  display: none;
+}
+
+@media(min-width: 2000px){
+  body{
+    font-size: 2em;
+  }
+  .container {
+    width:80%;
+  }
+  .menu {
+    h1 {
+      width:100%;
+      margin:auto;
+    }
+    article.card {
+      width: 23%;
+      margin-right: 10px;
+      .card-text{
+        height:auto;
+      }
+    }
+  }
+  nav {
+    #cart-button {
+      margin-right: 20px;
+    }
+  }
+}
+
+@media(max-width: 1025px){
+  .menu {
+    article.card {
+      width: 45%;
+      .card-text{
+        height:auto;
+      }
+    }
+  }
+  nav {
+    #cart-button {
+      margin-right: 20px;
+    }
+  }
+}
+
+@media(max-width: 792px){
+  .container{
+    width: 90%;
+  }
   .menu {
     display: flex;
     flex-wrap: wrap;
@@ -27,45 +130,33 @@ body {
     width: 100%;
 
     h1 {
-      width:85%;
-      align-self: center;
+      width: 100%;
+      margin: auto;
     }
     article.card {
-      background-color: #FFF;
-      border:1px solid grey;
-      border-radius: 5px;
-      filter: drop-shadow(0px 4px 3px grey);
-      width: 20%;
-      margin: 1em;
-      overflow: hidden;
-
-      .card-text {
-        height: 70px;
-        overflow: hidden;
-        text-overflow: ellipsis;
+      width: 100%;
+      margin: 1em 0;
+      .card-text{
+        height:auto;
       }
-
-      .card-body {
-        margin-top:1.5em;
-      }
-
-      h4 {
-        margin: .7em;
-        font-weight: bold;
-      }
-
-      img {
-        width:100%;
-        border-radius: 3px;
-      }
-
-      p, input {
-        margin:1em;
-      }
+    }
+  }
+  nav {
+    #cart-button {
+      margin-right: 20px;
     }
   }
 }
 
-.hide{
-  display: none;
+@media(max-width: 375px){
+  .menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+
+    article.card {
+      width: 100%;
+    }
+  }
 }
