@@ -9,7 +9,6 @@ module.exports = function(dbHelpers) {
   router.get('/home', (req, res) => {
     dbHelpers.get_orders(1)
       .then( orders => {
-        console.log(orders);
         res.render('./backend/backend-home', {orders});
       });
   });
