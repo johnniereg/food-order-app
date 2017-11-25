@@ -1,5 +1,5 @@
 footer {
-
+  margin: 0;
   p{
     color: $brand-color;
     text-align: center;
@@ -7,15 +7,20 @@ footer {
   }
   ul {
     text-align: center;
+    padding: 0;
 
     li{
       color: $brand-color;
       display: inline;
       padding: 10px;
       margin: 0px;
+      justify-content: space-evenly;
+
     }
   }
 
 }
+
+
 
 
