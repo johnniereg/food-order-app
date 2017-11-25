@@ -9,14 +9,14 @@ const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 const dataHelpers = require('./utils/data-helpers');
-const dbHelpers = require('./utils/restaurant-helpers')(knex);
+const dbHelpers = require('./utils/database-helpers')(knex);
 const restaurantRoutes = require('./routes/restaurants');
 const timeCalculator = require('./utils/timeCalculator')(knex);
 const twilioHelpers = require('./utils/twilio-helpers');
 const backendRoutes = require('./routes/backend');
 const restaurantNumber = process.env.MYPHONE;
 // use texts?
-const usesms = false;
+const usesms = true;
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -68,7 +68,6 @@ app.get('/', (req, res) => {
 
 app.post('/checkout', (req, res) => {
   const order = req.body;
-  console.log("What is post checkout order: ", order);
   dbHelpers.make_order(order, 1).then((order_id) => {
     // Sends a response to the AJAX request with redirect route.
     res.status(200).send({result: 'redirect', url:`/orders/${order_id}`});
@@ -96,7 +95,7 @@ app.get('/orders/:id', (req, res) => {
 
     const orderPrice = dataHelpers.to_dollars(order.cost);
     const dishList = {};
-    let percentFinished = (timeRemaining/order.order_time * 100) + 10;
+    let percentFinished = (timeRemaining/order.order_time) * 100 > 10 ? (timeRemaining/order.order_time) * 100 : 10;
     // Formatting the dish list
     order.dishes.forEach((item) => (item in dishList) ? dishList[item]++ : dishList[item] = 1);
 
@@ -123,7 +122,7 @@ app.post('/sms', (req) => {
   if(usesms){
     //Expecting format of incoming text to be ### for example: 40
     if(order_eta && order_id){
-      dbHelpers.update_order_time(order_id, order_eta)
+      dbHelpers.update_item('orders', {'id': order_id}, {'order_time': order_eta, time_accepted: knex.fn.now()})
         .then(order_id => dbHelpers.get_order(order_id[0]))
         .then(twilioHelpers.send_confirmation);
     }

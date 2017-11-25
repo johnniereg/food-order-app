@@ -88,9 +88,15 @@ module.exports = function(db){
     });
   };
 
-  const update_order_time = (order_id, eta) => {
-    return db('orders').where('id', order_id)
-      .update({ 'order_time': eta, time_accepted:db.fn.now()}, 'id');
+  /**
+   * @param {string} table The name of a table as a string.
+   * @param {object} clause A set of where clauses.
+   * @param {object} change The changes that you'd like to be made.
+   * @returns {promise} Returns the promise of a completed database change.
+   */
+  const update_item = (table, clause, change) => {
+    return db(table).where(clause)
+      .update(change, 'id');
   };
 
   /**
@@ -136,7 +142,7 @@ module.exports = function(db){
     get_restaurant,
     get_orders,
     get_order,
-    update_order_time,
+    update_item,
     make_order
   };
 };
