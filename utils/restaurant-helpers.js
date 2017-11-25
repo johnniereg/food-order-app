@@ -55,7 +55,7 @@ module.exports = function(db){
   };
 
 
-  // Returns an array of order objects.
+  // Returns an array of order objects for restuarant id
   const get_orders = (id) => {
     return new Promise((resolve, reject) => {
       db('orders_dishes').select('order_id', 'dishes.dish_name', 'orders.cost', 'orders.phone_number')
