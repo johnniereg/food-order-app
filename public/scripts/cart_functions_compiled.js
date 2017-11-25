@@ -1,4 +1,3 @@
-"use strict";
 
 // Remove symbols from phone number input, output just numbers
 function formatPhoneNumber(string) {
