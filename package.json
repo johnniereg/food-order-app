@@ -5,9 +5,10 @@
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/johnniereg/food-order-app.git",
+    "url": "git://github.com/johnniereg/food-order-app.git"
+  },
   "engines": {
-    "node": "6.9.5"
+      "node": "6.9.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -34,6 +35,6 @@
     "babel-preset-env": "^1.6.1",
     "bootstrap": "^3.3.7",
     "nodemon": "^1.12.1"
-  },
+  }
 
 }
