@@ -94,7 +94,7 @@ exports.seed = function(knex, Promise) {
           restaurant_id: 3
         },
         {
-          id:12
+          id:12,
           dish_name: 'Smoked Salmon Roll',
           description: 'Smoked Salmon Roll. Contains 3 pieces and comes with soy sauce and pickled ginger',
           photo_url: 'https://i.ytimg.com/vi/a6tBjoYxbYQ/maxresdefault.jpg',
@@ -106,7 +106,7 @@ exports.seed = function(knex, Promise) {
           dish_name: 'Hawiian Pizza',
           description: 'Satan made this pizza. eat at your own risk',
           photo_url: 'https://img.grouponcdn.com/deal/8DDtq5XRzVnLXEUnPHPd/p2-2048x1229/v1/c700x420.jpg',
-          cost: '16.66',
+          cost: '1666',
           restaurant_id: 2
         }
         
