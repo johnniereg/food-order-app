@@ -5,7 +5,6 @@ module.exports = function(db){
         .where('id', id)
         .then( order => {
           let ordertime = order[0].time_accepted;
-          console.log("ordertime: ", ordertime);
           if(!ordertime){
             return resolve(null);
           }

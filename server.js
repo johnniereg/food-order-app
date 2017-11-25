@@ -8,12 +8,14 @@ const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
+const dataHelpers = require('./utils/data-helpers');
 const restaurantHelpers = require('./utils/restaurant-helpers')(knex);
 const restaurantRoutes = require('./routes/restaurants');
 const timeCalculator = require('./utils/timeCalculator')(knex);
 const twilioHelpers = require('./utils/twilio-helpers');
 const restaurantNumber = process.env.MYPHONE;
-const usesms = false; // set true when using SMS
+// use texts?
+const usesms = false;
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -34,8 +36,20 @@ app.use('/styles', sass({
   outputStyle: 'expanded'
 }));
 
+let restaurantInfo = {};
 app.use(express.static('public'));
 
+app.use((req, res, next) => {
+  restaurantHelpers.get_restaurant({id: 1})
+    .then( restaurant => {
+      restaurantInfo = {
+        name: restaurant.restaurant_name,
+        address: restaurant.address,
+        phone_number: restaurant.phone_number
+      };
+      next();
+    });
+});
 // Restaurant API routes
 app.use('/api/restaurants', restaurantRoutes(restaurantHelpers));
 
@@ -45,16 +59,7 @@ app.use('/api/restaurants', restaurantRoutes(restaurantHelpers));
  * How this restaurant is chosen can be varied.
  */
 app.get('/', (req, res) => {
-  // Restaurant does not need to be chosen by ID.
-  restaurantHelpers.get_restaurant({id: 1})
-    .then( restaurant => {
-      const restaurantInfo = {
-        name: restaurant.restaurant_name,
-        address: restaurant.address,
-        phone_number: restaurant.phone_number
-      };
-      res.render('index', restaurantInfo);
-    });
+  res.render('index', restaurantInfo);
 });
 
 app.post('/checkout', (req, res) => {
@@ -77,21 +82,33 @@ app.post('/checkout', (req, res) => {
 });
 
 app.get('/orders/:id', (req, res) => {
-  console.log("We're trying.");
-  console.log(req.params.id);
-  timeCalculator.timeCalculator(req.params.id)
-    .then((timeRemaining) => {
-      let orderStatusTime = '';
-      if(timeRemaining){
-        orderStatusTime = `${timeRemaining} minutes until ready!`;
-        if (timeRemaining < 0){
-          orderStatusTime = 'Your order is ready!';
-        }
-      } else {
-        orderStatusTime = 'Your order is pending acceptance.';
+
+  const { name, address, phone_number } = restaurantInfo;
+  Promise.all([
+    timeCalculator.timeCalculator(req.params.id),
+    restaurantHelpers.get_order(req.params.id)
+  ]).then((allResolves) => {
+    const timeRemaining = allResolves[0], order = allResolves[1];
+
+    const orderPrice = dataHelpers.to_dollars(order.cost);
+    const dishList = {};
+    let percentFinished = Math.round(timeRemaining/order.order_time);
+    // Formatting the dish list
+    order.dishes.forEach((item) => (item in dishList) ? dishList[item]++ : dishList[item] = 1);
+
+    let orderStatusTime = '';
+    if(timeRemaining){
+      orderStatusTime = `${timeRemaining} minutes until ready!`;
+      if (timeRemaining < 0){
+        percentFinished = 100;
+        orderStatusTime = 'Your order is ready!';
       }
-      res.render('status', {orderStatusTime});
-    });
+    } else {
+      percentFinished = 0;
+      orderStatusTime = 'Your order is pending acceptance.';
+    }
+    res.render('status', {orderStatusTime, name, address, phone_number, dishList, percentFinished, orderPrice});
+  });
 });
 
 //sms rout

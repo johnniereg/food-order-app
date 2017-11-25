@@ -10,15 +10,39 @@
 
     <script type='text/javascript' src='/vendor/jquery-3.0.0.js'></script>
   </head>
-
+  <header>
+    <% include ./partials/_header %>
+  </header>
   <body>
-    <main>
-      <h1>Your Order Status</h1>
-      <h2>Order</h2>
-      <ul>
-      </ul>
-      <h2>Time Until Complete</h2>
-      <p><%= orderStatusTime %></p>
+    <main class='container order-status'>
+      <h1>Thank you for your order!</h1>
+      <section class='order-time-info'>
+        <h2>Time Until Complete</h2>
+        <div class="progress progress-striped active">
+          <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentFinished %>" aria-valuemin="0" aria-valuemax="100">
+            <span class="sr-only"><%= percentFinished %> Complete</span>
+          </div>
+        </div>
+        <label><%= orderStatusTime %></label>
+      </section>
+      <h2>Your order...</h2>
+      <table class='table table-striped'>
+        <th>Item</th>
+        <% for (let item in dishList) { %>
+          <tr>
+            <td><%= item %> x <%= dishList[item] %></td>
+          </tr>
+        <% } %>
+      </table>
+      <h3>Total:</h3>
+      <p><strong><span class='order-total'><%= orderPrice %></span></strong></p>
     </main>
+    <footer>
+      <% include ./partials/_footer %>
+    </footer>
+
+    <script type='text/javascript' src='/scripts/menu_functions.js'></script>
+    <script type='text/javascript' src='/scripts/cart_functions.js'></script>
+    <script type='text/javascript' src='/scripts/app.js'></script>
   </body>
 </html>
