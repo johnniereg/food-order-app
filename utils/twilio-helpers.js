@@ -22,7 +22,7 @@ const sendMessage = (toNumber, fromNumber, body) => {
  */
 const send_order = (order, restaurantNumber) => {
   const {order_id, phone_number, cost, dishes } = order;
-  let textMessage = [`Order #: ${order_id}`, `Order for: ${phone_number}`,`Price: ${cost/100}`];
+  let textMessage = [`Order #: ${order_id}`, `Order for: ${phone_number}`,`Price: ${cost}`];
   // collect the dishes and dish amounts
   const dishList = {};
   dishes.forEach((item) => (item in dishList) ? dishList[item]++ : dishList[item] = 1);

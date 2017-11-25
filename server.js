@@ -8,7 +8,6 @@ const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
-const dataHelpers = require('./utils/data-helpers');
 const dbHelpers = require('./utils/database-helpers')(knex);
 const restaurantRoutes = require('./routes/restaurants');
 const timeCalculator = require('./utils/timeCalculator')(knex);
@@ -93,7 +92,7 @@ app.get('/orders/:id', (req, res) => {
   ]).then((allResolves) => {
     const timeRemaining = allResolves[0], order = allResolves[1];
 
-    const orderPrice = dataHelpers.to_dollars(order.cost);
+    const orderPrice = order.cost;
     const dishList = {};
     let percentFinished = (timeRemaining/order.order_time) * 100 > 10 ? (timeRemaining/order.order_time) * 100 : 10;
     // Formatting the dish list
