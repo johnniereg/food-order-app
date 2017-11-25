@@ -1,3 +1,4 @@
+const dataHelpers = require('./data-helpers');
 // Given an array of orders, this function makes a new array of objects.
 // These objects will collect the dishes into one handy array
 const collectDishes = (orders) => {
@@ -11,7 +12,7 @@ const collectDishes = (orders) => {
     ordersObjects[order.order_id] = {
       order_id: order.order_id,
       phone_number: order.phone_number,
-      cost: order.cost,
+      cost: dataHelpers.to_dollars(order.cost),
       dishes: [order.dish_name],
       order_time: order.order_time
     };
