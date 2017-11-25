@@ -1,5 +1,4 @@
 
-
 var shoppingCart = {};
 
 // Formatting for front-page price displays.
