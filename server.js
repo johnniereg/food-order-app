@@ -9,13 +9,13 @@ const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 const dataHelpers = require('./utils/data-helpers');
-const restaurantHelpers = require('./utils/restaurant-helpers')(knex);
+const dbHelpers = require('./utils/restaurant-helpers')(knex);
 const restaurantRoutes = require('./routes/restaurants');
 const timeCalculator = require('./utils/timeCalculator')(knex);
 const twilioHelpers = require('./utils/twilio-helpers');
 const restaurantNumber = process.env.MYPHONE;
 // use texts?
-const usesms = false;
+const usesms = true;
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -40,7 +40,7 @@ let restaurantInfo = {};
 app.use(express.static('public'));
 
 app.use((req, res, next) => {
-  restaurantHelpers.get_restaurant({id: 1})
+  dbHelpers.get_restaurant({id: 1})
     .then( restaurant => {
       restaurantInfo = {
         name: restaurant.restaurant_name,
@@ -50,9 +50,9 @@ app.use((req, res, next) => {
       next();
     });
 });
-// Restaurant API routes
-app.use('/api/restaurants', restaurantRoutes(restaurantHelpers));
 
+// Restaurant API routes
+app.use('/api/restaurants', restaurantRoutes(dbHelpers));
 
 /**
  * UI for ordering from a specific restaurant.
@@ -64,11 +64,10 @@ app.get('/', (req, res) => {
 
 app.post('/checkout', (req, res) => {
   const order = req.body;
-  console.log("What is post checkout order: ", order);
-  restaurantHelpers.make_order(order, 1).then((order_id) => {
+  dbHelpers.make_order(order, 1).then((order_id) => {
     // Sends a response to the AJAX request with redirect route.
     res.status(200).send({result: 'redirect', url:`/orders/${order_id}`});
-    return restaurantHelpers.get_order(order_id);
+    return dbHelpers.get_order(order_id);
   })
     .then((order) => {
       if(usesms){
@@ -86,13 +85,13 @@ app.get('/orders/:id', (req, res) => {
   const { name, address, phone_number } = restaurantInfo;
   Promise.all([
     timeCalculator.timeCalculator(req.params.id),
-    restaurantHelpers.get_order(req.params.id)
+    dbHelpers.get_order(req.params.id)
   ]).then((allResolves) => {
     const timeRemaining = allResolves[0], order = allResolves[1];
 
     const orderPrice = dataHelpers.to_dollars(order.cost);
     const dishList = {};
-    let percentFinished = (timeRemaining/order.order_time) * 100 > 10 ? (timeRemaining/order.order_time) * 100 : 10;
+    let percentFinished = ((timeRemaining/order.order_time) * 100) - 100 > 15 ? ((timeRemaining/order.order_time) * 100) * 100 : 15;
     // Formatting the dish list
     order.dishes.forEach((item) => (item in dishList) ? dishList[item]++ : dishList[item] = 1);
 
@@ -119,8 +118,8 @@ app.post('/sms', (req) => {
   if(usesms){
     //Expecting format of incoming text to be ### for example: 40
     if(order_eta && order_id){
-      restaurantHelpers.update_order_time(order_id, order_eta)
-        .then(order_id => restaurantHelpers.get_order(order_id[0]))
+      dbHelpers.update_order_time(order_id, order_eta)
+        .then(order_id => dbHelpers.get_order(order_id[0]))
         .then(twilioHelpers.send_confirmation);
     }
   }
