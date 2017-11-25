@@ -1,0 +1,21 @@
+footer {
+
+  p{
+    color: $brand-color;
+    text-align: center;
+
+  }
+  ul {
+    text-align: center;
+
+    li{
+      color: $brand-color;
+      display: inline;
+      padding: 10px;
+      margin: 0px;
+    }
+  }
+
+}
+
+
