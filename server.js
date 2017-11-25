@@ -36,7 +36,7 @@ app.use('/styles', sass({
   outputStyle: 'expanded'
 }));
 
-let restaurantInfo = {};
+// let restaurantInfo = {};
 app.use(express.static('public'));
 
 app.use((req, res, next) => {
