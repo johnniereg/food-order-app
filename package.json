@@ -8,7 +8,7 @@
     "url": "git://github.com/johnniereg/food-order-app.git"
   },
   "engines": {
-      "node": "6.x"
+      "node": "6.9.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
