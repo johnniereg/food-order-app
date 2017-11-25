@@ -10,7 +10,8 @@ module.exports = function(dbHelpers) {
     dbHelpers.get_orders(1)
       .then( orders => {
         console.log(orders);
-        res.render('backend-home', {orders});
+        res.render('./backend/backend-home', {orders});
       });
   });
+  return router;
 };

@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html lang='en'>
-  <% include ./partials/_head %>
+  <% include ../partials/_head %>
   <body>
     <header>
     </header>
-    <h1>Client backend</h1>
-
+    <main class = 'container'>
+      <h1>Client backend</h1>
+      <% for(let order of orders) { %>
+        <article class='order panel panel-default'>
+          <header class='panel-heading'>
+            <h3 class='panel-title'>Order #<%= order.order_id %></h3>
+          </header>
+          <main class='panel-body'>
+            <label>Item</label>
+            <ul>
+              <% for(let dish of order.dishes) { %>
+                <li><%= dish %></li>
+              <% } %>
+            </ul>
+            <label>Phone Number</label>
+            <p><%= order.phone_number %></p>
+          </main>
+        </article>
+      <% } %>
+    </main>
     <footer>
     </footer>
   </body>
