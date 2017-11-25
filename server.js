@@ -15,7 +15,7 @@ const twilioHelpers = require('./utils/twilio-helpers');
 const backendRoutes = require('./routes/backend');
 const restaurantNumber = process.env.MYPHONE;
 // use texts?
-const usesms = true;
+const usesms = false;
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -53,6 +53,7 @@ app.use((req, res, next) => {
 
 // Restaurant API routes
 app.use('/api/restaurants', restaurantRoutes(dbHelpers));
+
 // client backend routes
 app.use('/backend', backendRoutes(dbHelpers));
 
@@ -76,28 +77,24 @@ app.post('/checkout', (req, res) => {
       if(usesms){
         twilioHelpers.send_order(order, restaurantNumber);
       }
-    })
-    // error handling
-    .catch(err => {
-      console.log('Post to checkout error', err);
     });
 });
 
 app.get('/orders/:id', (req, res) => {
-
   const { name, address, phone_number } = restaurantInfo;
   Promise.all([
     timeCalculator.timeCalculator(req.params.id),
     dbHelpers.get_order(req.params.id)
   ]).then((allResolves) => {
+    // @TODO put this in a seperate function that outputs an object: {orderStatusTime, name, address, phone_number, dishList, percentFinished, orderPrice}
     const timeRemaining = allResolves[0], order = allResolves[1];
-
-    const orderPrice = order.cost;
-    const dishList = {};
-    let percentFinished = (timeRemaining/order.order_time) * 100 > 10 ? (timeRemaining/order.order_time) * 100 : 10;
+    
     // Formatting the dish list
+    const dishList = {};
     order.dishes.forEach((item) => (item in dishList) ? dishList[item]++ : dishList[item] = 1);
 
+    // calculating percentage and time status message
+    let percentFinished = ((timeRemaining/order.order_time) * 100) - 100 > 15 ? ((timeRemaining/order.order_time) * 100) * 100 : 15;
     let orderStatusTime = '';
     if(timeRemaining){
       orderStatusTime = `${timeRemaining} minutes until ready!`;
@@ -109,7 +106,7 @@ app.get('/orders/:id', (req, res) => {
       percentFinished = 0;
       orderStatusTime = 'Your order is pending acceptance.';
     }
-    res.render('status', {orderStatusTime, name, address, phone_number, dishList, percentFinished, orderPrice});
+    res.render('status', {orderStatusTime, name, address, phone_number, dishList, percentFinished, orderPrice: order.cost});
   });
 });
 
