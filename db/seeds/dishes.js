@@ -92,6 +92,22 @@ exports.seed = function(knex, Promise) {
           photo_url: 'http://cisl.edu/wordpress/wp-content/uploads/2013/05/Dynamite-Roll-JapaneseFoodAdventures.jpg',
           cost: '800',
           restaurant_id: 3
+        },
+        {
+          id:12
+          dish_name: 'Smoked Salmon Roll',
+          description: 'Smoked Salmon Roll. Contains 3 pieces and comes with soy sauce and pickled ginger',
+          photo_url: 'https://i.ytimg.com/vi/a6tBjoYxbYQ/maxresdefault.jpg',
+          cost: '300',
+          restaurant_id: 3
+        },
+        {
+          id: 13,
+          dish_name: 'Hawiian Pizza',
+          description: 'Satan made this pizza. eat at your own risk',
+          photo_url: 'https://img.grouponcdn.com/deal/8DDtq5XRzVnLXEUnPHPd/p2-2048x1229/v1/c700x420.jpg',
+          cost: '16.66',
+          restaurant_id: 2
         }
         
       ]);
