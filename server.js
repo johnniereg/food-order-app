@@ -9,11 +9,14 @@ const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 const dataHelpers = require('./utils/data-helpers');
-const dbHelpers = require('./utils/restaurant-helpers')(knex);
+const dbHelpers = require('./utils/database-helpers')(knex);
 const restaurantRoutes = require('./routes/restaurants');
 const timeCalculator = require('./utils/timeCalculator')(knex);
 const twilioHelpers = require('./utils/twilio-helpers');
+const backendRoutes = require('./routes/backend');
 const restaurantNumber = process.env.MYPHONE;
+const fileUpload = require('express-fileupload');
+
 // use texts?
 const usesms = true;
 const app = express();
@@ -28,6 +31,7 @@ app.use(morgan('dev'));
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload());
 // Node sass middleware
 app.use('/styles', sass({
   src: __dirname + '/styles',
@@ -54,6 +58,12 @@ app.use((req, res, next) => {
 // Restaurant API routes
 app.use('/api/restaurants', restaurantRoutes(dbHelpers));
 
+// client backend routes
+app.use('/backend', backendRoutes(dbHelpers));
+
+// Restaurant API routes
+app.use('/api/restaurants', restaurantRoutes(dbHelpers));
+
 /**
  * UI for ordering from a specific restaurant.
  * How this restaurant is chosen can be varied.
@@ -73,28 +83,24 @@ app.post('/checkout', (req, res) => {
       if(usesms){
         twilioHelpers.send_order(order, restaurantNumber);
       }
-    })
-    // error handling
-    .catch(err => {
-      console.log('Post to checkout error', err);
     });
 });
 
 app.get('/orders/:id', (req, res) => {
-
   const { name, address, phone_number } = restaurantInfo;
   Promise.all([
     timeCalculator.timeCalculator(req.params.id),
     dbHelpers.get_order(req.params.id)
   ]).then((allResolves) => {
+    // @TODO put this in a seperate function that outputs an object: {orderStatusTime, name, address, phone_number, dishList, percentFinished, orderPrice}
     const timeRemaining = allResolves[0], order = allResolves[1];
-
-    const orderPrice = dataHelpers.to_dollars(order.cost);
     const dishList = {};
-    let percentFinished = ((timeRemaining/order.order_time) * 100) - 100 > 15 ? ((timeRemaining/order.order_time) * 100) * 100 : 15;
+    
     // Formatting the dish list
     order.dishes.forEach((item) => (item in dishList) ? dishList[item]++ : dishList[item] = 1);
 
+    // calculating percentage and time status message
+    let percentFinished = ((timeRemaining/order.order_time) * 100) - 100 > 15 ? ((timeRemaining/order.order_time) * 100) * 100 : 15;
     let orderStatusTime = '';
     if(timeRemaining){
       orderStatusTime = `${timeRemaining} minutes until ready!`;
@@ -106,7 +112,7 @@ app.get('/orders/:id', (req, res) => {
       percentFinished = 0;
       orderStatusTime = 'Your order is pending acceptance.';
     }
-    res.render('status', {orderStatusTime, name, address, phone_number, dishList, percentFinished, orderPrice});
+    res.render('status', {orderStatusTime, name, address, phone_number, dishList, percentFinished, orderPrice: order.cost});
   });
 });
 
@@ -118,7 +124,7 @@ app.post('/sms', (req) => {
   if(usesms){
     //Expecting format of incoming text to be ### for example: 40
     if(order_eta && order_id){
-      dbHelpers.update_order_time(order_id, order_eta)
+      dbHelpers.update_item('orders', {'id': order_id}, {'order_time': order_eta, time_accepted: knex.fn.now()})
         .then(order_id => dbHelpers.get_order(order_id[0]))
         .then(twilioHelpers.send_confirmation);
     }

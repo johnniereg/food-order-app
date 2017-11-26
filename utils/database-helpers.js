@@ -1,3 +1,4 @@
+const dataHelpers = require('./data-helpers');
 // Given an array of orders, this function makes a new array of objects.
 // These objects will collect the dishes into one handy array
 const collectDishes = (orders) => {
@@ -11,7 +12,7 @@ const collectDishes = (orders) => {
     ordersObjects[order.order_id] = {
       order_id: order.order_id,
       phone_number: order.phone_number,
-      cost: order.cost,
+      cost: dataHelpers.to_dollars(order.cost),
       dishes: [order.dish_name],
       order_time: order.order_time
     };
@@ -53,9 +54,22 @@ module.exports = function(db){
         });
     });
   };
+  const get_users = (name)=>{
+   return new Promise((resolve, reject) => {
+      db('users').select()
+        .where('username',name)
+        .then( user => {
+          return resolve(user[0]);
+        })
+        .catch( err => {
+          return reject(err);
+        });
+    });
+    
+    
+  }
 
-
-  // Returns an array of order objects.
+  // Returns an array of order objects for restuarant id
   const get_orders = (id) => {
     return new Promise((resolve, reject) => {
       db('orders_dishes').select('order_id', 'dishes.dish_name', 'orders.cost', 'orders.phone_number')
@@ -88,9 +102,15 @@ module.exports = function(db){
     });
   };
 
-  const update_order_time = (order_id, eta) => {
-    return db('orders').where('id', order_id)
-      .update({ 'order_time': eta, time_accepted:db.fn.now()}, 'id');
+  /**
+   * @param {string} table The name of a table as a string.
+   * @param {object} clause A set of where clauses.
+   * @param {object} change The changes that you'd like to be made.
+   * @returns {promise} Returns the promise of a completed database change.
+   */
+  const update_item = (table, clause, change) => {
+    return db(table).where(clause)
+      .update(change, 'id');
   };
 
   /**
@@ -136,7 +156,8 @@ module.exports = function(db){
     get_restaurant,
     get_orders,
     get_order,
-    update_order_time,
-    make_order
+    update_item,
+    make_order,
+    get_users
   };
 };
