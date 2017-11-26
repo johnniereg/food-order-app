@@ -1,7 +1,13 @@
 <nav class="navbar navbar-light bg-light">
   <a href="/" class="navbar-brand">
-    <img class="logo" src="/images/house-of-noodles.svg" /> -->
-    <span id="restaurant-name"><%=name%></span>
+    <img class="logo" src="/images/house-of-noodles.svg" />
+    <span id="restaurant-name"><%=restaurant.restaurant_name%></span>
   </a>
-  <button id='cart-button' class='pull-right btn btn-lg btn-primary'>Cart</button>
+  <section class='backend-nav-links'>
+    <ul class='nav navbar-nav'>
+      <li><a href='/backend/'>Orders</a></li>
+      <li><a href='menu'>Menu</a></li>
+    </ul>
+  </section>
+  <a href='/backend/logout' id='logout-button' class='btn btn-danger btn-lg navbar-btn pull-right'>Logout</a>
 </nav>

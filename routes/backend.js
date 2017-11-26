@@ -36,32 +36,44 @@ module.exports = function(dbHelpers) {
     });
   });
 
+  let restaurant = undefined;
+  let orders = undefined;
+  let user = undefined;
   // check if user is logged in...
   router.use((req, res, next) => {
+    // reset these each time.
+    restaurant = undefined;
+    orders = undefined;
+    user = undefined;
     if(!req.session.userID){
       res.redirect('/backend/login');
       return;
     }
-    next();
-  });
-  
-  router.get('/', (req, res) => {
-    dbHelpers.get_users(req.session.userID).then(user =>{
-      dbHelpers.get_orders(user.restaurant)
-        .then( orders => {
-          res.render('./backend/backend-home', {orders});
-        });
+    dbHelpers.get_users(req.session.userID).then(usr =>{
+      user = usr;
+      Promise.all([
+        dbHelpers.get_orders(user.restaurant),
+        dbHelpers.get_restaurant({id: user.restaurant}),
+      ]).then( allResolves => {
+        orders = allResolves[0];
+        restaurant = allResolves[1];
+        next();
+      });
     });
   });
 
+  router.get('/', (req, res) => {
+    res.render('./backend/backend-home', {orders, restaurant});
+  });
+
   router.get('/menu', (req, res) => {
-    dbHelpers.get_dishes(1)
+    dbHelpers.get_dishes(user.restaurant)
       .then((dishes) => {
         let formattedDishes = dishes.map(dish => {
           dish.cost = dataHelpers.to_dollars(dish.cost);
           return dish;
         });
-        res.render('./backend/menu', {dishes: formattedDishes});
+        res.render('./backend/menu', {restaurant, dishes: formattedDishes});
       });
   });
 

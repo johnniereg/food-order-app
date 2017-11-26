@@ -1,0 +1,53 @@
+main.backend-menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width:90%;
+
+  img.dish-photo{
+    width:100%;
+    display: block;
+    margin-bottom: 12px;
+  }
+  section{
+    border:1px solid lightgrey;
+    border-radius: 6px;
+    margin: 1em auto;
+    padding: 1em;
+  }
+  main.dish-edit-panel{
+    height: 600px;
+
+    section {
+      cursor: pointer;
+      label {
+        cursor: pointer;
+        border-bottom: 1px solid lightgrey;
+        width: 100%;
+        margin-bottom: 1em;
+
+        color:$brand-color;
+        .glyph{
+          font-size: 1.4em;
+          text-align: right;
+          display: none;
+        }
+      }
+      &:hover {
+        .glyph{
+          display: inline;
+        }
+      }
+    }
+  }
+  h1 {
+    width:100%;
+    margin-left: 1.5em;
+  }
+
+  article.dish {
+    width:27%;
+    margin: 10px auto;
+    height: auto;
+  }
+}

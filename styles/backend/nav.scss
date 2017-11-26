@@ -1,0 +1,8 @@
+section.backend-nav-links{
+  li a{
+    padding:35px 15px;
+  }
+}
+#logout-button{
+  @extend #cart-button;
+}

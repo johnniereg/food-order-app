@@ -40,10 +40,11 @@ app.use('/styles', sass({
   outputStyle: 'expanded'
 }));
 
-let restaurantInfo = {};
 app.use(express.static('public'));
 
+let restaurantInfo = {};
 app.use((req, res, next) => {
+  restaurantInfo = {};
   dbHelpers.get_restaurant({id: 1})
     .then( restaurant => {
       restaurantInfo = {
