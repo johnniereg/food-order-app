@@ -8,21 +8,7 @@ body {
   }
 }
 
-nav{
-  background-color: #FFF;
-  height:$nav-bar-height;
-
-  #cart-button{
-    margin-right: 50px;
-    margin-top: 20px;
-  }
-
-  img.logo{
-    display: inline;
-    width:60px;
-    height:60px;
-  }
-}
+// The main container
 .container{
   width: 70%;
 }
@@ -72,10 +58,31 @@ nav{
   }
 }
 
+nav{
+  background-color: #FFF;
+  height:$nav-bar-height;
+
+  #cart-button{
+    margin-right: 50px;
+    margin-top: 20px;
+  }
+
+  img.logo{
+    display: inline;
+    width:60px;
+    height:60px;
+  }
+}
+
+// The restaurant name in the brand section of the navbar
+#restaurant-name{
+  font-weight: bold;
+}
+
 .hide{
   display: none;
 }
-
+// large screens
 @media(min-width: 2000px){
   body{
     font-size: 2em;
@@ -103,6 +110,7 @@ nav{
   }
 }
 
+// smallest screens
 @media(max-width: 1025px){
   .menu {
     article.card {
@@ -145,6 +153,12 @@ nav{
     #cart-button {
       margin-right: 20px;
     }
+  }
+}
+
+@media(max-width: 540px){
+  #restaurant-name{
+    display: none;
   }
 }
 

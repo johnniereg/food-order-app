@@ -55,7 +55,7 @@ module.exports = function(db){
     });
   };
   const get_users = (name)=>{
-   return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       db('users').select()
         .where('username',name)
         .then( user => {
@@ -65,8 +65,6 @@ module.exports = function(db){
           return reject(err);
         });
     });
-    
-    
   }
 
   // Returns an array of order objects for restuarant id

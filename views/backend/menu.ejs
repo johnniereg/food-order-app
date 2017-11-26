@@ -10,26 +10,34 @@
       <% for(let dish of dishes) { %>
         <article class='dish panel panel-default'>
           <main class='panel-body dish-edit-panel'>
+            <!-- Dish name  -->
             <section class='name-panel'>
               <label><span class='glyph'>&#9998;</span> Dish name</label>
               <p><%= dish.dish_name %></p>
               <input form='dish-editor-<%= dish.id %>' class='hide dish-name-edit form-control dish-edit-field' type='text' placeholder='Name' name='dish_name'>
             </section>
+
+            <!-- Dish photo -->
             <section class='photo-panel'>
               <label><span class='glyph'>&#9998;</span> Photo</label>
               <img class='dish-photo' src='<%= dish.photo_url %>'/>
               <input form='dish-editor-<%= dish.id %>' class='hide dish-photo-edit dish-edit-field' type='file' name='photo'>
             </section>
+
+            <!-- Dish description  -->
             <section class='description-panel'>
               <label><span class='glyph'>&#9998;</span> Description</label>
               <p class='dish-description'><%= dish.description %></p>
               <textarea form='dish-editor-<%= dish.id %>' class='form-control hide dish-description-edit dish-edit-field' name='description' placeholder='Description'></textarea>
             </section>
+
+            <!-- Dish price -->
             <section class='price-panel'>
               <label><span class='glyph'>&#9998;</span> Cost</label>
               <p class='dish-cost'><%= dish.cost %></p>
               <input form='dish-editor-<%= dish.id %>' type='text' class='form-control hide dish-cost-edit dish-edit-field' name='price' placeholder='Price'>
             </section>
+
             <form id='dish-editor-<%= dish.id %>' role='form' encType="multipart/form-data" action='/backend/dishes/<%=dish.id%>' method='POST'></form>
           </main>
           <footer class='panel-footer'>
@@ -39,8 +47,6 @@
         </article>
       <% } %>
     </main>
-    <footer>
-    </footer>
     <script type='text/javascript' src='/scripts/backend/menu-edit-helpers.js'></script>
     <script type='text/javascript' src='/scripts/backend/app.js'></script>
   </body>
