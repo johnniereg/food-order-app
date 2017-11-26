@@ -5,3 +5,21 @@
   </a>
   <button id='cart-button' class='pull-right btn btn-lg btn-primary'>Cart</button>
 </nav>
+<div class='shopping-cart'>
+  <h2>Your Cart</h2>
+  <main class='cart-body'>
+    <p>Your cart is empty! <a href='/'>Browse dishes.</a></p>
+  </main>
+  <footer class='cart-interactions hide'>
+    <h4>Total Price:</h4>
+    <p><strong><span class='cart-price'>$0.00</span></strong></p>
+    <form class='cart-submit'>
+      <label>Phone number:</label><br/>
+      <input type='tel' class='form-control' name='phone' placeholder='1-250-XXX-XXXX'>
+      <p class='hide no-phone'>Valid phone number required.</p>
+      <button class='btn btn-success' type='submit'>Submit Order</button>
+      <p class='hide empty-cart'>Cannot submit empty cart.</p>
+    </form>
+    <button class='cart-clear btn btn-danger'>Empty Cart</button>
+  </footer>
+</div>
