@@ -15,24 +15,29 @@ module.exports = function(dbHelpers) {
   }));
 
   router.get('/login',(req, res) => {
+    if(req.session.userID){
+      res.redirect('/backend/');
+      return;
+    }
     res.render('./backend/login');
   });
 
   router.post('/login',(req, res) => {
     let nme = req.body['userId'];
     let pwd = req.body['password'];
-    dbHelpers.get_users(nme).then( user=>{
+    if(!nme || !pwd){
+      res.send({message: 'Please submit both a user name and a password.'})
+    }
+    dbHelpers.get_users(nme).then( user =>{
+      //@TODO make async
       if(user){
-        //@TODO make async
         if(bcrypt.compareSync(pwd,user.password)){
-          req.session.userID=nme;
-          res.redirect('/backend/');
-        }else{
-          res.send("INVALID PASSWORD");
+          req.session.userID = nme;
+          res.send('/backend');
+          return;
         }
-      }else{
-        res.send("USER NOT FOUND");
       }
+      res.send({message: 'The user name or password submitted did not match our records.'});
     });
   });
 

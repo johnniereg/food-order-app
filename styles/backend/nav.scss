@@ -1,6 +1,10 @@
+// Nav links for the client backend
 section.backend-nav-links{
-  li a{
+  float: left;
+  a{
+    display: inline-block;
     padding:35px 15px;
+    margin-right: 10px;
   }
 }
 #logout-button{
