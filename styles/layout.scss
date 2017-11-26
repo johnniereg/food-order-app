@@ -8,6 +8,9 @@ body {
   h1, h2{
     color: $brand-color;
   }
+  p{
+    word-wrap: break-word;
+  }
 }
 
 // The main container
