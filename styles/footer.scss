@@ -1,4 +1,7 @@
 footer {
+  margin: 0;
+  bottom:0;
+  width: 100%;
 
   p{
     color: $brand-color;
@@ -7,15 +10,49 @@ footer {
   }
   ul {
     text-align: center;
+    padding: 0;
 
     li{
       color: $brand-color;
       display: inline;
       padding: 10px;
       margin: 0px;
+      justify-content: space-evenly;
+      }
+    li:hover{
+       color: $brand-color-light;
+       cursor: pointer;
+
     }
+    a:hover{
+
+        text-decoration: none;
+      }
   }
 
+}
+
+.id-form {
+  color: $brand-color;
+  background-color: #CCC;
+  display:none;
+  bottom:0;
+  padding:1em 1em 2em 1em;
+  position: absolute;
+  width: 20%;
+  z-index: 1;
+
+}
+
+.btn {
+  margin:5px 0px 10px;
+
+}
+
+@media(max-width: 792px){
+  .id-form{
+    width:40%;
+  }
 }
 
 

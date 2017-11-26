@@ -1,12 +1,29 @@
-<p>
-  <strong><%= name %></strong>
-  <br/> <strong>Address:</strong> <%= address %>
-  <br/> <strong>Phone number:</strong> <%= phone_number %>
-</p>
-<ul>
-  <li>Order Status</li>
-  <li>About Us</li>
-  <li>Contact Us</li>
-  <li>Terms of Service</li>
-  <li>Privacy Policy</li>
-</ul>
+<footer class="navbar-default navbar-absolute-bottom" >
+  <p>
+    <strong><%= name %></strong>
+    <br/> <strong>Address:</strong> <%= address %>
+    <br/> <strong>Phone number:</strong> <%= phone_number %>
+  </p>
+  <ul class="footer-info">
+    <li id='order-link'>Order Status</li>
+    <a href="/aboutus">
+      <li >About Us</li>
+    </a>
+    <a href="/">
+      <li>Menu</li>
+    </a>
+    <a href="/terms">
+      <li>Terms of Service</li>
+    </a>
+    <a href="/privacypolicy">
+      <li>Privacy Policy</li>
+    </a>
+  </ul>
+</footer>
+
+<div class='id-form'>
+        <label>Order ID:</label><br/>
+        <input type='number' class='form-control' name='orderID'>
+        <button class='btn btn-success' type='submit'>Submit</button>
+       </form>
+      </div>

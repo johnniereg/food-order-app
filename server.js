@@ -132,6 +132,19 @@ app.post('/sms', (req) => {
   }
 });
 
+//footer nav routes
+app.get('/aboutus', (req, res) => {
+  res.render('about-us', restaurantInfo)
+});
+
+app.get('/privacypolicy', (req, res) => {
+  res.render('privacy-policy', restaurantInfo)
+});
+
+app.get('/terms', (req, res) => {
+  res.render('terms-of-service', restaurantInfo)
+});
+
 app.listen(port, () => {
   console.log('Example app listening on port ' + port);
 });
