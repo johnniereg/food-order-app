@@ -6,6 +6,35 @@
     </header>
     <main class='container'>
       <h1>Client backend</h1>
+      <button class='dish-add-new btn btn-primary'>Add New Menu Item</button>
+      <article class='dish panel panel-primary'>
+          <header class='panel-heading'>
+            <h3 class='panel-title'>New Dish</h3>
+          </header>
+          <main class='panel-body'>
+            <img class='dish-photo pull-right' src='' width='240px'/>
+
+            <input form='add-new-dish' type='file' name='photo'>
+
+            <label>Name</label>
+            <p class='dish-description'></p>
+            <textarea form='add-new-dish' class='form-control' name='description' placeholder='Name'></textarea>
+
+            <label>Description</label>
+            <p class='dish-description'></p>
+            <textarea form='add-new-dish' class='form-control' name='description' placeholder='Description'></textarea>
+
+            <label>Cost</label>
+            <p class='dish-cost'>Cost</p>
+            <input form='add-new-dish' type='text' class='form-control' name='price' placeholder='Price'>
+
+            <button form='add-new-dish' class='dish-edit-submit btn btn-primary'>Submit Changes</button>
+          </main>
+          <footer class='panel-footer'>
+
+            <form id='add-new-dish' role='form' encType="multipart/form-data" action='/backend/dishes/' method='POST'></form>
+          </footer>
+        </article>
       <% for(let dish of dishes) { %>
         <article class='dish panel panel-primary'>
           <header class='panel-heading'>
@@ -27,7 +56,6 @@
             <button form='dish-editor-<%= dish.id %>' class='dish-edit-submit btn btn-primary'>Submit Changes</button>
           </main>
           <footer class='panel-footer'>
-            <button class='dish-edit btn btn-primary'>Edit item</button>
             <button class='dish-delete btn btn-danger'>Delete Item</button>
             <form id='dish-editor-<%= dish.id %>' role='form' encType="multipart/form-data" action='/backend/dishes/<%=dish.id%>' method='POST'></form>
           </footer>
