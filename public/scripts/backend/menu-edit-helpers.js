@@ -25,3 +25,17 @@ function submitChanges(event){
     window.location.replace(data);
   });
 }
+
+function submitNewDish(event){
+  event.preventDefault();
+  var form = $(this);
+  var formData = new FormData(this);
+  console.log("We're trying to submit a new dish.");
+  $.ajax({
+    url:$(this).attr('action'),
+    method:'POST',
+    processData: false,
+    contentType: false,
+    data:formData
+  });
+}

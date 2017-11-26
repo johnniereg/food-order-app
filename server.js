@@ -95,7 +95,7 @@ app.get('/orders/:id', (req, res) => {
     // @TODO put this in a seperate function that outputs an object: {orderStatusTime, name, address, phone_number, dishList, percentFinished, orderPrice}
     const timeRemaining = allResolves[0], order = allResolves[1];
     const dishList = {};
-    
+
     // Formatting the dish list
     order.dishes.forEach((item) => (item in dishList) ? dishList[item]++ : dishList[item] = 1);
 

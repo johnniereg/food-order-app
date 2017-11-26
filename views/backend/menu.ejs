@@ -7,6 +7,8 @@
     <main class='container'>
       <h1>Client backend</h1>
       <button class='dish-add-new btn btn-primary'>Add New Menu Item</button>
+
+      <!-- new dish form -->
       <article class='dish panel panel-primary'>
           <header class='panel-heading'>
             <h3 class='panel-title'>New Dish</h3>
@@ -32,11 +34,11 @@
           </main>
           <footer class='panel-footer'>
 
-            <form id='add-new-dish' role='form' encType="multipart/form-data" action='/backend/dishes/' method='POST'></form>
+            <form id='add-new-dish' role='form' encType="multipart/form-data" action='/backend/newdish/' method='POST'></form>
           </footer>
         </article>
       <% for(let dish of dishes) { %>
-        <article class='dish panel panel-primary'>
+        <article class='dish panel panel-primary modify-dish'>
           <header class='panel-heading'>
             <h3 class='panel-title'><%= dish.dish_name %></h3>
           </header>

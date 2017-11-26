@@ -44,7 +44,7 @@ module.exports = function(dbHelpers) {
     }
     next();
   });
-  
+
   router.get('/', (req, res) => {
     dbHelpers.get_users(req.session.userID).then(user =>{
       dbHelpers.get_orders(user.restaurant)
@@ -63,6 +63,20 @@ module.exports = function(dbHelpers) {
         });
         res.render('./backend/menu', {dishes: formattedDishes});
       });
+  });
+
+
+  // Route for submitting new dishes to database.
+  router.post('/newdish', (req, res) => {
+
+    // Just checking that we're getting the input and
+    console.log("Our req body:", req.body);
+    const photo = req.files.photo;
+    const details = req.body.description;
+    const name = description.name;
+    const description = details.description;
+    const cost = req.body.price;
+
   });
 
   router.put('/dishes/:id', (req, res) => {
