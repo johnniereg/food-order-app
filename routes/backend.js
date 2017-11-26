@@ -1,5 +1,7 @@
 const express = require('express');
-const dataHelpers = require('../utils/data-helpers')
+const dataHelpers = require('../utils/data-helpers');
+const fs = require('fs');
+// const dataHelpers = require('../utils/data-helpers');
 
 module.exports = function(dbHelpers) {
   const router = new express.Router();
@@ -14,38 +16,51 @@ module.exports = function(dbHelpers) {
   router.get('/menu', (req, res) => {
     dbHelpers.get_dishes(1)
       .then((dishes) => {
-        res.render('./backend/menu', {dishes});
+        let formattedDishes = dishes.map(dish => {
+          dish.cost = dataHelpers.to_dollars(dish.cost);
+          return dish;
+        });
+        res.render('./backend/menu', {dishes: formattedDishes});
       });
   });
 
   router.put('/dishes/:id', (req, res) => {
+
+    const makeUpdateToDish = (changes) => {
+      return dbHelpers.update_item('dishes',{id: dish_id}, changes);
+    };
+    const photo = req.files.photo;
+    const description = req.body.description;
     let dish_id = req.params.id;
-    let changes = {};
-    let description = req.body.description;
     let cost = req.body.price;
-    console.log(req.body);
+    let changes = {};
+
+    if(description){
+      changes['description'] = description;
+    }
     if(cost){
-      // if there is a dollar sign
-      cost.indexOf('$') ? cost = Number(cost.slice(cost.indexOf('$'))) * 100 : Number(cost) * 100;
+      cost = dataHelpers.clean_price_input(cost);
       if(isNaN(cost)){
-        res.json({message: 'Please input a valid number into the price field.'});
+        res.send({message : 'Please input a valid number'});
         return;
       }
       changes['cost'] = cost;
     }
-    if(description){
-      changes['description'] = description;
-    }
-    dbHelpers.update_item('dishes',{id: dish_id}, changes)
-      .then(() => {
-        res.send('/backend/menu');
-      }).
-      catch((err) => {
-        console.log(err);
+    if(photo){
+      changes['photo_url'] = `/images/${photo.name}`;
+      fs.writeFile(`./public/images/${photo.name}`, photo.data, () => {
+        makeUpdateToDish(changes)
+          .then(() => {
+            res.send('/backend/menu');
+          });
       });
+      return;
+    }
+    makeUpdateToDish(changes).then(() => {
+      res.send('/backend/menu');
+    });
+
   });
-
-
 
   return router;
 };

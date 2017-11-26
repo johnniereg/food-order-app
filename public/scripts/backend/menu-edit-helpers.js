@@ -6,15 +6,21 @@ function makeForms(event){
 
 function submitChanges(event){
   event.preventDefault();
-  var inputs = $(this).serialize();
+  var form = $(this);
+  var formData = new FormData(this);
   $.ajax({
     url:$(this).attr('action'),
     method:'PUT',
-    data:inputs
+    processData: false,
+    contentType: false,
+    data:formData
   }).done(function (data) {
-    if(typeof JSON.parse(data) === 'Object'){
-      console.log(this);
-      $(this).append($('<label>').text(data.message))
+    if(typeof data === 'object'){
+      let warning = $('<label>').text(data.message).addClass('editor-warning');
+      // if a warning already exists, remove it.
+      $('.editor-warning').remove();
+      form.append(warning);
+      return;
     }
     window.location.replace(data);
   });

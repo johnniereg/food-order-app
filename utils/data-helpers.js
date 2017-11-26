@@ -13,7 +13,10 @@ const to_dollars = (number) => {
   return '$' + dollars + '.' + cents.slice(0, 2);
 };
 
-
+const clean_price_input = (priceString) => {
+  return priceString.indexOf('$') > -1 ? Number(priceString.slice(priceString.indexOf('$')+1)) * 100 : Number(priceString) * 100;
+}
 module.exports = {
-  to_dollars
+  to_dollars,
+  clean_price_input
 };

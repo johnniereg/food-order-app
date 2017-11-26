@@ -7,31 +7,29 @@
     <main class='container'>
       <h1>Client backend</h1>
       <% for(let dish of dishes) { %>
-        <article class='dish panel panel-primary' data-id='dish.id'>
+        <article class='dish panel panel-primary'>
           <header class='panel-heading'>
             <h3 class='panel-title'><%= dish.dish_name %></h3>
           </header>
-          <img class='dish-photo pull-right' src='<%= dish.photo_url %>' width='240px'/>
           <main class='panel-body'>
+            <img class='dish-photo pull-right' src='<%= dish.photo_url %>' width='240px'/>
+
+            <input form='dish-editor-<%= dish.id %>' type='file' name='photo'>
+
             <label>Description</label>
             <p class='dish-description'><%= dish.description %></p>
+            <textarea form='dish-editor-<%= dish.id %>' class='form-control' name='description' placeholder='Description'></textarea>
+
             <label>Cost</label>
             <p class='dish-cost'><%= dish.cost %></p>
-            <section class='editor-container'>
-              <h4>Editor</h4>
-              <form id='dish-editor' role='form' action='/backend/dishes/<%=dish.id%>' method='POST'>
-                <label>Description</label>
-                <textarea class='form-control' name='description' placeholder='Description'></textarea>
-                <label>Price</label>
-                <input type='text' class='form-control' name='price' placeholder='Price'>
-                <button class='dish-edit-submit btn btn-primary'>Submit Changes</button>
-                <button class='dish-edit-revert btn btn-danger'>Cancel Changes</button>
-              </form>
-            </section>
+            <input form='dish-editor-<%= dish.id %>' type='text' class='form-control' name='price' placeholder='Price'>
+
+            <button form='dish-editor-<%= dish.id %>' class='dish-edit-submit btn btn-primary'>Submit Changes</button>
           </main>
           <footer class='panel-footer'>
             <button class='dish-edit btn btn-primary'>Edit item</button>
             <button class='dish-delete btn btn-danger'>Delete Item</button>
+            <form id='dish-editor-<%= dish.id %>' role='form' encType="multipart/form-data" action='/backend/dishes/<%=dish.id%>' method='POST'></form>
           </footer>
         </article>
       <% } %>
