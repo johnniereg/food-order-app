@@ -42,11 +42,12 @@ const collectDishes = (orders) => {
 };
 
 const get_order_status = (timeRemaining) => {
-  if(timeRemaining){
-    if (timeRemaining <= 0){
-      return'Your order is ready!';
-    }
+  console.log(timeRemaining);
+  if(timeRemaining > 0){
     return `${timeRemaining} minutes until ready!`;
+  }
+  if (timeRemaining <= 0){
+    return 'Your order is ready!';
   }
   return 'Your order is pending acceptance.';
 };

@@ -101,14 +101,17 @@ app.get('/orders/:id', (req, res) => {
 
 
     // calculating percentage and time status message
-    let percentFinished = ((timeRemaining/order.order_time) * 100) - 100 > 15 ? ((timeRemaining/order.order_time) * 100) - 100 : 15;
+    let percentFinished = 100 - ((timeRemaining/order.order_time) * 100) > 15 ? 100 -((timeRemaining/order.order_time) * 100) : 15;
     if(timeRemaining <= 0){
       percentFinished = 100;
     }
-    //
-    let orderStatusTime = dataHelpers.get_order_status(timeRemaining);
+    if(!order.order_time){
+      percentFinished = 0;
+    }
+    // Get the order status message.
+    let orderStatus = dataHelpers.get_order_status(timeRemaining);
 
-    res.render('status', {orderStatusTime, name, address, phone_number, dishList, percentFinished, orderPrice: order.cost});
+    res.render('status', {orderStatus, name, address, phone_number, dishList, percentFinished, orderPrice: order.cost});
   });
 });
 
