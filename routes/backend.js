@@ -5,6 +5,7 @@ const dataHelpers = require('../utils/data-helpers');
 const fs = require('fs');
 const cookieSession = require('cookie-session');
 const fileUpload = require('express-fileupload');
+const twilioHelpers = require('../utils/twilio-helpers');
 
 module.exports = function(dbHelpers) {
   const router = new express.Router();
@@ -139,6 +140,20 @@ module.exports = function(dbHelpers) {
     }
     makeUpdateToDish(changes).then(() => {
       res.send('/backend/menu');
+    });
+  });
+
+  // delete an order
+  router.delete('/:id/delete', (req, res) => {
+    dbHelpers.remove_order(req.params.id).then(() => {
+      res.send('/backend/');
+    });
+  });
+
+  // confirm order
+  router.post('/:id/confirm', (req, res) => {
+    dbHelpers.confirm_order(req.params.id).then(() => {
+      res.send({message: 'Order confirmed!'});
     });
   });
 

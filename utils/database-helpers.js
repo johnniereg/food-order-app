@@ -1,4 +1,6 @@
 const dataHelpers = require('./data-helpers');
+const twilioHelpers = require('../utils/twilio-helpers');
+
 
 module.exports = function(db){
 
@@ -65,7 +67,6 @@ module.exports = function(db){
     });
   };
 
-  // @TODO make this function take an dynamic clause
   const get_order = (id) => {
     return new Promise((resolve, reject) => {
       db('orders_dishes').select('order_id', 'dishes.dish_name', 'orders.cost', 'orders.phone_number', 'orders.order_time')
@@ -78,6 +79,12 @@ module.exports = function(db){
         .catch( err => {
           return reject(err);
         });
+    });
+  };
+
+  const remove_order = (id) => {
+    return db('orders').where('id', id).del().then(() => {
+      db('orders_dishes').where('order_id', id).del();
     });
   };
 
@@ -129,14 +136,23 @@ module.exports = function(db){
         });
     });
   };
+  const confirm_order = (order_id) => {
+    return get_order(order_id)
+      .then((order) => {
+        twilioHelpers.send_message(order.phone_number, twilioHelpers.twiPhone, `Your order, #${order_id}, is ready for pick up from House of Noodles!`);
+      });
+  };
+
 
   return {
+    confirm_order,
     get_dishes,
     get_restaurant,
     get_orders,
     get_order,
     update_item,
     make_order,
-    get_users
+    get_users,
+    remove_order
   };
 };

@@ -41,8 +41,19 @@ const collectDishes = (orders) => {
   return ordersArray;
 };
 
+const get_order_status = (timeRemaining) => {
+  if(timeRemaining){
+    if (timeRemaining <= 0){
+      return'Your order is ready!';
+    }
+    return `${timeRemaining} minutes until ready!`;
+  }
+  return 'Your order is pending acceptance.';
+};
+
 module.exports = {
   to_dollars,
   clean_price_input,
-  collectDishes
+  collectDishes,
+  get_order_status
 };

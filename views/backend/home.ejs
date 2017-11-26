@@ -21,13 +21,12 @@
             <p><%= order.phone_number %></p>
             <h3>Total<h3>
             <p><%= order.cost %></p>
-            <button class='btn btn-success'>Finish order</button>
-            <button class='btn btn-danger'>Delete order</button>
+            <button class='finish-order btn btn-success' data-action='/backend/<%=order.order_id%>/confirm'>Finish order</button>
+            <button class='delete-order btn btn-danger' data-action='/backend/<%=order.order_id%>/delete'>Delete order</button>
           </main>
         </article>
       <% } %>
     </main>
-    <footer>
-    </footer>
+    <script type='text/javascript' src='/scripts/backend/order-script.js'></script>
   </body>
 </html>
