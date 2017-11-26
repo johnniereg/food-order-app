@@ -70,12 +70,17 @@ module.exports = function(dbHelpers) {
   router.post('/newdish', (req, res) => {
 
     // Just checking that we're getting the input and
-    console.log("Our req body:", req.body);
-    const photo = req.files.photo;
-    const details = req.body.description;
-    const name = description.name;
-    const description = details.description;
-    const cost = req.body.price;
+    console.log('Our req body:', req.body);
+
+    let name = req.body.dish;
+    let info = req.body.description;
+    let cost = req.body.price;
+
+    console.log('name', name);
+    console.log('info', info);
+    console.log('cost', cost);
+
+    //@TODO call function that submits new entry to database
 
   });
 
