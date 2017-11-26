@@ -77,6 +77,39 @@ exports.seed = function(knex, Promise) {
           cost: '1600',
           restaurant_id: 1
         },
+        {
+          id: 10,
+          dish_name: 'Chicago Style Square Deep Dish Pizza',
+          description: 'A staple of michigan italian cuisine, this pizza is 2.5 inches think, covered in alternating layers of cheese, peperoni and salami',
+          photo_url: 'http://www.seriouseats.com/recipes/assets_c/2017/02/20170216-detroit-style-pizza-43-thumb-1500xauto-436479.jpg',
+          cost: '1800',
+          restaurant_id: 2
+        },
+        {
+          id: 11,
+          dish_name: 'Dynamite roll',
+          description: 'Prawn tempura with avacado rolled in seaweed and rice and covered in japanese style mayonnaise. Contains 6 pieces and comes with soy sauce and pickled ginger',
+          photo_url: 'http://cisl.edu/wordpress/wp-content/uploads/2013/05/Dynamite-Roll-JapaneseFoodAdventures.jpg',
+          cost: '800',
+          restaurant_id: 3
+        },
+        {
+          id:12,
+          dish_name: 'Smoked Salmon Roll',
+          description: 'Smoked Salmon Roll. Contains 3 pieces and comes with soy sauce and pickled ginger',
+          photo_url: 'https://i.ytimg.com/vi/a6tBjoYxbYQ/maxresdefault.jpg',
+          cost: '300',
+          restaurant_id: 3
+        },
+        {
+          id: 13,
+          dish_name: 'Hawiian Pizza',
+          description: 'Satan made this pizza. eat at your own risk',
+          photo_url: 'https://img.grouponcdn.com/deal/8DDtq5XRzVnLXEUnPHPd/p2-2048x1229/v1/c700x420.jpg',
+          cost: '1666',
+          restaurant_id: 2
+        }
+        
       ]);
     });
 };
