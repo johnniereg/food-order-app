@@ -54,7 +54,20 @@ module.exports = function(db){
         });
     });
   };
-
+  const get_users = (name)=>{
+   return new Promise((resolve, reject) => {
+      db('users').select()
+        .where('username',name)
+        .then( user => {
+          return resolve(user[0]);
+        })
+        .catch( err => {
+          return reject(err);
+        });
+    });
+    
+    
+  }
 
   // Returns an array of order objects for restuarant id
   const get_orders = (id) => {
@@ -144,6 +157,7 @@ module.exports = function(db){
     get_orders,
     get_order,
     update_item,
-    make_order
+    make_order,
+    get_users
   };
 };
