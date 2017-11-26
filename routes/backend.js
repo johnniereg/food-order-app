@@ -72,6 +72,9 @@ module.exports = function(dbHelpers) {
     // Just checking that we're getting the input and
     console.log('Our req body:', req.body);
 
+    // Object with details.
+    let newDishInfo = req.body;
+
     let name = req.body.dish;
     let info = req.body.description;
     let cost = req.body.price;
@@ -80,6 +83,7 @@ module.exports = function(dbHelpers) {
     console.log('info', info);
     console.log('cost', cost);
 
+    dbHelpers.new_dish(newDishInfo);
     //@TODO call function that submits new entry to database
 
   });

@@ -65,8 +65,8 @@ module.exports = function(db){
           return reject(err);
         });
     });
-    
-    
+
+
   }
 
   // Returns an array of order objects for restuarant id
@@ -100,6 +100,19 @@ module.exports = function(db){
           return reject(err);
         });
     });
+  };
+
+  /**
+   *
+   * Submit new dish to database.
+   */
+
+  const new_dish = (dishinfo) => {
+    console.log(dishinfo);
+    return db('dishes').insert({dish_name: dishinfo.dish, description: dishinfo.description, cost: dishinfo.price})
+    .then( function (result) {
+        console.log("we inserted?");
+       });
   };
 
   /**
@@ -158,6 +171,7 @@ module.exports = function(db){
     get_order,
     update_item,
     make_order,
-    get_users
+    get_users,
+    new_dish
   };
 };

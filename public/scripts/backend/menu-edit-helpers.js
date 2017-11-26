@@ -38,4 +38,7 @@ function submitNewDish(event){
     contentType: false,
     data:formData
   });
+
+  // Make it refresh & reload page to see new dish
+
 }
