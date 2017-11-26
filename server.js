@@ -16,7 +16,7 @@ const backendRoutes = require('./routes/backend');
 const restaurantNumber = process.env.MYPHONE;
 
 // use texts?
-const usesms = true;
+const usesms = false;
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -102,7 +102,7 @@ app.get('/orders/:id', (req, res) => {
     let orderStatusTime = '';
     if(timeRemaining){
       orderStatusTime = `${timeRemaining} minutes until ready!`;
-      if (timeRemaining < 0){
+      if (timeRemaining <= 0){
         percentFinished = 100;
         orderStatusTime = 'Your order is ready!';
       }

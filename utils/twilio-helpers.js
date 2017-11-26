@@ -5,7 +5,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twiPhone = process.env.TWILIOPHONE;
 
 const twilio = require('twilio')(accountSid, authToken);
-const sendMessage = (toNumber, fromNumber, body) => {
+const send_message = (toNumber, fromNumber, body) => {
   return twilio.messages.create({
     to: toNumber,
     from: fromNumber,
@@ -29,7 +29,7 @@ const send_order = (order, restaurantNumber) => {
   for(let dish in dishList){
     textMessage.push(`${dish} x ${dishList[dish]}`);
   }
-  return sendMessage(restaurantNumber, twiPhone, textMessage.join('\n'));
+  return send_message(restaurantNumber, twiPhone, textMessage.join('\n'));
 };
 
 const send_confirmation = (order) => {
@@ -40,11 +40,13 @@ const send_confirmation = (order) => {
       `Estimated eta ${order.order_time} mins.`,
       `For up-to-date order details, please visit http://localhost:8080/orders/${order.order_id}`
     ];
-    return sendMessage(phone_number, twiPhone, textMessage.join('\n'));
+    return send_message(phone_number, twiPhone, textMessage.join('\n'));
   }
 };
 
 module.exports = {
   send_order,
-  send_confirmation
+  send_confirmation,
+  send_message,
+  twiPhone
 };
