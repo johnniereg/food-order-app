@@ -38,7 +38,7 @@ const send_confirmation = (order) => {
     const textMessage = [
       'Your order has been confirmed!',
       `Estimated eta ${order.order_time} mins.`,
-      `For up-to-date order details, please visit http://localhost:8080/orders/${order.order_id}`
+      `For up-to-date order details, please visit https://serene-ridge-47454.herokuapp.com/orders/${order.order_id}`
     ];
     return sendMessage(phone_number, twiPhone, textMessage.join('\n'));
   }
