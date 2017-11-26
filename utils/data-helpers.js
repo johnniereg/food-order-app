@@ -1,7 +1,10 @@
-/*
- * General utility functions to help with the data
- */
 
+/**
+ * to_dollars - converts a number into a dollar formatted string.
+ *
+ * @param {number} number The number to be converted into a string.
+ * @return {string} A dollar formatted string produced from the number.
+ */
 const to_dollars = (number) => {
   let asDollars = number / 100;
   let amount = asDollars.toString(),
@@ -13,12 +16,23 @@ const to_dollars = (number) => {
   return '$' + dollars + '.' + cents.slice(0, 2);
 };
 
+
+/**
+ * clean_price_input - Removes a dollar sign from the input dollar formatted string if one exists.
+ *
+ * @param {string} priceString The dollar formmatted string that is to be stripped.
+ * @return {number} A number representing the dollar amount input.
+ */
 const clean_price_input = (priceString) => {
   return priceString.indexOf('$') > -1 ? Number(priceString.slice(priceString.indexOf('$')+1)) * 100 : Number(priceString) * 100;
 };
 
-// Given an array of orders, this function makes a new array of objects.
-// These objects will collect the dishes into one handy array
+/**
+ * collectDishes - For each order object in an array, collects all the dishes associated with an order object into one array.
+ *
+ * @param {array} orders An array containing an object for each array.
+ * @return {array} Returns an array whose order objects have all dishes associated with individual orders in an array.
+ */
 const collectDishes = (orders) => {
   const ordersObjects = {};
   const ordersArray = [];
@@ -41,8 +55,13 @@ const collectDishes = (orders) => {
   return ordersArray;
 };
 
+/**
+ * get_order_status - returns an appropriate order status based on the time remaining until the order is complete.
+ *
+ * @param {number} timeRemaining The time remaining until an order is complete.
+ * @return {string} The status of the order.
+ */
 const get_order_status = (timeRemaining) => {
-  console.log(timeRemaining);
   if(timeRemaining > 0){
     return `${timeRemaining} minutes until ready!`;
   }

@@ -15,7 +15,8 @@ const send_message = (toNumber, fromNumber, body) => {
 
 
 /**
- * Sends a text message to the restaurantOwner with the order details.
+ * send_order - Sends a text message to the restaurantOwner with the order details.
+ * 
  * @param {object} order An individual order object.
  * @param {string} restaurantNumber The number of the restraunt to whom the text should be sent.
  * @returns {promise} The promise of a sent text message.
@@ -32,13 +33,21 @@ const send_order = (order, restaurantNumber) => {
   return send_message(restaurantNumber, twiPhone, textMessage.join('\n'));
 };
 
+
+
+/**
+ * send_confirmation - Sends a confirmation text to the phone associated with a given order.
+ *
+ * @param {object} order An object representing the order you'd like to confirm.
+ * @return {object} Returns a promise of a sent text message.
+ */
 const send_confirmation = (order) => {
   if(order){
     const {phone_number} = order;
     const textMessage = [
       'Your order has been confirmed!',
       `Estimated eta ${order.order_time} mins.`,
-      `For up-to-date order details, please visit http://localhost:8080/orders/${order.order_id}`
+      `For up-to-date order details, please visit https://serene-ridge-47454.herokuapp.com/orders/${order.order_id}`
     ];
     return send_message(phone_number, twiPhone, textMessage.join('\n'));
   }

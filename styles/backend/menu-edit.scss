@@ -20,6 +20,7 @@ main.backend-menu {
   }
 
   h1 {
+    margin-left: 1.4em;
     width:100%;
   }
 
@@ -35,7 +36,7 @@ main.backend-menu {
     margin: 1em auto;
     padding: 1em;
   }
-  
+
   main.dish-edit-panel{
     section {
       cursor: pointer;
@@ -68,6 +69,9 @@ main.backend-menu {
 
 @media(max-width:1500px){
   main.backend-menu{
+    h1{
+      margin-left: auto;
+    }
     article.dish{
       width:40%;
     }
