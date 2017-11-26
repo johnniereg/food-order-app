@@ -1,5 +1,8 @@
 footer {
   margin: 0;
+  bottom:0;
+  width: 100%;
+
   p{
     color: $brand-color;
     text-align: center;
@@ -15,6 +18,15 @@ footer {
       padding: 10px;
       margin: 0px;
       justify-content: space-evenly;
+      }
+    li:hover{
+       color: $brand-color-light;
+       cursor: pointer;
+
+    }
+    a:hover{
+
+        text-decoration: none;
       }
   }
 
@@ -32,8 +44,15 @@ footer {
 
 }
 
+.btn {
+  margin:5px 0px 10px;
+
+}
+
 @media(max-width: 792px){
   .id-form{
     width:40%;
   }
 }
+
+
