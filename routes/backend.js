@@ -4,10 +4,16 @@ const bcrypt = require('bcrypt');
 const dataHelpers = require('../utils/data-helpers');
 const fs = require('fs');
 const cookieSession = require('cookie-session');
-// const dataHelpers = require('../utils/data-helpers');
+const fileUpload = require('express-fileupload');
+
 module.exports = function(dbHelpers) {
   const router = new express.Router();
 
+  // File upload middleware
+  router.use(fileUpload({
+    safeFileNames: true
+  }));
+  // Cookie session
   router.use(cookieParser());
   router.use(cookieSession({
     name: 'session',
@@ -26,21 +32,25 @@ module.exports = function(dbHelpers) {
     let nme = req.body['userId'];
     let pwd = req.body['password'];
     if(!nme || !pwd){
-      res.send({message: 'Please submit both a user name and a password.'})
+      res.send({message: 'Please submit both a user name and a password.'});
     }
     dbHelpers.get_users(nme).then( user =>{
-      //@TODO make async
       if(user){
-        if(bcrypt.compareSync(pwd,user.password)){
-          req.session.userID = nme;
-          res.send('/backend');
-          return;
-        }
+        bcrypt.compare(pwd, user.password).then((result) => {
+          if(result){
+            req.session.userID = nme;
+            res.send('/backend');
+            return;
+          }
+          res.send({message: 'The user name or password submitted did not match our records.'});
+        });
+        return;
       }
       res.send({message: 'The user name or password submitted did not match our records.'});
     });
   });
 
+  // making these 'globally' available.
   let restaurant = undefined;
   let orders = undefined;
   let user = undefined;
@@ -54,6 +64,7 @@ module.exports = function(dbHelpers) {
       res.redirect('/backend/login');
       return;
     }
+    // populate restaurant and orders variables.
     dbHelpers.get_users(req.session.userID).then(usr =>{
       user = usr;
       Promise.all([
@@ -67,6 +78,7 @@ module.exports = function(dbHelpers) {
     });
   });
 
+  // orders page
   router.get('/', (req, res) => {
     res.render('./backend/home', {orders, restaurant});
   });
@@ -82,18 +94,23 @@ module.exports = function(dbHelpers) {
       });
   });
 
+  // Updating a dish.
   router.put('/dishes/:id', (req, res) => {
-    //@TODO add functionality for name handling.
-    //@TODO filter files by mimetype
+    // function to run when we're done collecting changes.
     const makeUpdateToDish = (changes) => {
       return dbHelpers.update_item('dishes',{id: dish_id}, changes);
     };
     const photo = req.files.photo;
     const description = req.body.description;
+    const dish_name = req.body.dish_name;
     let dish_id = req.params.id;
     let cost = req.body.price;
     let changes = {};
 
+    // Collecting changes.
+    if(dish_name){
+      changes['dish_name'] = dish_name;
+    }
     if(description){
       changes['description'] = description;
     }
@@ -106,6 +123,11 @@ module.exports = function(dbHelpers) {
       changes['cost'] = cost;
     }
     if(photo){
+      // if the photo is not an image.
+      if(photo.mimetype.indexOf('image') === -1){
+        res.send({message:'Please submit a valid image file (.jpg or .png recommended).'});
+        return;
+      }
       changes['photo_url'] = `/images/${photo.name}`;
       fs.writeFile(`./public/images/${photo.name}`, photo.data, () => {
         makeUpdateToDish(changes)

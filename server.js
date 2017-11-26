@@ -8,14 +8,12 @@ const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[env]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
-const dataHelpers = require('./utils/data-helpers');
 const dbHelpers = require('./utils/database-helpers')(knex);
 const restaurantRoutes = require('./routes/restaurants');
 const timeCalculator = require('./utils/timeCalculator')(knex);
 const twilioHelpers = require('./utils/twilio-helpers');
 const backendRoutes = require('./routes/backend');
 const restaurantNumber = process.env.MYPHONE;
-const fileUpload = require('express-fileupload');
 
 // use texts?
 const usesms = true;
@@ -31,7 +29,6 @@ app.use(morgan('dev'));
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(fileUpload());
 // Node sass middleware
 app.use('/styles', sass({
   src: __dirname + '/styles',

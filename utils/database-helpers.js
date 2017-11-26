@@ -1,27 +1,4 @@
 const dataHelpers = require('./data-helpers');
-// Given an array of orders, this function makes a new array of objects.
-// These objects will collect the dishes into one handy array
-const collectDishes = (orders) => {
-  const ordersObjects = {};
-  const ordersArray = [];
-  orders.forEach((order) => {
-    if(ordersObjects[order.order_id]){
-      ordersObjects[order.order_id].dishes.push(order.dish_name);
-      return;
-    }
-    ordersObjects[order.order_id] = {
-      order_id: order.order_id,
-      phone_number: order.phone_number,
-      cost: dataHelpers.to_dollars(order.cost),
-      dishes: [order.dish_name],
-      order_time: order.order_time
-    };
-  });
-  for(let order in ordersObjects){
-    ordersArray.push(ordersObjects[order]);
-  }
-  return ordersArray;
-};
 
 module.exports = function(db){
 
@@ -31,7 +8,9 @@ module.exports = function(db){
       db('dishes').select()
         .where('restaurant_id', id)
         .then( dishes => {
-          resolve(dishes);
+          resolve(dishes.sort((dishA, dishB) => {
+            return dishA.id - dishB.id;
+          }));
         })
         .catch( err => {
           reject(err);
@@ -65,7 +44,7 @@ module.exports = function(db){
           return reject(err);
         });
     });
-  }
+  };
 
   // Returns an array of order objects for restuarant id
   const get_orders = (id) => {
@@ -76,7 +55,9 @@ module.exports = function(db){
         .leftJoin('restaurants', 'restaurants.id', 'orders.restaurant_id')
         .where('restaurants.id', id)
         .then( orders => {
-          return resolve(collectDishes(orders));
+          return resolve(dataHelpers.collectDishes(orders).sort((orderA, orderB) => {
+            return orderA.order_id - orderB.order_id;
+          }));
         })
         .catch( err => {
           return reject(err);
@@ -92,7 +73,7 @@ module.exports = function(db){
         .leftJoin('orders', 'orders.id', 'order_id')
         .where('orders.id', id)
         .then( orders => {
-          return resolve(collectDishes(orders)[0]);
+          return resolve(dataHelpers.collectDishes(orders)[0]);
         })
         .catch( err => {
           return reject(err);

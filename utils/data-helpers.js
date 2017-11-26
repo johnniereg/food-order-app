@@ -15,8 +15,34 @@ const to_dollars = (number) => {
 
 const clean_price_input = (priceString) => {
   return priceString.indexOf('$') > -1 ? Number(priceString.slice(priceString.indexOf('$')+1)) * 100 : Number(priceString) * 100;
-}
+};
+
+// Given an array of orders, this function makes a new array of objects.
+// These objects will collect the dishes into one handy array
+const collectDishes = (orders) => {
+  const ordersObjects = {};
+  const ordersArray = [];
+  orders.forEach((order) => {
+    if(ordersObjects[order.order_id]){
+      ordersObjects[order.order_id].dishes.push(order.dish_name);
+      return;
+    }
+    ordersObjects[order.order_id] = {
+      order_id: order.order_id,
+      phone_number: order.phone_number,
+      cost:to_dollars(order.cost),
+      dishes: [order.dish_name],
+      order_time: order.order_time
+    };
+  });
+  for(let order in ordersObjects){
+    ordersArray.push(ordersObjects[order]);
+  }
+  return ordersArray;
+};
+
 module.exports = {
   to_dollars,
-  clean_price_input
+  clean_price_input,
+  collectDishes
 };
