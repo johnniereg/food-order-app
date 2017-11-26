@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 const sass = require('node-sass-middleware');
 const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[env]);
-const morgan = require('morgan');
-const knexLogger = require('knex-logger');
+// const morgan = require('morgan');
+// const knexLogger = require('knex-logger');
 // utilities
 const dbHelpers = require('./utils/database-helpers')(knex);
 const dataHelpers = require('./utils/data-helpers');
@@ -18,31 +18,23 @@ const twilioHelpers = require('./utils/twilio-helpers');
 // routes
 const backendRoutes = require('./routes/backend');
 const restaurantRoutes = require('./routes/restaurants');
-
 // use texts?
 const usesms = true;
+
 const app = express();
-
 app.set('view engine', 'ejs');
-
-// Load the logger first so all (static) HTTP requests are logged to STDOUT
-// 'dev' = Concise output colored by response status for development use.
-//         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
-app.use(morgan('dev'));
-
-// Log knex SQL queries to STDOUT as well
-app.use(knexLogger(knex));
 app.use(bodyParser.urlencoded({ extended: true }));
 // Node sass middleware
 app.use('/styles', sass({
   src: __dirname + '/styles',
   dest: __dirname + '/public/styles',
-  debug: true,
+  debug: false,
   outputStyle: 'expanded'
 }));
 
 app.use(express.static('public'));
 
+// making this available 'globally'
 let restaurantInfo = {};
 app.use((req, res, next) => {
   restaurantInfo = {};
@@ -62,9 +54,6 @@ app.use('/api/restaurants', restaurantRoutes(dbHelpers));
 
 // client backend routes
 app.use('/backend', backendRoutes(dbHelpers));
-
-// Restaurant API routes
-app.use('/api/restaurants', restaurantRoutes(dbHelpers));
 
 /**
  * UI for ordering from a specific restaurant.
@@ -115,7 +104,7 @@ app.get('/orders/:id', (req, res) => {
   });
 });
 
-//sms rout
+//sms route
 app.post('/sms', (req) => {
   const textInformation = req.body.Body.split(' ');
   const order_id = Number(textInformation[0]);
@@ -147,6 +136,4 @@ app.get('/terms', (req, res) => {
   res.render('terms-of-service', restaurantInfo);
 });
 
-app.listen(port, () => {
-  console.log('Example app listening on port ' + port);
-});
+app.listen(port);
