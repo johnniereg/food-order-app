@@ -1,9 +1,9 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-var cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
 const dataHelpers = require('../utils/data-helpers');
 const fs = require('fs');
+const cookieSession = require('cookie-session');
 // const dataHelpers = require('../utils/data-helpers');
 module.exports = function(dbHelpers) {
   const router = new express.Router();
@@ -15,19 +15,18 @@ module.exports = function(dbHelpers) {
   }));
 
   router.get('/login',(req, res) => {
-    //res.send("welcome to login");
     res.render('./backend/backend-login');
   });
 
   router.post('/login',(req, res) => {
-    console.log(req.body);
     let nme = req.body['userId'];
     let pwd = req.body['password'];
     dbHelpers.get_users(nme).then( user=>{
       if(user){
+        //@TODO make async
         if(bcrypt.compareSync(pwd,user.password)){
           req.session.userID=nme;
-          res.redirect('http://localhost:8080/backend/home');
+          res.redirect('/backend/');
         }else{
           res.send("INVALID PASSWORD");
         }
@@ -36,18 +35,23 @@ module.exports = function(dbHelpers) {
       }
     });
   });
-  router.get('/home', (req, res) => {
-    console.log(req.session.userID);
-    if(req.session.userID===undefined){
-      res.redirect('http://localhost:8080/backend/login');
-    }else{
-      dbHelpers.get_users(req.session.userID).then(user =>{
-        dbHelpers.get_orders(user.restaurant)
-          .then( orders => {
-            res.render('./backend/backend-home', {orders});
-        });
-      });
+
+  // check if user is logged in...
+  router.use((req, res, next) => {
+    if(!req.session.userID){
+      res.redirect('/backend/login');
+      return;
     }
+    next();
+  });
+  
+  router.get('/', (req, res) => {
+    dbHelpers.get_users(req.session.userID).then(user =>{
+      dbHelpers.get_orders(user.restaurant)
+        .then( orders => {
+          res.render('./backend/backend-home', {orders});
+        });
+    });
   });
 
   router.get('/menu', (req, res) => {
