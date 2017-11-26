@@ -1,6 +1,6 @@
 require('dotenv').config();
 const port = process.env.PORT || 8080;
-const env = process.env.ENV || 'development';
+const env = process.env.ENV || 'production';
 const express = require('express');
 const bodyParser = require('body-parser');
 const sass = require('node-sass-middleware');
@@ -36,7 +36,7 @@ app.use('/styles', sass({
   outputStyle: 'expanded'
 }));
 
-// let restaurantInfo = {};
+let restaurantInfo = {};
 app.use(express.static('public'));
 
 app.use((req, res, next) => {
@@ -50,6 +50,7 @@ app.use((req, res, next) => {
       next();
     });
 });
+
 // Restaurant API routes
 app.use('/api/restaurants', restaurantRoutes(restaurantHelpers));
 
