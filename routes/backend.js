@@ -15,7 +15,7 @@ module.exports = function(dbHelpers) {
   }));
 
   router.get('/login',(req, res) => {
-    res.render('./backend/backend-login');
+    res.render('./backend/login');
   });
 
   router.post('/login',(req, res) => {
@@ -63,7 +63,7 @@ module.exports = function(dbHelpers) {
   });
 
   router.get('/', (req, res) => {
-    res.render('./backend/backend-home', {orders, restaurant});
+    res.render('./backend/home', {orders, restaurant});
   });
 
   router.get('/menu', (req, res) => {
@@ -78,7 +78,8 @@ module.exports = function(dbHelpers) {
   });
 
   router.put('/dishes/:id', (req, res) => {
-
+    //@TODO add functionality for name handling.
+    //@TODO filter files by mimetype
     const makeUpdateToDish = (changes) => {
       return dbHelpers.update_item('dishes',{id: dish_id}, changes);
     };
@@ -112,7 +113,11 @@ module.exports = function(dbHelpers) {
     makeUpdateToDish(changes).then(() => {
       res.send('/backend/menu');
     });
+  });
 
+  router.get('/logout', (req, res) => {
+    req.session = null;
+    res.redirect('/backend/login');
   });
 
   return router;

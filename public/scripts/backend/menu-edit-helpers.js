@@ -1,5 +1,4 @@
 function makeForms(event){
-  console.log('in event', 'makeForms');
   var card = $(this).closest('article');
   var dishId = card.data('id');
 }
