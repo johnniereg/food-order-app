@@ -5,7 +5,6 @@ const dataHelpers = require('../utils/data-helpers');
 const fs = require('fs');
 const cookieSession = require('cookie-session');
 const fileUpload = require('express-fileupload');
-const twilioHelpers = require('../utils/twilio-helpers');
 
 module.exports = function(dbHelpers) {
   const router = new express.Router();
@@ -113,6 +112,11 @@ module.exports = function(dbHelpers) {
       changes['dish_name'] = dish_name;
     }
     if(description){
+      // sends error message if description is too long.
+      if(description.length > 1200){
+        res.send({message:'Description is too long. Please limit description to 1200 characters.'});
+        return;
+      }
       changes['description'] = description;
     }
     if(cost){
