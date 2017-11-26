@@ -14,6 +14,8 @@ const timeCalculator = require('./utils/timeCalculator')(knex);
 const twilioHelpers = require('./utils/twilio-helpers');
 const backendRoutes = require('./routes/backend');
 const restaurantNumber = process.env.MYPHONE;
+const fileUpload = require('express-fileupload');
+
 // use texts?
 const usesms = false;
 const app = express();
@@ -28,6 +30,7 @@ app.use(morgan('dev'));
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload());
 // Node sass middleware
 app.use('/styles', sass({
   src: __dirname + '/styles',
@@ -88,7 +91,7 @@ app.get('/orders/:id', (req, res) => {
   ]).then((allResolves) => {
     // @TODO put this in a seperate function that outputs an object: {orderStatusTime, name, address, phone_number, dishList, percentFinished, orderPrice}
     const timeRemaining = allResolves[0], order = allResolves[1];
-    
+
     // Formatting the dish list
     const dishList = {};
     order.dishes.forEach((item) => (item in dishList) ? dishList[item]++ : dishList[item] = 1);

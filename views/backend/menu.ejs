@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <% include ../partials/_head %>
+  <body>
+    <header>
+    </header>
+    <main class='container'>
+      <h1>Client backend</h1>
+      <% for(let dish of dishes) { %>
+        <article class='dish panel panel-primary'>
+          <header class='panel-heading'>
+            <h3 class='panel-title'><%= dish.dish_name %></h3>
+          </header>
+          <main class='panel-body'>
+            <img class='dish-photo pull-right' src='<%= dish.photo_url %>' width='240px'/>
+
+            <input form='dish-editor-<%= dish.id %>' type='file' name='photo'>
+
+            <label>Description</label>
+            <p class='dish-description'><%= dish.description %></p>
+            <textarea form='dish-editor-<%= dish.id %>' class='form-control' name='description' placeholder='Description'></textarea>
+
+            <label>Cost</label>
+            <p class='dish-cost'><%= dish.cost %></p>
+            <input form='dish-editor-<%= dish.id %>' type='text' class='form-control' name='price' placeholder='Price'>
+
+            <button form='dish-editor-<%= dish.id %>' class='dish-edit-submit btn btn-primary'>Submit Changes</button>
+          </main>
+          <footer class='panel-footer'>
+            <button class='dish-edit btn btn-primary'>Edit item</button>
+            <button class='dish-delete btn btn-danger'>Delete Item</button>
+            <form id='dish-editor-<%= dish.id %>' role='form' encType="multipart/form-data" action='/backend/dishes/<%=dish.id%>' method='POST'></form>
+          </footer>
+        </article>
+      <% } %>
+    </main>
+    <footer>
+    </footer>
+    <script type='text/javascript' src='/scripts/backend/menu-edit-helpers.js'></script>
+    <script type='text/javascript' src='/scripts/backend/app.js'></script>
+  </body>
+</html>
