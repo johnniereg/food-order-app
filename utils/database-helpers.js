@@ -108,12 +108,11 @@ module.exports = function(db){
    */
 
   const new_dish = (dishinfo) => {
-    console.log(dishinfo);
     let newDishInfo = {
       dish_name: dishinfo.dish,
       description: dishinfo.description,
       cost: dishinfo.price,
-      photo_url: null,
+      photo_url: dishinfo.photo_url,
       restaurant_id: 1 // hard coded to main restaurant.
     };
 

@@ -68,18 +68,19 @@ module.exports = function(dbHelpers) {
 
   // Route for submitting new dishes to database.
   router.post('/newdish', (req, res) => {
-
-
     // Object with details.
     let newDishInfo = req.body;
+    let photo = req.files.photo;
+    newDishInfo['photo_url'] = `/images/${photo.name}`;
 
-    let name = req.body.dish;
-    let info = req.body.description;
-    let cost = req.body.price;
+    console.log(newDishInfo);
 
+    fs.writeFile(`./public/images/${photo.name}`, photo.data, (err) => {
+      if (err) throw err;
+      console.log('File uploaded.');
+    });
 
     dbHelpers.new_dish(newDishInfo);
-
   });
 
   router.put('/dishes/:id', (req, res) => {
