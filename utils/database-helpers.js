@@ -109,7 +109,15 @@ module.exports = function(db){
 
   const new_dish = (dishinfo) => {
     console.log(dishinfo);
-    return db('dishes').insert({dish_name: dishinfo.dish, description: dishinfo.description, cost: dishinfo.price})
+    let newDishInfo = {
+      dish_name: dishinfo.dish,
+      description: dishinfo.description,
+      cost: dishinfo.price,
+      photo_url: null,
+      restaurant_id: 1 // hard coded to main restaurant.
+    };
+
+    return db('dishes').insert(newDishInfo, 'id')
     .then( function (result) {
         console.log("we inserted?");
        });

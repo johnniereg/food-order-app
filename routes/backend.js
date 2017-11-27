@@ -69,8 +69,6 @@ module.exports = function(dbHelpers) {
   // Route for submitting new dishes to database.
   router.post('/newdish', (req, res) => {
 
-    // Just checking that we're getting the input and
-    console.log('Our req body:', req.body);
 
     // Object with details.
     let newDishInfo = req.body;
@@ -79,12 +77,8 @@ module.exports = function(dbHelpers) {
     let info = req.body.description;
     let cost = req.body.price;
 
-    console.log('name', name);
-    console.log('info', info);
-    console.log('cost', cost);
 
     dbHelpers.new_dish(newDishInfo);
-    //@TODO call function that submits new entry to database
 
   });
 
