@@ -8,4 +8,15 @@ $(function(){
   // show inputs for individual dish properties
   $('main.dish-edit-panel section').on('click', showInput);
 
+  // delete a dish
+  $('.dish-delete').on('click', function(){
+    var $button = $(this);
+    $.ajax({
+      url: $button.data('action'),
+      method: 'DELETE'
+    }).done(function(url){
+      window.location.replace(url);
+    });
+  });
+
 });
