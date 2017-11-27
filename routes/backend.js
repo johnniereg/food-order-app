@@ -109,7 +109,9 @@ module.exports = function(dbHelpers) {
       console.log('File uploaded.');
     });
 
-    dbHelpers.new_dish(newDishInfo);
+    dbHelpers.new_dish(newDishInfo).then(() => {
+      res.redirect('/backend/menu');
+    });
   });
 
 

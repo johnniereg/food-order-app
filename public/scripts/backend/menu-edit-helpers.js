@@ -63,11 +63,12 @@ function submitNewDish(event){
     method:'POST',
     processData: false,
     contentType: false,
-    data:formData
-  }).done(function () {
-    return;
+    data:formData,
+    success: function (response) {
+      window.location.reload(true);
+    },
+    failure: function (errMsg) {
+      console.log("The servers error: ", errMsg);
+    }
   });
-  window.location.reload();
-
-
 }
