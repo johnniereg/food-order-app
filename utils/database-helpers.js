@@ -1,37 +1,24 @@
 const dataHelpers = require('./data-helpers');
-// Given an array of orders, this function makes a new array of objects.
-// These objects will collect the dishes into one handy array
-const collectDishes = (orders) => {
-  const ordersObjects = {};
-  const ordersArray = [];
-  orders.forEach((order) => {
-    if(ordersObjects[order.order_id]){
-      ordersObjects[order.order_id].dishes.push(order.dish_name);
-      return;
-    }
-    ordersObjects[order.order_id] = {
-      order_id: order.order_id,
-      phone_number: order.phone_number,
-      cost: dataHelpers.to_dollars(order.cost),
-      dishes: [order.dish_name],
-      order_time: order.order_time
-    };
-  });
-  for(let order in ordersObjects){
-    ordersArray.push(ordersObjects[order]);
-  }
-  return ordersArray;
-};
+const twilioHelpers = require('../utils/twilio-helpers');
+
 
 module.exports = function(db){
 
-  // Gets the dishes of a specific restaurant based on their id
+  /**
+   * get_dishes - Returns a promise of an array with an object for each dish.
+   *
+   * @param {number} id The id of a restaurant that has dishes.
+   * @return {array} An array with an object for each dish belonging to the restaurant with the given id.
+   */
+
   const get_dishes = (id) => {
     return new Promise((resolve, reject) => {
       db('dishes').select()
         .where('restaurant_id', id)
         .then( dishes => {
-          resolve(dishes);
+          resolve(dishes.sort((dishA, dishB) => {
+            return dishA.id - dishB.id;
+          }));
         })
         .catch( err => {
           reject(err);
@@ -39,8 +26,12 @@ module.exports = function(db){
     });
   };
 
-  /* Returns a new promise that, if resolved returns the restaurant.
-   * Condition is an object as per knex.
+
+  /**
+   * get_restaurant - Returns a promise of an object representing the restaurant who meets the provided condition.
+   *
+   * @param {object} condition An object to be used in knex's where function.
+   * @returns {object} After promise is complted, an object representing the restaurant will be returned.
    */
   const get_restaurant = condition => {
     return new Promise((resolve, reject) => {
@@ -55,7 +46,7 @@ module.exports = function(db){
     });
   };
   const get_users = (name)=>{
-   return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       db('users').select()
         .where('username',name)
         .then( user => {
@@ -66,10 +57,15 @@ module.exports = function(db){
         });
     });
 
+  };
 
-  }
 
-  // Returns an array of order objects for restuarant id
+  /**
+   * get_orders - Returns a promise of an array containing an object for each order.
+   *
+   * @param {number} id The id of the restaurant you would like to get orders for.
+   * @return {object} An array with object for each order. Sorted by order id.
+   */
   const get_orders = (id) => {
     return new Promise((resolve, reject) => {
       db('orders_dishes').select('order_id', 'dishes.dish_name', 'orders.cost', 'orders.phone_number')
@@ -78,7 +74,9 @@ module.exports = function(db){
         .leftJoin('restaurants', 'restaurants.id', 'orders.restaurant_id')
         .where('restaurants.id', id)
         .then( orders => {
-          return resolve(collectDishes(orders));
+          return resolve(dataHelpers.collectDishes(orders).sort((orderA, orderB) => {
+            return orderA.order_id - orderB.order_id;
+          }));
         })
         .catch( err => {
           return reject(err);
@@ -86,7 +84,12 @@ module.exports = function(db){
     });
   };
 
-  // @TODO make this function take an dynamic clause
+  /**
+   * get_order - Returns a specific order, found by id.
+   *
+   * @param {number} id The id of the order you'd like to get.
+   * @return {object} A single object representing the order.
+   */
   const get_order = (id) => {
     return new Promise((resolve, reject) => {
       db('orders_dishes').select('order_id', 'dishes.dish_name', 'orders.cost', 'orders.phone_number', 'orders.order_time')
@@ -94,11 +97,23 @@ module.exports = function(db){
         .leftJoin('orders', 'orders.id', 'order_id')
         .where('orders.id', id)
         .then( orders => {
-          return resolve(collectDishes(orders)[0]);
+          return resolve(dataHelpers.collectDishes(orders)[0]);
         })
         .catch( err => {
           return reject(err);
         });
+    });
+  };
+
+
+  /**
+   * remove_order - removes a specific order from the database, identified by id.
+   *
+   * @param {number} id The id of the order you'd like to remove.
+   */
+  const remove_order = (id) => {
+    return db('orders').where('id', id).del().then(() => {
+      db('orders_dishes').where('order_id', id).del();
     });
   };
 
@@ -171,7 +186,22 @@ module.exports = function(db){
     });
   };
 
+
+  /**
+   * confirm_order - sends a notification of completion for a given order.
+   *
+   * @param {number} id The id of the order you would like to complete.
+   */
+  const confirm_order = (id) => {
+    return get_order(id)
+      .then((order) => {
+        twilioHelpers.send_message(order.phone_number, twilioHelpers.twiPhone, `Your order, #${id}, is ready for pick up from House of Noodles!`);
+      });
+  };
+
+
   return {
+    confirm_order,
     get_dishes,
     get_restaurant,
     get_orders,
@@ -179,6 +209,7 @@ module.exports = function(db){
     update_item,
     make_order,
     get_users,
-    new_dish
+    new_dish,
+    remove_order
   };
 };

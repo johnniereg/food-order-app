@@ -2,27 +2,18 @@ body {
   background-color: #EEE;
   font-size: 16px;
   position: relative;
+  min-height: 100vh;
+  padding-bottom: 200px;
 
   h1, h2{
     color: $brand-color;
   }
-}
-
-nav{
-  background-color: #FFF;
-  height:$nav-bar-height;
-
-  #cart-button{
-    margin-right: 50px;
-    margin-top: 20px;
-  }
-
-  img.logo{
-    display: inline;
-    width:60px;
-    height:60px;
+  p{
+    word-wrap: break-word;
   }
 }
+
+// The main container
 .container{
   width: 70%;
 }
@@ -36,7 +27,9 @@ nav{
   h1 {
     width:100%;
     margin:auto .5em;
+
   }
+
   article.card {
     background-color: #FFF;
     border:1px solid grey;
@@ -47,9 +40,7 @@ nav{
     margin: 1em auto;
 
     .card-text {
-      height: 70px;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      min-height: 70px;
     }
 
     .card-body {
@@ -72,10 +63,31 @@ nav{
   }
 }
 
+nav{
+  background-color: #FFF;
+  height:$nav-bar-height;
+
+  #cart-button{
+    margin-right: 50px;
+    margin-top: 20px;
+  }
+
+  img.logo{
+    display: inline;
+    width:60px;
+    height:60px;
+  }
+}
+
+// The restaurant name in the brand section of the navbar
+#restaurant-name{
+  font-weight: bold;
+}
+
 .hide{
   display: none;
 }
-
+// large screens
 @media(min-width: 2000px){
   body{
     font-size: 2em;
@@ -103,6 +115,7 @@ nav{
   }
 }
 
+// smallest screens
 @media(max-width: 1025px){
   .menu {
     article.card {
@@ -145,6 +158,12 @@ nav{
     #cart-button {
       margin-right: 20px;
     }
+  }
+}
+
+@media(max-width: 540px){
+  #restaurant-name{
+    display: none;
   }
 }
 

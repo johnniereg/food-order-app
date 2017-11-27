@@ -1,0 +1,43 @@
+//  Login styles
+main.login-panel-container{
+  position: relative;
+  height: 100vh;
+  width:100vw;
+}
+
+section.login-panel{
+  position: absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  width:30%;
+  height:460px;
+  margin:auto;
+  background-color: white;
+  padding: 3em;
+  border: 2px solid lightgrey;
+  border-radius: 7px;
+
+  h1{
+    margin-bottom: 1em;
+  }
+  input{
+    margin-bottom: 1em;
+    display: block;
+  }
+}
+
+@media(max-width:1217px){
+  section.login-panel{
+    width:50%;
+  }
+}
+
+@media(max-width:740px){
+  section.login-panel{
+    height: auto;
+    width:100%;
+    border: none;
+  }
+}

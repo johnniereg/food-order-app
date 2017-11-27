@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang='en'>
-  <% include ../partials/_head %>
+  <% include ./partials/_head %>
   <body>
-    <header>
-    </header>
+    <% include ./partials/_header %>
     <main class = 'container'>
-      <h1>Client backend</h1>
+      <h1>Orders</h1>
       <% for(let order of orders) { %>
         <article class='order panel panel-default'>
           <header class='panel-heading'>
@@ -22,13 +21,12 @@
             <p><%= order.phone_number %></p>
             <h3>Total<h3>
             <p><%= order.cost %></p>
-            <button class='btn btn-success'>Finish order</button>
-            <button class='btn btn-danger'>Delete order</button>
+            <button class='finish-order btn btn-success' data-action='/backend/<%=order.order_id%>/confirm'>Finish order</button>
+            <button class='delete-order btn btn-danger' data-action='/backend/<%=order.order_id%>/delete'>Delete order</button>
           </main>
         </article>
       <% } %>
     </main>
-    <footer>
-    </footer>
+    <script type='text/javascript' src='/scripts/backend/order-script.js'></script>
   </body>
 </html>

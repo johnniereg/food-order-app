@@ -1,0 +1,105 @@
+// Styles for menu editor
+main.backend-menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width:90%;
+
+  article.dish {
+    margin: 10px auto;
+    position: relative;
+    padding-bottom: 50px;
+    width:27%;
+
+    footer.panel-footer{
+      bottom:0;
+      left:0;
+      position: absolute;
+      right:0;
+    }
+  }
+
+  h1 {
+    margin-left: 1.4em;
+    width:100%;
+  }
+
+  img.dish-photo{
+    display: block;
+    margin-bottom: 12px;
+    width:100%;
+  }
+  // Panels for each property.
+  section{
+    border:1px solid #EEE;
+    border-radius: 6px;
+    margin: 1em auto;
+    padding: 1em;
+  }
+
+  main.dish-edit-panel{
+    section {
+      height: auto;
+      cursor: pointer;
+      img{
+        width:60%;
+      }
+      // The item property name
+      label {
+        cursor: pointer;
+        border-bottom: 1px solid #EEE;
+        width: 100%;
+        margin-bottom: 1em;
+
+        color:$brand-color;
+        .glyph{
+          font-size: 1.4em;
+          text-align: right;
+          display: none;
+        }
+      }
+      // displays pencil
+      &:hover {
+        .glyph{
+          display: inline;
+        }
+      }
+    }
+  }
+}
+
+@media(max-width:1500px){
+  main.backend-menu{
+    h1{
+      margin-left: auto;
+    }
+    article.dish{
+      width:40%;
+    }
+  }
+}
+@media(max-width:1500px){
+  main.backend-menu{
+    article.dish{
+      width:50%;
+    }
+  }
+}
+@media(max-width:868px){
+  main.backend-menu{
+    h1{
+      margin-left: 0;
+    }
+    article.dish{
+      width:100%;
+    }
+    main.dish-edit-panel{
+      section {
+        cursor: pointer;
+        img{
+          width:80%;
+        }
+      }
+    }
+  }
+}

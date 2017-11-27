@@ -1,21 +1,53 @@
-footer {
+footer.main-footer{
+  background-color: $brand-color;
+  color:white;
+  position: absolute;
+  padding: 1em;
+  bottom:0;
+  width: 100%;
 
   p{
-    color: $brand-color;
     text-align: center;
 
   }
   ul {
     text-align: center;
+    padding: 0;
 
     li{
-      color: $brand-color;
+      cursor: pointer;
       display: inline;
       padding: 10px;
       margin: 0px;
     }
   }
+  a{
+    color:white;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.id-form {
+  color: $brand-color;
+  background-color: #CCC;
+  display:none;
+  bottom:0;
+  padding:1em 1em 2em 1em;
+  position: absolute;
+  width: 20%;
+  z-index: 1;
 
 }
 
+.btn {
+  margin:5px 0px 10px;
 
+}
+
+@media(max-width: 792px){
+  .id-form{
+    width:40%;
+  }
+}

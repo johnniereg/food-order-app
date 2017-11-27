@@ -1,0 +1,12 @@
+// Nav links for the client backend
+section.backend-nav-links{
+  float: left;
+  a{
+    display: inline-block;
+    padding:35px 15px;
+    margin-right: 10px;
+  }
+}
+#logout-button{
+  @extend #cart-button;
+}
