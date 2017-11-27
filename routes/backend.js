@@ -102,6 +102,9 @@ module.exports = function(dbHelpers) {
     let newDishInfo = req.body;
     let photo = req.files.photo;
     newDishInfo['photo_url'] = `/images/${photo.name}`;
+    let inputCost = newDishInfo.cost;
+    let newCost = dataHelpers.clean_price_input(inputCost);
+    newDishInfo['cost'] = newCost;
 
 
     fs.writeFile(`./public/images/${photo.name}`, photo.data, (err) => {
