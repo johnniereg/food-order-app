@@ -118,6 +118,15 @@ module.exports = function(db){
   };
 
   /**
+   * remove_item - removes a specific order from the database, identified by id.
+   *
+   * @param {number} id The id of the order you'd like to remove.
+   */
+  const remove_item = (table, id) => {
+    return db(table).where('id', id).del();
+  };
+
+  /**
    *
    * Submit new dish to database.
    */
@@ -207,6 +216,7 @@ module.exports = function(db){
     make_order,
     get_users,
     new_dish,
-    remove_order
+    remove_order,
+    remove_item
   };
 };

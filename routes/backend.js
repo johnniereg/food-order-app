@@ -174,6 +174,12 @@ module.exports = function(dbHelpers) {
     });
   });
 
+  router.delete('/dishes/:id/delete', (req, res) => {
+    dbHelpers.remove_item('dishes', req.params.id).then(() => {
+      res.send('/backend/menu');
+    });
+  });
+
   // confirm order
   router.post('/:id/confirm', (req, res) => {
     dbHelpers.confirm_order(req.params.id).then(() => {

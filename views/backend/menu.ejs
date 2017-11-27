@@ -77,7 +77,7 @@
           </main>
           <footer class='panel-footer'>
             <button form='dish-editor-<%= dish.id %>' class='dish-edit-submit hide btn btn-primary'>Submit Changes</button>
-            <button class='dish-delete btn btn-danger'>Delete Item</button>
+            <button class='dish-delete btn btn-danger' data-action='/backend/dishes/<%= dish.id %>/delete'>Delete Item</button>
           </footer>
         </article>
       <% } %>
