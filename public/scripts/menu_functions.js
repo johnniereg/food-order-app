@@ -112,19 +112,6 @@ function renderShoppingCart() {
 
 }
 
-// function showAndHideCartButtons() {
-//   let cartCount = collectCartDishes(shoppingCart);
-//   console.log("Cart count", cartCount);
-//   if (cartCount.length > 0) {
-//     $('.cart-interactions').removeClass('hide');
-//   } else {
-//     $('.cart-interactions').addClass('hide');
-//   }
-//   renderShoppingCart();
-// }
-
-// // showAndHideCartButtons();
-
 
 // Adds items from menu page to in-memory shopping cart object.
 function addDishToCart(dish){

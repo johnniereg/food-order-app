@@ -5,7 +5,6 @@ $(document).ready(function () {
 
   // Hides cart if you click anywhere else on the body
   $('body').on('click', function () {
-    console.log('clicked the main element');
     $('div.shopping-cart').slideUp();
     $('.id-form').slideUp();
 
@@ -27,7 +26,6 @@ $(document).ready(function () {
   });
 
   $('#order-link').on('click', function (e) {
-    console.log("clicked the order button");
     $('.id-form').slideToggle().find("input").focus();
     e.stopPropagation();
   });

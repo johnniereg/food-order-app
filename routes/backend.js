@@ -103,7 +103,6 @@ module.exports = function(dbHelpers) {
     let photo = req.files.photo;
     newDishInfo['photo_url'] = `/images/${photo.name}`;
 
-    console.log(newDishInfo);
 
     fs.writeFile(`./public/images/${photo.name}`, photo.data, (err) => {
       if (err) throw err;

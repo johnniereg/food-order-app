@@ -5,7 +5,6 @@ $(document).ready(function() {
 
  //Jquery popup form to enter order id
   $('#order-link').on('click', (e) => {
-    console.log("clicked the order button");
     $('#monkey').slideToggle();
     return false;
   }

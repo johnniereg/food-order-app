@@ -132,9 +132,9 @@ module.exports = function(db){
     };
 
     return db('dishes').insert(newDishInfo, 'id')
-    .then( function (result) {
-        console.log("we inserted?");
-       });
+      .then( function (result) {
+          console.log("New dish inserted into database.");
+         });
   };
 
   /**

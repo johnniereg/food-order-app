@@ -6,10 +6,8 @@
 */
 function printErrors(form){
   return function(responseData){
-    console.log(responseData);
     // if there is an error message.
     if(typeof responseData === 'object'){
-      console.log('responseData is object');
       let warning = $('<label>').text(responseData.message).addClass('editor-warning');
       // if a warning already exists, remove it.
       $('.editor-warning').remove();
