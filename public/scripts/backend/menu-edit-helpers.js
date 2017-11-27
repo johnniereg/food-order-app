@@ -42,6 +42,7 @@ function printErrors(form){
 
 function submitChanges(event){
   event.preventDefault();
+  console.log('in submitChanges');
   var form = $(this);
   // collect image and text form data into an object for sending.
   var formData = new FormData(this);

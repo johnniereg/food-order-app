@@ -106,7 +106,6 @@ module.exports = function(dbHelpers) {
 
     fs.writeFile(`./public/images/${photo.name}`, photo.data, (err) => {
       if (err) throw err;
-      console.log('File uploaded.');
     });
 
     dbHelpers.new_dish(newDishInfo).then(() => {
@@ -116,7 +115,6 @@ module.exports = function(dbHelpers) {
 
 
   // Updating a dish.
-
   router.put('/dishes/:id', (req, res) => {
     // function to run when we're done collecting changes.
     const makeUpdateToDish = (changes) => {

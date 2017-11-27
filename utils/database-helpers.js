@@ -131,10 +131,7 @@ module.exports = function(db){
       restaurant_id: 1 // hard coded to main restaurant.
     };
 
-    return db('dishes').insert(newDishInfo, 'id')
-      .then( function (result) {
-        console.log("New dish inserted into database.");
-      });
+    return db('dishes').insert(newDishInfo, 'id');
   };
 
   /**
