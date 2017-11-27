@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang='en'>
-  <head>
-    <meta charset="utf-8">
-    <title>House of Noodles</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' href='/vendor/normalize-4.1.1.css' type='text/css' />
-    <link rel='stylesheet' href='/vendor/border-box.css' type='text/css' />
-    <link rel='stylesheet' href='/vendor/bootstrap.min.css' type='text/css' />
-    <link rel='stylesheet' href='/styles/main.css' type='text/css' />
-
-    <script type='text/javascript' src='/vendor/jquery-3.0.0.js'></script>
-  </head>
+  <% include ./partials/_head %>
   <header>
     <% include ./partials/_header %>
   </header>
@@ -24,7 +14,7 @@
             <span class='sr-only'><%= percentFinished %> Complete</span>
           </div>
         </div>
-        <label><%= orderStatusTime %></label>
+        <label><%= orderStatus %></label>
       </section>
       <h2>Your order...</h2>
       <table class='table table-striped'>
@@ -42,8 +32,8 @@
       <% include ./partials/_footer %>
     </footer>
 
-    <script type='text/javascript' src='/scripts/menu_functions.js'></script>
-    <script type='text/javascript' src='/scripts/cart_functions.js'></script>
-    <script type='text/javascript' src='/scripts/app.js'></script>
+    <script type='text/javascript' src='/scripts/menu_functions_compiled.js'></script>
+    <script type='text/javascript' src='/scripts/cart_functions_compiled.js'></script>
+    <script type='text/javascript' src='/scripts/app_compiled.js'></script>
   </body>
 </html>

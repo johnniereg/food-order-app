@@ -2,11 +2,14 @@
 
 $(document).ready(function() {
 
+
+ //Jquery popup form to enter order id
+  $('#order-link').on('click', (e) => {
+    $('#monkey').slideToggle();
+    return false;
+  }
+
 // Hides cart if you click anywhere else on the body
- $('body').on('click', () => {
-    console.log('clicked the main element')
-    $('div.shopping-cart').slideUp();
-  });
 
   // Show and hide shopping cart listener.
   $('#cart-button').on('click', (e) => {
@@ -18,6 +21,8 @@ $(document).ready(function() {
   $('.shopping-cart').on('click', (e) => {
     e.stopPropagation();
   });
+
+
 
   // Load dishes on page load
   loadDishes();

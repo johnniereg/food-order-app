@@ -1,14 +1,14 @@
-# Node Skeleton
+# Houses of Noodles Food Order App
 
-## Project Setup
+This application was built for the fictional Chinese food restaurant, House of Noodles. The requirements for this project were:
 
-1. Create your own empty repo on GitHub
-2. Clone this repository (do not fork)
-  - Suggestion: When cloning, specify a different folder name that is relevant to your project
-3. Remove the git remote: `git remote rm origin`
-4. Add a remote for your origin: `git remote add origin <your github repo URL>`
-5. Push to the new origin: `git push -u origin master`
-6. Verify that the skeleton code now shows up in your repo on GitHub
+* Hungry clients of a fictitious restaurant can visit its website, Select one or more dishes and place an order for pick-up.
+* They will receive a notification when their order is ready.
+* When an order is placed the restaurant receives the order via SMS. The restaurant can then specify how long it will take to fulfill it. Once they provide this information, the website updates for the client and also notifies them via SMS.
+
+In addition to these requirements, we developed a backend interface for the restaurant owner and their employees to edit menu items on the website, review orders and manually mark them as complete.
+
+The project was completed in 5 days.
 
 ## Getting Started
 
@@ -27,3 +27,17 @@
 
 - Node 5.10.x or above
 - NPM 3.8.x or above
+- bcrypt: 1.0.3
+- body-parser: 1.18.2
+- cookie-parser: 1.4.3
+- cookie-session: 2.0.0-beta.3
+- dotenv: 2.0.0
+- ejs: 2.5.7
+- express: 4.16.2
+- express-fileupload: 0.3.0
+- knex: 0.14.1
+- knex-logger: 0.1.0
+- morgan: 1.9.0
+- node-sass-middleware: 0.11.0
+- pg: 7.4.0
+- twilio: 3.10.0

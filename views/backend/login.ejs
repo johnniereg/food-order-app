@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <% include ../partials/_head %>
+  <body>
+    <main class='container login-panel-container'>
+      <section class='login-panel'>
+        <h1>Login to manage your restaurant</h1>
+        <form action='/backend/login' method='post'>
+          <label for='userId'>Username</label>
+          <input id='userId' class='form-control'  type='text' name='userId'>
+          <label for='password'>Password</label>
+          <input type='password' class='form-control' name='password'>
+          <input type='submit' class='btn btn-primary' value='Submit'>
+        </form>
+    </section>
+    </main>
+    <script type='text/javascript' src='/scripts/backend/login-script.js'></script>
+  </body>
+</html>

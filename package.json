@@ -1,5 +1,5 @@
 {
-  "name": "food-order-app",
+  "name": "house-of-noodles-food-order-app",
   "version": "1.0.0",
   "description": "LHL Midterm Project",
   "main": "server.js",
@@ -19,10 +19,14 @@
   "author": "Lighthouse Labs",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.3",
     "dotenv": "^2.0.0",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
+    "express-fileupload": "^0.3.0",
     "knex": "^0.14.1",
     "knex-logger": "^0.1.0",
     "morgan": "^1.9.0",
@@ -31,8 +35,8 @@
     "twilio": "^3.10.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "babel-cli": "^6.0.0",
     "bootstrap": "^3.3.7",
     "nodemon": "^1.12.1"
   }
