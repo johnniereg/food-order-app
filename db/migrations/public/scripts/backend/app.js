@@ -6,7 +6,8 @@ $(function(){
 
   // Listener for submission of new dishes.
   $('.dish-add-new').find('form').on('submit', submitNewDish);
-  // show inputs for individual dish properties
+
+  // Show input field to edit a dish property.
   $('main.dish-edit-panel section').on('click', showInput);
 
 });
