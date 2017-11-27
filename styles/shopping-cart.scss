@@ -48,6 +48,31 @@
   }
 }
 
+@media(min-width: 2000px){
+  .shopping-cart{
+    top:$nav-bar-height * 1.5;
+    h2{
+      font-size: 1.5em;
+    }
+    p, label, h4, input{
+      font-size: 1.2em;
+    }
+    button {
+      font-size: 1em;
+      margin-right: 20px;
+    }
+    footer.cart-interactions {
+      form{
+        input {
+          width:400px;
+          padding: 1em;
+          margin-bottom: 1em;
+        }
+      }
+    }
+  }
+}
+
 @media(max-width: 1180px){
   .shopping-cart{
     width:60%;

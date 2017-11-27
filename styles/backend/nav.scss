@@ -10,3 +10,11 @@ section.backend-nav-links{
 #logout-button{
   @extend #cart-button;
 }
+
+@media(min-width: 2000px){
+  section.backend-nav-links{
+    a{
+      padding:40px 30px;
+    }
+  }
+}
