@@ -22,8 +22,6 @@ $(document).ready(function() {
     e.stopPropagation();
   });
 
-
-
   // Load dishes on page load
   loadDishes();
 });

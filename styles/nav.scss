@@ -1,0 +1,70 @@
+nav{
+  background-color: #FFF;
+  height:$nav-bar-height;
+
+  #cart-button{
+    margin-right: 50px;
+    margin-top: 20px;
+  }
+
+  img.logo{
+    display: inline;
+    width:60px;
+    height:60px;
+  }
+  // The restaurant name in the brand section of the navbar
+  #restaurant-name{
+    font-weight: bold;
+  }
+}
+
+// large screens
+@media(min-width: 2000px){
+  nav {
+    height:$nav-bar-height * 1.5;
+    #restaurant-name{
+      font-size: 2em;
+    }
+    #cart-button {
+      font-size: 1.5em;
+      border-radius: 8px;
+      margin-right: 40px;
+    }
+    img.logo{
+      display: inline;
+      width:110px;
+      height:110px;
+    }
+  }
+}
+
+// smaller screens
+@media(max-width: 1025px){
+  .menu {
+    article.card {
+      width: 45%;
+      .card-text{
+        height:auto;
+      }
+    }
+  }
+  nav {
+    #cart-button {
+      margin-right: 20px;
+    }
+  }
+}
+
+@media(max-width: 792px){
+  nav {
+    #cart-button {
+      margin-right: 20px;
+    }
+  }
+}
+
+@media(max-width: 540px){
+  #restaurant-name{
+    display: none;
+  }
+}

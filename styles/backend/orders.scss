@@ -1,0 +1,21 @@
+
+@media(min-width: 2000px){
+  main.orders{
+    h1{
+      font-size: 2em;
+      margin-bottom: 1em;
+    }
+  }
+  article.order {
+    header{
+      h3{
+        font-size: 1.2em;
+      }
+    }
+    button{
+      margin: 1.2em 0;
+      font-size: 1.2em;
+      margin-right: 20px;
+    }
+  }
+}

@@ -5,8 +5,12 @@ $nav-bar-height: 90px;
 
 @import 'footer';
 @import 'layout';
+@import 'menu';
+@import 'nav';
 @import 'shopping-cart';
 @import 'order-status';
+// backend styles
 @import 'backend/nav';
 @import 'backend/menu-edit';
 @import 'backend/login';
+@import 'backend/orders';
