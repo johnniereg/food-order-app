@@ -15,27 +15,31 @@
           <h3 class='panel-title'>New Dish</h3>
         </header>
         <main class='panel-body'>
-          <img class='dish-photo pull-right' src='' width='240px'/>
+          <!-- <img class='dish-photo pull-right' src='' width='240px'/> -->
+          <section>
+            <label>Name</label>
+            <textarea form='add-new-dish' class='form-control' name='dish' placeholder='Name'></textarea>
+          </section>
 
-          <input form='add-new-dish' type='file' name='photo'>
+          <section>
+            <label>Dish photo</label>
+            <input form='add-new-dish' type='file' name='photo'>
+          </section>
 
-          <label>Name</label>
-          <p class='dish-description'></p>
-          <textarea form='add-new-dish' class='form-control' name='dish' placeholder='Name'></textarea>
+          <section>
+            <label>Description</label>
+            <textarea form='add-new-dish' class='form-control' name='description' placeholder='Description'></textarea>
+          </section>
 
-          <label>Description</label>
-          <p class='dish-description'></p>
-          <textarea form='add-new-dish' class='form-control' name='description' placeholder='Description'></textarea>
-
-          <label>Cost</label>
-          <p class='dish-cost'>Cost</p>
-          <input form='add-new-dish' type='text' class='form-control' name='price' placeholder='Price'>
-
-          <button form='add-new-dish' class='dish-edit-submit btn btn-primary'>Submit Changes</button>
-        </main>
-        <footer class='panel-footer'>
+          <section>
+            <label>Cost</label>
+            <input form='add-new-dish' type='text' class='form-control' name='price' placeholder='Price'>
+          </section>
 
           <form id='add-new-dish' role='form' encType="multipart/form-data" action='/backend/newdish/' method='POST'></form>
+        </main>
+        <footer class='panel-footer'>
+          <button form='add-new-dish' class='dish-edit-submit btn btn-primary'>Submit Dish</button>
         </footer>
       </article>
 
@@ -73,7 +77,6 @@
             <form id='dish-editor-<%= dish.id %>' class='dish-editor-form' role='form' encType="multipart/form-data" action='/backend/dishes/<%=dish.id%>' method='POST'></form>
           </main>
           <footer class='panel-footer'>
-
             <button form='dish-editor-<%= dish.id %>' class='dish-edit-submit hide btn btn-primary'>Submit Changes</button>
             <button class='dish-delete btn btn-danger'>Delete Item</button>
           </footer>
