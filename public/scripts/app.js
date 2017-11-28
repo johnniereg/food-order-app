@@ -35,7 +35,7 @@ $(document).ready(function () {
     var formData = $('input[name="orderID"]').val()
     var url = "/orders/" + formData
     window.location.replace(url);
-});
+  });
 
   // Load dishes on page load
   loadDishes();
