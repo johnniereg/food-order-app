@@ -43,3 +43,5 @@ The project was completed in 5 days.
 - node-sass-middleware: 0.11.0
 - pg: 7.4.0
 - twilio: 3.10.0
+
+Logo by: [Juraj Sedlák](https://thenounproject.com/yumminky/)
