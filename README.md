@@ -1,5 +1,5 @@
 # Houses of Noodles Food Order App
-====================================
+----------------------------------
 
 See the app live at [https://serene-ridge-47454.herokuapp.com/](https://serene-ridge-47454.herokuapp.com/)
 
