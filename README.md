@@ -1,6 +1,6 @@
 # Houses of Noodles Food Order App
 
-See the app live at [https://serene-ridge-47454.herokuapp.com/](https://serene-ridge-47454.herokuapp.com/)
+##See the app live at [https://serene-ridge-47454.herokuapp.com/](https://serene-ridge-47454.herokuapp.com/)
 
 This food order app is an application built for the fictional Chinese food restaurant, House of Noodles. The requirements for this project were:
 
@@ -11,6 +11,12 @@ This food order app is an application built for the fictional Chinese food resta
 In addition to these requirements, we developed a backend interface for the restaurant owner and their employees to edit menu items on the website, review orders, and manually mark them as complete.
 
 The project was completed in 5 days.
+
+## Final Product
+
+!["Menu"](https://github.com/johnniereg/food-order-app/blob/master/docs/menu.png)
+!["Shopping Cart"](https://github.com/johnniereg/food-order-app/blob/master/docs/shopping-cart.png)
+!["Add-Modifty Items"](https://github.com/johnniereg/food-order-app/blob/master/docs/add-modify-dish.png)
 
 ## Getting Started
 
