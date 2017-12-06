@@ -1,6 +1,6 @@
 # Houses of Noodles Food Order App
 
-##See the app live at [https://serene-ridge-47454.herokuapp.com/](https://serene-ridge-47454.herokuapp.com/)
+## See the app live at [https://serene-ridge-47454.herokuapp.com/](https://serene-ridge-47454.herokuapp.com/)
 
 This food order app is an application built for the fictional Chinese food restaurant, House of Noodles. The requirements for this project were:
 
